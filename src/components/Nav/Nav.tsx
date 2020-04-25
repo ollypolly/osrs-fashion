@@ -11,7 +11,7 @@ const Nav = () => {
       <ul>
         <li>OSRS Loadout Calculator</li>
         <button onClick={() => dispatch(toggleDarkMode())}>
-          {darkMode ? "Dark" : "Light"} Mode
+          {darkMode ? "Light" : "Dark"} Mode
         </button>
       </ul>
     </nav>
