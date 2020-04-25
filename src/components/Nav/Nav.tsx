@@ -32,6 +32,12 @@ const StyledLink = styled(Link)`
   &:hover {
     color: ${(props) => lighten(0.2, props.theme.linkColor)};
   }
+
+  span {
+    color: ${(props) => props.theme.textColor};
+    font-weight: 200;
+    margin-left: 0.3rem;
+  }
 `;
 
 const NavLinkGroup = styled.div`
@@ -65,7 +71,9 @@ const Nav = () => {
           <NavLinkGroup>
             <FaBars onClick={() => dispatch(toggleIsOpen())} />
             <StyledLink to="/">
-              <h2>loadout</h2>
+              <h2>
+                loadout<span>osrs</span>
+              </h2>
             </StyledLink>
           </NavLinkGroup>
 

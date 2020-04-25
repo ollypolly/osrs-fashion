@@ -3,7 +3,7 @@ import { toggleDarkMode, selectDarkMode } from "../Nav/navSlice";
 import { toggleIsOpen, selectIsOpen } from "./sidebarSlice";
 import { useSelector, useDispatch } from "react-redux";
 import styled from "styled-components";
-import { FaTimes } from "react-icons/fa";
+import { FaTimes, FaSun, FaMoon } from "react-icons/fa";
 import { darken, transparentize } from "polished";
 
 interface SidebarProps {
@@ -22,6 +22,12 @@ const StyledSidebar = styled.div<SidebarProps>`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+
+  small {
+    color: ${(props) => transparentize(0.5, props.theme.textColor)};
+    text-align: right;
+    padding: 1rem;
+  }
 `;
 
 const StyledListHeader = styled.div`
@@ -48,7 +54,9 @@ const StyledListHeader = styled.div`
 
 const StyledListItem = styled.li`
   list-style: none;
-  padding: 1rem;
+  font-size: 1.3rem;
+  font-weight: 600;
+  padding: 0.5rem 1rem;
   color: ${(props) => transparentize(0.5, props.theme.textColor)};
   cursor: pointer;
   transition: color 0.1s ease-in;
@@ -56,11 +64,6 @@ const StyledListItem = styled.li`
   &:hover {
     color: ${(props) => props.theme.textColor};
   }
-`;
-
-const DarkModeSection = styled.div`
-  text-align: right;
-  padding: 1rem;
 `;
 
 const ListItems = styled.div``;
@@ -75,18 +78,14 @@ const Sidebar = () => {
       <ListItems>
         <StyledListHeader>
           <FaTimes onClick={() => dispatch(toggleIsOpen())} />
+          <div onClick={() => dispatch(toggleDarkMode())}>
+            {darkMode ? <FaSun /> : <FaMoon />}
+          </div>
         </StyledListHeader>
         <StyledListItem>Loadout 1</StyledListItem>
         <StyledListItem>Loadout 2</StyledListItem>
       </ListItems>
-      <DarkModeSection>
-        <input
-          type="checkbox"
-          checked={darkMode}
-          onChange={() => dispatch(toggleDarkMode())}
-        />
-        <label>Dark Mode</label>
-      </DarkModeSection>
+      <small>version 0.0.1</small>
     </StyledSidebar>
   );
 };

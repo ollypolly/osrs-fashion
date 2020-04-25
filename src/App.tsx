@@ -43,7 +43,6 @@ const GlobalStyles = createGlobalStyle`
   body {
     margin: 0;
     font-family: 'Inter', sans-serif;
-    transition: background .2s ease-in-out, color .2s ease-in-out;
     background: ${(props: any) => props.theme.backgroundColor};
     color: ${(props: any) => props.theme.textColor};
 

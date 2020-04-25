@@ -6,12 +6,13 @@ import { transparentize } from "polished";
 const Links = styled.ul`
   list-style: none;
   margin: 0;
+  padding: 0;
 `;
 
 const LinkIcon = styled.li`
   display: inline-block;
   font-size: 1.5em;
-  margin-left: 0.7rem;
+
   cursor: pointer;
 
   transition: color 0.1s ease-in;
@@ -19,6 +20,10 @@ const LinkIcon = styled.li`
 
   &:hover {
     color: ${(props) => props.theme.textColor};
+  }
+
+  &:not(:first-child) {
+    margin-left: 0.7rem;
   }
 `;
 
