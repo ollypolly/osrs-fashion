@@ -2,22 +2,46 @@ import React from "react";
 import ReactDOM from "react-dom";
 import App from "./App";
 import * as serviceWorker from "./serviceWorker";
-import { configureStore, combineReducers } from "@reduxjs/toolkit";
+import {
+  configureStore,
+  combineReducers,
+  getDefaultMiddleware,
+} from "@reduxjs/toolkit";
 import navReducer, { NavState } from "./components/Nav/navSlice";
 import { Provider } from "react-redux";
+import { persistReducer, persistStore } from "redux-persist";
+import storage from "redux-persist/lib/storage";
+import { PersistGate } from "redux-persist/integration/react";
 
 export interface GlobalState {
   navReducer: NavState;
 }
 
+const persistConfig = {
+  key: "root",
+  whitelist: ["navReducer"],
+  storage,
+};
+
 const rootReducer = combineReducers({ navReducer });
 
-const store = configureStore({ reducer: rootReducer });
+const reducer = persistReducer(persistConfig, rootReducer);
+
+const store = configureStore({
+  reducer,
+  middleware: getDefaultMiddleware({
+    serializableCheck: false,
+  }),
+});
+
+const persistor = persistStore(store);
 
 ReactDOM.render(
   <React.StrictMode>
     <Provider store={store}>
-      <App />
+      <PersistGate loading={null} persistor={persistor}>
+        <App />
+      </PersistGate>
     </Provider>
   </React.StrictMode>,
   document.getElementById("root")
