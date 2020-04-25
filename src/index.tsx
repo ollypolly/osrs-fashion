@@ -3,8 +3,12 @@ import ReactDOM from "react-dom";
 import App from "./App";
 import * as serviceWorker from "./serviceWorker";
 import { configureStore, combineReducers } from "@reduxjs/toolkit";
-import navReducer from "./components/Nav/navSlice";
+import navReducer, { NavState } from "./components/Nav/navSlice";
 import { Provider } from "react-redux";
+
+export interface GlobalState {
+  navReducer: NavState;
+}
 
 const rootReducer = combineReducers({ navReducer });
 

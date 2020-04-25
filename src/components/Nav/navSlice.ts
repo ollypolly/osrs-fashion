@@ -1,4 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { GlobalState } from "../..";
 
 export interface NavState {
   darkMode: boolean;
@@ -17,6 +18,8 @@ export const navSlice = createSlice({
     },
   },
 });
+
+export const selectDarkMode = (state: GlobalState) => state.navReducer.darkMode;
 
 export const { toggleDarkMode } = navSlice.actions;
 
