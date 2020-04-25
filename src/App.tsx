@@ -1,5 +1,6 @@
 import React from "react";
 import Nav from "./components/Nav/Nav";
+import Loadout from "./components/Loadout/Loadout";
 import {
   ThemeProvider,
   createGlobalStyle,
@@ -7,6 +8,7 @@ import {
 } from "styled-components";
 import { useSelector } from "react-redux";
 import { selectDarkMode } from "./components/Nav/navSlice";
+import { Grommet } from "grommet";
 
 export interface Theme extends DefaultTheme {
   backgroundColor: string;
@@ -19,7 +21,7 @@ const lightTheme: Theme = {
 };
 
 const darkTheme: Theme = {
-  backgroundColor: "#121212",
+  backgroundColor: "#3C3C3C",
   textColor: "white",
 };
 
@@ -35,11 +37,13 @@ const GlobalStyles = createGlobalStyle`
 const App = () => {
   const darkMode = useSelector(selectDarkMode);
   return (
-    <ThemeProvider theme={darkMode ? darkTheme : lightTheme}>
-      <GlobalStyles />
-      <Nav />
-      <h1>OSRS Loadout Calculator</h1>
-    </ThemeProvider>
+    <Grommet plain>
+      <ThemeProvider theme={darkMode ? darkTheme : lightTheme}>
+        <GlobalStyles />
+        <Nav />
+        <Loadout />
+      </ThemeProvider>
+    </Grommet>
   );
 };
 
