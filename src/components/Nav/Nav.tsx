@@ -4,8 +4,8 @@ import styled from "styled-components";
 import { lighten } from "polished";
 import { FaBars } from "react-icons/fa";
 import { Container } from "../../App";
-import { toggleIsOpen, selectIsOpen } from "../Sidebar/sidebarSlice";
-import { useDispatch, useSelector } from "react-redux";
+import { toggleIsOpen } from "../Sidebar/sidebarSlice";
+import { useDispatch } from "react-redux";
 import { transparentize } from "polished";
 
 const NavBackground = styled.div`

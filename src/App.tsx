@@ -17,23 +17,26 @@ export interface Theme extends DefaultTheme {
   textColor: string;
   linkColor: string;
   primaryColor: string;
+  navColor: string;
 }
 
 const defaultTheme: Partial<Theme> = {
-  primaryColor: "orange",
-  linkColor: "orange",
+  primaryColor: "#4ecca3",
+  linkColor: "#4ecca3",
 };
 
 const lightTheme: Partial<Theme> = {
   ...defaultTheme,
-  backgroundColor: "white",
-  textColor: "black",
+  backgroundColor: "#eeeeee",
+  textColor: "#232931",
+  navColor: "#eeeeee",
 };
 
 const darkTheme: Partial<Theme> = {
   ...defaultTheme,
-  backgroundColor: "#262626",
-  textColor: "white",
+  backgroundColor: "#232931",
+  textColor: "#ececec",
+  navColor: "#393e46",
 };
 
 const GlobalStyles = createGlobalStyle`
