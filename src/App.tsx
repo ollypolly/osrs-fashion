@@ -55,7 +55,7 @@ const GlobalStyles = createGlobalStyle`
 `;
 
 export const Container = styled.div`
-  padding: 1rem;
+  padding: 1.5rem;
   max-width: 1100px;
   margin: auto;
 `;

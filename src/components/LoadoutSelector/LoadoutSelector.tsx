@@ -1,6 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import { darken } from "polished";
+import ItemSelector from "../ItemSelector/ItemSelector";
 
 export const Wrapper = styled.div`
   display: flex;
@@ -34,7 +35,9 @@ const LoadoutSelector = () => {
   return (
     <Wrapper>
       <h2>Loadout</h2>
-      <ContentContainer></ContentContainer>
+      <ContentContainer>
+        <ItemSelector />
+      </ContentContainer>
     </Wrapper>
   );
 };

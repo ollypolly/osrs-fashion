@@ -9,29 +9,35 @@ import { FaCaretDown } from "react-icons/fa";
 
 // Have isEditable Props
 
-const StyledLoadoutName = styled.input`
+export const StyledBigInput = styled.input`
   font-size: 2em;
   font-weight: bold;
   background: none;
   border: none;
   outline: none;
   color: ${(props) => props.theme.textColor};
-  border-bottom: 2px solid
+  margin-bottom: 0.2rem;
+  padding: 0;
+  width: 100%;
+
+  /* border-bottom: 2px solid
     ${(props) => transparentize(0.5, props.theme.textColor)};
-  margin: 0.5rem 0;
+  
 
   transition: border-color 0.1s ease-in-out;
 
   &:focus {
     border-color: ${(props) => props.theme.textColor};
-  }
+  } */
+
+  
 `;
 
 const LoadoutHeader = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: 3rem;
+  margin-bottom: 1.5rem;
 
   @media screen and (max-width: 541px) {
     flex-direction: column;
@@ -74,7 +80,7 @@ const DescriptionContainer = styled.div`
   border: 1px solid ${(props) => transparentize(0.8, props.theme.textColor)};
   padding: 0.5rem 1rem;
   border-radius: 5px;
-  margin: 3rem 0;
+  margin: 1.5rem 0;
   transition: border-color 0.1s ease-in-out;
 
   &:focus-within {
@@ -97,7 +103,7 @@ const Loadout = () => {
     <>
       <LoadoutHeader>
         <div>
-          <StyledLoadoutName placeholder="Enter Loadout Name..." />
+          <StyledBigInput placeholder="Enter Loadout Name..." />
           <StyledCategory>
             <h2>Select Category</h2>
             <FaCaretDown />

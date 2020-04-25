@@ -34,7 +34,7 @@ const StyledListHeader = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 1rem;
+  padding: 1.5rem;
 
   svg {
     cursor: pointer;
@@ -56,7 +56,7 @@ const StyledListItem = styled.li`
   list-style: none;
   font-size: 1.3rem;
   font-weight: 600;
-  padding: 0.5rem 1rem;
+  padding: 0.5rem 1.5rem;
   color: ${(props) => transparentize(0.5, props.theme.textColor)};
   cursor: pointer;
   transition: color 0.1s ease-in;
