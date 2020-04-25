@@ -1,6 +1,6 @@
 import React from "react";
 import Nav from "./components/Nav/Nav";
-import Loadout from "./components/Loadout/Loadout";
+import Loadout from "./pages/Loadout/Loadout";
 import {
   ThemeProvider,
   createGlobalStyle,
@@ -8,7 +8,8 @@ import {
 } from "styled-components";
 import { useSelector } from "react-redux";
 import { selectDarkMode } from "./components/Nav/navSlice";
-import { Grommet } from "grommet";
+import { BrowserRouter, Route, Switch } from "react-router-dom";
+import Categories from "./pages/Categories/Categories";
 
 export interface Theme extends DefaultTheme {
   backgroundColor: string;
@@ -37,13 +38,20 @@ const GlobalStyles = createGlobalStyle`
 const App = () => {
   const darkMode = useSelector(selectDarkMode);
   return (
-    <Grommet plain>
-      <ThemeProvider theme={darkMode ? darkTheme : lightTheme}>
-        <GlobalStyles />
+    <ThemeProvider theme={darkMode ? darkTheme : lightTheme}>
+      <GlobalStyles />
+      <BrowserRouter>
+        <ul>
+          Loadouts Sidebar<li>Loadout 1</li>
+          <li>Loadout 2</li>
+        </ul>
         <Nav />
-        <Loadout />
-      </ThemeProvider>
-    </Grommet>
+        <Switch>
+          <Route exact path="/" component={Loadout} />
+          <Route exact path="/categories" component={Categories} />
+        </Switch>
+      </BrowserRouter>
+    </ThemeProvider>
   );
 };
 

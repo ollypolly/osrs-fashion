@@ -1,7 +1,7 @@
 import React from "react";
 
 const Options = () => {
-  return <p>Options</p>;
+  return <p>Save, Delete, Share, Export (Runelite), Import (Runelite)</p>;
 };
 
 export default Options;

@@ -1,7 +1,7 @@
 import React from "react";
-import LoadoutSelector from "../LoadoutSelector/LoadoutSelector";
-import StatsViewer from "../StatsViewer/StatsViewer";
-import Options from "../Options/Options";
+import LoadoutSelector from "../../components/LoadoutSelector/LoadoutSelector";
+import StatsViewer from "../../components/StatsViewer/StatsViewer";
+import Options from "../../components/Options/Options";
 
 const Loadout = () => {
   return (
