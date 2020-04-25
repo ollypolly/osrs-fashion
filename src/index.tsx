@@ -12,18 +12,22 @@ import { Provider } from "react-redux";
 import { persistReducer, persistStore } from "redux-persist";
 import storage from "redux-persist/lib/storage";
 import { PersistGate } from "redux-persist/integration/react";
+import sidebarReducer, {
+  SidebarState,
+} from "./components/Sidebar/sidebarSlice";
 
 export interface GlobalState {
   navReducer: NavState;
+  sidebarReducer: SidebarState;
 }
 
 const persistConfig = {
   key: "root",
-  whitelist: ["navReducer"],
+  whitelist: ["navReducer", "sidebarReducer"],
   storage,
 };
 
-const rootReducer = combineReducers({ navReducer });
+const rootReducer = combineReducers({ navReducer, sidebarReducer });
 
 const reducer = persistReducer(persistConfig, rootReducer);
 

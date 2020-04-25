@@ -16,9 +16,11 @@ export interface Theme extends DefaultTheme {
   backgroundColor: string;
   textColor: string;
   linkColor: string;
+  primaryColor: string;
 }
 
 const defaultTheme: Partial<Theme> = {
+  primaryColor: "orange",
   linkColor: "orange",
 };
 
@@ -30,7 +32,7 @@ const lightTheme: Partial<Theme> = {
 
 const darkTheme: Partial<Theme> = {
   ...defaultTheme,
-  backgroundColor: "#3C3C3C",
+  backgroundColor: "#262626",
   textColor: "white",
 };
 
@@ -40,11 +42,17 @@ const GlobalStyles = createGlobalStyle`
     font-family: 'Inter', sans-serif;
     transition: background .2s ease-in-out, color .2s ease-in-out;
     background: ${(props: any) => props.theme.backgroundColor};
-    color: ${(props: any) => props.theme.textColor}
+    color: ${(props: any) => props.theme.textColor};
+
+    left: ${(props) => (props.isNavOpen ? "250px" : "0")};
+
+    h1, h2, h3 {
+      margin: 0;
+    }
   }
 `;
 
-const Container = styled.div`
+export const Container = styled.div`
   padding: 1rem;
   max-width: 1100px;
   margin: auto;
@@ -58,8 +66,9 @@ const App = () => {
       <GlobalStyles />
       <BrowserRouter>
         <Sidebar />
+
+        <Nav />
         <Container>
-          <Nav />
           <Switch>
             <Route exact path="/" component={Loadout} />
             <Route exact path="/categories" component={Categories} />
