@@ -6,6 +6,7 @@ import Options from "../../components/Options/Options";
 import styled from "styled-components";
 import { transparentize } from "polished";
 import { FaCaretDown } from "react-icons/fa";
+import { useEffect } from "react";
 
 // Have isEditable Props
 
@@ -99,6 +100,10 @@ const StyledDescription = styled.textarea`
 `;
 
 const Loadout = () => {
+  useEffect(() => {
+    console.log("Getting Data...");
+  }, []);
+
   return (
     <>
       <LoadoutHeader>

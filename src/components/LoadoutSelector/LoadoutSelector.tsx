@@ -179,7 +179,7 @@ const LoadoutSelector = () => {
         <ItemSelectorGridWrapper>
           <ItemSelectorGrid>
             {Object.keys(icons).map((icon) => (
-              <ItemSelector id={icon} icon={icons[icon]} />
+              <ItemSelector key={icon} id={icon} icon={icons[icon]} />
             ))}
           </ItemSelectorGrid>
         </ItemSelectorGridWrapper>

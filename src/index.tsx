@@ -15,10 +15,12 @@ import { PersistGate } from "redux-persist/integration/react";
 import sidebarReducer, {
   SidebarState,
 } from "./components/Sidebar/sidebarSlice";
+import { LoadoutState } from "./pages/Loadout/loadoutSlice";
 
 export interface GlobalState {
   navReducer: NavState;
   sidebarReducer: SidebarState;
+  loadoutReducer: LoadoutState;
 }
 
 const persistConfig = {
