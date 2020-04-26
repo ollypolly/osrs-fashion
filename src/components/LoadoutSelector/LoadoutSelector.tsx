@@ -135,6 +135,8 @@ const WeightArea = styled.div`
   justify-content: center;
 `;
 
+//TODO add other icons
+
 export const icons: { [id: string]: Icon } = {
   helmet: {
     name: "Helmet",
@@ -184,6 +186,8 @@ export const icons: { [id: string]: Icon } = {
 
 const LoadoutSelector = () => {
   const isHelmetLoading = useSelector(selectHelmetLoading);
+
+  //TODO Add loading spinner
 
   return (
     <Wrapper>

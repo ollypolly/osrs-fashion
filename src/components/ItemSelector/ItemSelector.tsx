@@ -33,11 +33,11 @@ const StyledDropdownContainer = styled.div`
   &:hover {
     background: white;
   }
+`;
 
-  img {
-    width: 100%;
-    height: 100%;
-  }
+const Icon = styled.img`
+  width: 100%;
+  height: 100%;
 `;
 
 interface DropdownProps {
@@ -52,8 +52,8 @@ const Dropdown = styled.div<DropdownProps>`
   border-radius: 4px;
   left: 40px;
   top: 40px;
-  height: 100px;
-  width: 200px;
+  height: 300px;
+  width: 300px;
   background: white;
 `;
 
@@ -98,27 +98,26 @@ const ItemSelector = (props: ItemSelectorProps) => {
 
   // TODO add onmousemove attribute to show dropdown where the user clicked
   // TODO Make it so information about the current selected item is shown on hover (moves with the mouse like in game)
-  // TODO optimise rerendering so when list is closed it doens't rerender other elements
 
   return (
-    <>
-      <StyledDropdownContainer ref={dropdownRef} id={props.id}>
-        <ClickableArea
-          onClick={() =>
-            isOpen
-              ? dispatch(setOpenDropdown(undefined))
-              : dispatch(setOpenDropdown(props.id))
-          }
-        >
-          {props.icon.name.charAt(0)}
-        </ClickableArea>
-
-        {/*<img src={props.icon.image} alt="Helmet Slot" />*/}
-        <Dropdown isOpen={isOpen}>
-          <ItemList />
-        </Dropdown>
-      </StyledDropdownContainer>
-    </>
+    <StyledDropdownContainer ref={dropdownRef} id={props.id}>
+      <ClickableArea
+        onClick={() =>
+          isOpen
+            ? dispatch(setOpenDropdown(undefined))
+            : dispatch(setOpenDropdown(props.id))
+        }
+      >
+        {props.icon.name === "Helmet" ? (
+          <Icon src={props.icon.image} alt="Helmet Slot" />
+        ) : (
+          props.icon.name.charAt(0)
+        )}
+      </ClickableArea>
+      <Dropdown isOpen={isOpen}>
+        <ItemList />
+      </Dropdown>
+    </StyledDropdownContainer>
   );
 };
 
