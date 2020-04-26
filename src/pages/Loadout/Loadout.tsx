@@ -1,14 +1,10 @@
 import React from "react";
 import LoadoutSelector from "../../components/LoadoutSelector/LoadoutSelector";
 import StatsViewer from "../../components/StatsViewer/StatsViewer";
-import InventorySelector from "../../components/InventorySelector/InventorySelector";
 import Options from "../../components/Options/Options";
 import styled from "styled-components";
 import { transparentize } from "polished";
 import { FaCaretDown } from "react-icons/fa";
-import { useEffect } from "react";
-import { useDispatch } from "react-redux";
-import { fetchHelmetItems } from "./loadoutSlice";
 
 // Have isEditable Props
 
@@ -56,7 +52,7 @@ const MainContent = styled.div`
   display: flex;
   justify-content: center;
 
-  @media screen and (max-width: 1100px) {
+  @media screen and (max-width: 900px) {
     flex-direction: column;
   }
 `;
@@ -102,12 +98,6 @@ const StyledDescription = styled.textarea`
 `;
 
 const Loadout = () => {
-  const dispatch = useDispatch();
-
-  useEffect(() => {
-    dispatch(fetchHelmetItems());
-  }, [dispatch]);
-
   return (
     <>
       <LoadoutHeader>
@@ -128,7 +118,7 @@ const Loadout = () => {
       <MainContent>
         <StatsViewer />
         <LoadoutSelector />
-        <InventorySelector />
+        {/*<InventorySelector />*/}
       </MainContent>
     </>
   );

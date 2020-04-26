@@ -5,6 +5,7 @@ import { useSelector, useDispatch } from "react-redux";
 import {
   setOpenDropdown,
   selectOpenDropdown,
+  selectCurrentLoadout,
 } from "../../pages/Loadout/loadoutSlice";
 import ItemList from "../ItemList/ItemList";
 
@@ -44,19 +45,6 @@ interface DropdownProps {
   isOpen: boolean;
 }
 
-const Dropdown = styled.div<DropdownProps>`
-  display: ${(props) => (props.isOpen ? "block" : "none")};
-  position: absolute;
-  z-index: 1;
-  border: 1px solid gray;
-  border-radius: 4px;
-  left: 40px;
-  top: 40px;
-  height: 300px;
-  width: 300px;
-  background: white;
-`;
-
 const ClickableArea = styled.div`
   height: 50px;
   width: 50px;
@@ -68,6 +56,7 @@ const ClickableArea = styled.div`
 
 const ItemSelector = (props: ItemSelectorProps) => {
   const openDropdown = useSelector(selectOpenDropdown);
+  const currentLoadout = useSelector(selectCurrentLoadout);
   const dispatch = useDispatch();
   const dropdownRef = useRef<HTMLDivElement>(null);
 
@@ -96,6 +85,8 @@ const ItemSelector = (props: ItemSelectorProps) => {
     };
   }, [isOpen, dispatch]);
 
+  //TODO only load items when dropdown is opened
+
   // TODO add onmousemove attribute to show dropdown where the user clicked
   // TODO Make it so information about the current selected item is shown on hover (moves with the mouse like in game)
 
@@ -108,15 +99,22 @@ const ItemSelector = (props: ItemSelectorProps) => {
             : dispatch(setOpenDropdown(props.id))
         }
       >
-        {props.icon.name === "Helmet" ? (
+        {currentLoadout && currentLoadout[props.id] ? (
+          <img
+            src={`https://raw.githubusercontent.com/osrsbox/osrsbox-db/master/docs/items-icons/${
+              currentLoadout[props.id]
+            }.png`}
+            height="32"
+            width="36"
+            alt="Icon"
+          />
+        ) : props.icon.name === "Helmet" ? (
           <Icon src={props.icon.image} alt="Helmet Slot" />
         ) : (
           props.icon.name.charAt(0)
         )}
       </ClickableArea>
-      <Dropdown isOpen={isOpen}>
-        <ItemList />
-      </Dropdown>
+      {isOpen && <ItemList />}
     </StyledDropdownContainer>
   );
 };

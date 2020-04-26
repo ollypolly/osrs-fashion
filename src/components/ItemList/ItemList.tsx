@@ -1,8 +1,69 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { FixedSizeList as List } from "react-window";
-import { useSelector } from "react-redux";
-import { selectHelmetItems } from "../../pages/Loadout/loadoutSlice";
+import { useSelector, useDispatch } from "react-redux";
+import {
+  selectItems,
+  setLoadoutItem,
+  setOpenDropdown,
+  selectOpenDropdown,
+  selectItemsLoading,
+} from "../../pages/Loadout/loadoutSlice";
 import styled from "styled-components";
+import { fetchItems } from "../../pages/Loadout/loadoutSlice";
+
+const Dropdown = styled.div`
+  position: absolute;
+  z-index: 1;
+  border: 1px solid gray;
+  border-radius: 4px;
+  left: 40px;
+  top: 40px;
+  height: 300px;
+  width: 300px;
+  background: white;
+`;
+
+const ItemList = () => {
+  // Check if list exists in state
+  const dispatch = useDispatch();
+  const items = useSelector(selectItems);
+  const openDropdown = useSelector(selectOpenDropdown);
+  const itemsLoading = useSelector(selectItemsLoading);
+
+  useEffect(() => {
+    if (
+      (!items ||
+        (items &&
+          items["helmet"] &&
+          Object.keys(items["helmet"]).length === 0)) &&
+      openDropdown === "helmet" &&
+      !itemsLoading
+    ) {
+      dispatch(fetchItems("helmet"));
+    }
+  }, [dispatch]);
+
+  if (
+    !items ||
+    (items && items["helmet"] && Object.keys(items["helmet"]).length === 0)
+  ) {
+    return null;
+  }
+
+  // If not dispatch fetch action
+  // Return loading spinner unless state exists else return list
+  return (
+    <Dropdown>
+      {itemsLoading ? (
+        <p>Loading Spinner</p>
+      ) : (
+        <List height={300} itemCount={1000} itemSize={60} width={300}>
+          {Item}
+        </List>
+      )}
+    </Dropdown>
+  );
+};
 
 interface ItemProps {
   index: number;
@@ -26,30 +87,30 @@ const StyledListItem = styled.div`
 `;
 
 const Item = ({ index, style }: ItemProps) => {
-  const helmetItems = useSelector(selectHelmetItems);
-  const items = Object.values(helmetItems).sort((a: any, b: any) =>
+  const dispatch = useDispatch();
+  const items = useSelector(selectItems);
+
+  const specificItems = Object.values(items["helmet"]).sort((a: any, b: any) =>
     a.name.localeCompare(b.name)
   );
 
-  const item: any = items[index];
+  const item: any = specificItems[index];
   return (
-    <StyledListItem style={style}>
+    <StyledListItem
+      style={style}
+      onClick={() => {
+        dispatch(setLoadoutItem({ id: item.id, name: "helmet" }));
+        dispatch(setOpenDropdown(undefined));
+      }}
+    >
       <img
         src={`https://raw.githubusercontent.com/osrsbox/osrsbox-db/master/docs/items-icons/${item.id}.png`}
-        height="36"
-        width="32"
+        height="32"
+        width="36"
         alt="Icon"
       />
       {item.name}
     </StyledListItem>
-  );
-};
-
-const ItemList = () => {
-  return (
-    <List height={300} itemCount={1000} itemSize={60} width={300}>
-      {Item}
-    </List>
   );
 };
 

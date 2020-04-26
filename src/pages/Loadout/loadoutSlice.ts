@@ -2,25 +2,27 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { GlobalState } from "../..";
 
 export interface LoadoutState {
-  helmetItems?: any;
-  helmetLoading: boolean;
+  items?: any;
+  itemsLoading?: boolean;
   openDropdown?: string;
+  loadout?: any;
 }
 
-const initialState: LoadoutState = {
-  helmetLoading: true,
-};
-
-export const fetchHelmetItems = createAsyncThunk(
-  "helmet-items/fetch",
-  async () => {
+export const fetchItems = createAsyncThunk(
+  "items/fetch",
+  async (type: string) => {
     const response = await fetch(
       "https://raw.githubusercontent.com/osrsbox/osrsbox-db/master/docs/items-json-slot/items-head.json"
     );
 
-    return response.json();
+    return response.json().then((data) => ({
+      name: type,
+      items: data,
+    }));
   }
 );
+
+const initialState: LoadoutState = {};
 
 export const loadoutSlice = createSlice({
   name: "loadout",
@@ -29,30 +31,43 @@ export const loadoutSlice = createSlice({
     setOpenDropdown: (state, action) => {
       state.openDropdown = action.payload;
     },
+    setLoadoutItem: (state, action) => {
+      if (!state.loadout) {
+        state.loadout = {};
+      }
+      state.loadout[action.payload.name] = action.payload.id;
+    },
   },
   extraReducers: (builder) => {
-    builder.addCase(fetchHelmetItems.pending, (state, action) => {
-      state.helmetLoading = true;
+    builder.addCase(fetchItems.pending, (state, action) => {
+      state.itemsLoading = true;
     });
-    builder.addCase(fetchHelmetItems.fulfilled, (state, action) => {
-      state.helmetItems = action.payload;
-      state.helmetLoading = false;
+    builder.addCase(fetchItems.fulfilled, (state, action) => {
+      console.log(action.payload);
+
+      if (!state.items) {
+        state.items = {};
+      }
+      state.items[action.payload.name] = action.payload.items;
+      state.itemsLoading = false;
     });
-    builder.addCase(fetchHelmetItems.rejected, (state, action) => {
-      state.helmetLoading = false;
+    builder.addCase(fetchItems.rejected, (state, action) => {
+      state.itemsLoading = false;
     });
   },
 });
 
-export const selectHelmetItems = (state: GlobalState) =>
-  state.loadoutReducer.helmetItems;
+export const selectItems = (state: GlobalState) => state.loadoutReducer.items;
 
-export const selectHelmetLoading = (state: GlobalState) =>
-  state.loadoutReducer.helmetLoading;
+export const selectItemsLoading = (state: GlobalState) =>
+  state.loadoutReducer.itemsLoading;
 
 export const selectOpenDropdown = (state: GlobalState) =>
   state.loadoutReducer.openDropdown;
 
-export const { setOpenDropdown } = loadoutSlice.actions;
+export const selectCurrentLoadout = (state: GlobalState) =>
+  state.loadoutReducer.loadout;
+
+export const { setOpenDropdown, setLoadoutItem } = loadoutSlice.actions;
 
 export default loadoutSlice.reducer;

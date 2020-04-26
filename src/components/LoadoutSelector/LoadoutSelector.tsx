@@ -3,8 +3,6 @@ import styled from "styled-components";
 import { darken } from "polished";
 import ItemSelector, { Icon } from "../ItemSelector/ItemSelector";
 import helmetIcon from "../../img/helmet-icon-gray.png";
-import { useSelector } from "react-redux";
-import { selectHelmetLoading } from "../../pages/Loadout/loadoutSlice";
 
 export const Wrapper = styled.div`
   display: flex;
@@ -16,7 +14,7 @@ export const Wrapper = styled.div`
     margin-bottom: 0.5rem;
   }
 
-  @media screen and (max-width: 1100px) {
+  @media screen and (max-width: 900px) {
     margin: 0.5rem 0;
   }
 `;
@@ -29,7 +27,7 @@ export const ContentContainer = styled.div`
   min-width: 300px;
   min-height: 461px;
 
-  @media screen and (max-width: 1100px) {
+  @media screen and (max-width: 900px) {
     width: 100%;
   }
 `;
@@ -185,25 +183,19 @@ export const icons: { [id: string]: Icon } = {
 };
 
 const LoadoutSelector = () => {
-  const isHelmetLoading = useSelector(selectHelmetLoading);
-
   //TODO Add loading spinner
 
   return (
     <Wrapper>
       <h2>Loadout</h2>
       <LoadoutContainer>
-        {!isHelmetLoading ? (
-          <ItemSelectorGridWrapper>
-            <ItemSelectorGrid>
-              {Object.keys(icons).map((icon) => (
-                <ItemSelector key={icon} id={icon} icon={icons[icon]} />
-              ))}
-            </ItemSelectorGrid>
-          </ItemSelectorGridWrapper>
-        ) : (
-          <p>Loading</p>
-        )}
+        <ItemSelectorGridWrapper>
+          <ItemSelectorGrid>
+            {Object.keys(icons).map((icon) => (
+              <ItemSelector key={icon} id={icon} icon={icons[icon]} />
+            ))}
+          </ItemSelectorGrid>
+        </ItemSelectorGridWrapper>
         <WeightArea>
           <p>Weight</p>
         </WeightArea>
