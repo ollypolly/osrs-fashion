@@ -50,7 +50,7 @@ const ItemSelectorGrid = styled.div`
   column-gap: 10px;
   row-gap: 1em;
 
-  #helmet {
+  #head {
     grid-column-start: 2;
     grid-column-end: 3;
     grid-row-start: 1;
@@ -71,28 +71,28 @@ const ItemSelectorGrid = styled.div`
     grid-row-end: 3;
   }
 
-  #arrow {
+  #ammo {
     grid-column-start: 3;
     grid-column-end: 4;
     grid-row-start: 2;
     grid-row-end: 3;
   }
 
-  #mainhand {
+  #weapon {
     grid-column-start: 1;
     grid-column-end: 2;
     grid-row-start: 3;
     grid-row-end: 4;
   }
 
-  #torso {
+  #body {
     grid-column-start: 2;
     grid-column-end: 3;
     grid-row-start: 3;
     grid-row-end: 4;
   }
 
-  #offhand {
+  #shield {
     grid-column-start: 3;
     grid-column-end: 4;
     grid-row-start: 3;
@@ -136,8 +136,8 @@ const WeightArea = styled.div`
 //TODO add other icons
 
 export const icons: { [id: string]: Icon } = {
-  helmet: {
-    name: "Helmet",
+  head: {
+    name: "Head",
     image: helmetIcon,
   },
   cape: {
@@ -148,20 +148,20 @@ export const icons: { [id: string]: Icon } = {
     name: "Neck",
     image: helmetIcon,
   },
-  arrow: {
-    name: "Arrows",
+  ammo: {
+    name: "Ammo",
     image: helmetIcon,
   },
-  mainhand: {
-    name: "Main Hand",
+  weapon: {
+    name: "Weapon",
     image: helmetIcon,
   },
-  torso: {
-    name: "Torso",
+  body: {
+    name: "Body",
     image: helmetIcon,
   },
-  offhand: {
-    name: "Off Hand",
+  shield: {
+    name: "Shield",
     image: helmetIcon,
   },
   legs: {

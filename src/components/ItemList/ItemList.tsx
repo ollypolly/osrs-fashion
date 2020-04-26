@@ -27,30 +27,32 @@ const ItemList = () => {
   // Check if list exists in state
   const dispatch = useDispatch();
   const items = useSelector(selectItems);
-  const openDropdown = useSelector(selectOpenDropdown);
+  const openDropdown = useSelector(selectOpenDropdown)!;
   const itemsLoading = useSelector(selectItemsLoading);
 
   useEffect(() => {
     if (
       (!items ||
+        (items && !items[openDropdown]) ||
         (items &&
-          items["helmet"] &&
-          Object.keys(items["helmet"]).length === 0)) &&
-      openDropdown === "helmet" &&
+          items[openDropdown] &&
+          Object.keys(items[openDropdown]).length === 0)) &&
       !itemsLoading
     ) {
-      dispatch(fetchItems("helmet"));
+      // If not dispatch fetch action
+      dispatch(fetchItems(openDropdown));
     }
-  }, [dispatch]);
+  }, [dispatch, items, itemsLoading, openDropdown]);
 
   if (
     !items ||
-    (items && items["helmet"] && Object.keys(items["helmet"]).length === 0)
+    (items &&
+      items[openDropdown] &&
+      Object.keys(items[openDropdown]).length === 0)
   ) {
     return null;
   }
 
-  // If not dispatch fetch action
   // Return loading spinner unless state exists else return list
   return (
     <Dropdown>
@@ -89,17 +91,22 @@ const StyledListItem = styled.div`
 const Item = ({ index, style }: ItemProps) => {
   const dispatch = useDispatch();
   const items = useSelector(selectItems);
+  const openDropdown = useSelector(selectOpenDropdown);
 
-  const specificItems = Object.values(items["helmet"]).sort((a: any, b: any) =>
-    a.name.localeCompare(b.name)
-  );
+  if (!openDropdown || !items[openDropdown]) {
+    return null;
+  }
+
+  const specificItems = Object.values(
+    items[openDropdown]
+  ).sort((a: any, b: any) => a.name.localeCompare(b.name));
 
   const item: any = specificItems[index];
   return (
     <StyledListItem
       style={style}
       onClick={() => {
-        dispatch(setLoadoutItem({ id: item.id, name: "helmet" }));
+        dispatch(setLoadoutItem({ id: item.id, name: openDropdown }));
         dispatch(setOpenDropdown(undefined));
       }}
     >

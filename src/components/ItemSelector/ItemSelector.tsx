@@ -108,10 +108,8 @@ const ItemSelector = (props: ItemSelectorProps) => {
             width="36"
             alt="Icon"
           />
-        ) : props.icon.name === "Helmet" ? (
-          <Icon src={props.icon.image} alt="Helmet Slot" />
         ) : (
-          props.icon.name.charAt(0)
+          <Icon src={props.icon.image} alt="Head Slot" />
         )}
       </ClickableArea>
       {isOpen && <ItemList />}

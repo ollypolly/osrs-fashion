@@ -12,7 +12,7 @@ export const fetchItems = createAsyncThunk(
   "items/fetch",
   async (type: string) => {
     const response = await fetch(
-      "https://raw.githubusercontent.com/osrsbox/osrsbox-db/master/docs/items-json-slot/items-head.json"
+      `https://raw.githubusercontent.com/osrsbox/osrsbox-db/master/docs/items-json-slot/items-${type}.json`
     );
 
     return response.json().then((data) => ({
@@ -43,8 +43,6 @@ export const loadoutSlice = createSlice({
       state.itemsLoading = true;
     });
     builder.addCase(fetchItems.fulfilled, (state, action) => {
-      console.log(action.payload);
-
       if (!state.items) {
         state.items = {};
       }
