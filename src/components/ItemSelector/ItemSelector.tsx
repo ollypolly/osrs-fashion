@@ -2,23 +2,41 @@ import React from "react";
 import styled from "styled-components";
 import { transparentize } from "polished";
 
+export interface Icon {
+  name: string;
+  image: string;
+}
+
+export interface ItemSelectorProps {
+  icon: Icon;
+}
+
 const StyledDropdownContainer = styled.div`
   height: 50px;
   width: 50px;
   border-radius: 5px;
   cursor: pointer;
-  background: ${(props) => transparentize(0.5, props.theme.textColor)};
+  border: 1px solid lightgray;
 
   transition: background 0.1s ease-in;
-  background: ${(props) => transparentize(0.5, props.theme.textColor)};
+  background: ${transparentize(0.3, "white")};
 
   &:hover {
-    background: ${(props) => props.theme.textColor};
+    background: white;
+  }
+
+  img {
+    width: 100%;
+    height: 100%;
   }
 `;
 
-const ItemSelector = () => {
-  return <StyledDropdownContainer></StyledDropdownContainer>;
+const ItemSelector = (props: ItemSelectorProps) => {
+  return (
+    <StyledDropdownContainer>
+      <img src={props.icon.image} alt="Helmet Slot" />
+    </StyledDropdownContainer>
+  );
 };
 
 export default ItemSelector;

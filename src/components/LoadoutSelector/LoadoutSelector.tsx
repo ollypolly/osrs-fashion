@@ -1,7 +1,8 @@
 import React from "react";
 import styled from "styled-components";
 import { darken } from "polished";
-import ItemSelector from "../ItemSelector/ItemSelector";
+import ItemSelector, { Icon } from "../ItemSelector/ItemSelector";
+import helmetIcon from "../../img/helmet-icon-gray.png";
 
 export const Wrapper = styled.div`
   display: flex;
@@ -31,12 +32,61 @@ export const ContentContainer = styled.div`
   }
 `;
 
+export const icons: { [id: string]: Icon } = {
+  helmet: {
+    name: "Helmet",
+    image: helmetIcon,
+  },
+  cape: {
+    name: "Cape",
+    image: helmetIcon,
+  },
+  neck: {
+    name: "Neck",
+    image: helmetIcon,
+  },
+  arrow: {
+    name: "Arrows",
+    image: helmetIcon,
+  },
+  mainhand: {
+    name: "Main Hand",
+    image: helmetIcon,
+  },
+  torso: {
+    name: "Torso",
+    image: helmetIcon,
+  },
+  offhand: {
+    name: "Off Hand",
+    image: helmetIcon,
+  },
+  legs: {
+    name: "Legs",
+    image: helmetIcon,
+  },
+  hands: {
+    name: "Hands",
+    image: helmetIcon,
+  },
+  feet: {
+    name: "Feet",
+    image: helmetIcon,
+  },
+  ring: {
+    name: "Ring",
+    image: helmetIcon,
+  },
+};
+
 const LoadoutSelector = () => {
   return (
     <Wrapper>
       <h2>Loadout</h2>
       <ContentContainer>
-        <ItemSelector />
+        {Object.keys(icons).map((icon) => (
+          <ItemSelector icon={icons[icon]} />
+        ))}
       </ContentContainer>
     </Wrapper>
   );
