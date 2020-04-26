@@ -26,17 +26,12 @@ const StyledNav = styled.nav`
 const StyledLink = styled(Link)`
   text-decoration: none;
   transition: color 0.1s ease-in-out;
+  vertical-align: middle;
 
   color: ${(props) => props.theme.linkColor};
 
   &:hover {
     color: ${(props) => lighten(0.2, props.theme.linkColor)};
-  }
-
-  span {
-    color: ${(props) => props.theme.textColor};
-    font-weight: 200;
-    margin-left: 0.3rem;
   }
 `;
 
@@ -59,6 +54,16 @@ const NavLinkGroup = styled.div`
   a {
     margin-left: 1rem;
   }
+
+  span {
+    border: 1px solid ${(props) => props.theme.textColor};
+    border-radius: 5px;
+    padding: 0.1rem;
+    font-size: 0.9em;
+    color: ${(props) => props.theme.textColor};
+    font-weight: 200;
+    margin-left: 0.3rem;
+  }
 `;
 
 const Nav = () => {
@@ -71,10 +76,9 @@ const Nav = () => {
           <NavLinkGroup>
             <FaBars onClick={() => dispatch(toggleIsOpen())} />
             <StyledLink to="/">
-              <h2>
-                loadout<span>osrs</span>
-              </h2>
+              <h2>loadout</h2>
             </StyledLink>
+            <span>osrs</span>
           </NavLinkGroup>
 
           <NavLinkGroup>

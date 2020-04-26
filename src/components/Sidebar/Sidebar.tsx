@@ -18,7 +18,7 @@ const StyledSidebar = styled.div<SidebarProps>`
   top: 0;
   left: ${(props) => (props.isOpen ? "0" : "-251px")};
   background: ${(props) => darken(0.05, props.theme.navColor)};
-  transition: all 0.3s ease;
+  transition: left 0.3s ease;
 
   display: flex;
   flex-direction: column;
