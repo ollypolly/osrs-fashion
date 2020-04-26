@@ -116,8 +116,9 @@ const Loadout = () => {
       </DescriptionContainer>*/}
 
       <MainContent>
-        <StatsViewer />
         <LoadoutSelector />
+        <StatsViewer />
+
         {/*<InventorySelector />*/}
       </MainContent>
     </>

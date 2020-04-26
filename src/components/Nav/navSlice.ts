@@ -6,7 +6,7 @@ export interface NavState {
 }
 
 const initialState: NavState = {
-  darkMode: false,
+  darkMode: true,
 };
 
 export const navSlice = createSlice({
