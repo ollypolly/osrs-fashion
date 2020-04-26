@@ -85,11 +85,6 @@ const ItemSelector = (props: ItemSelectorProps) => {
     };
   }, [isOpen, dispatch]);
 
-  //TODO only load items when dropdown is opened
-
-  // TODO add onmousemove attribute to show dropdown where the user clicked
-  // TODO Make it so information about the current selected item is shown on hover (moves with the mouse like in game)
-
   return (
     <StyledDropdownContainer ref={dropdownRef} id={props.id}>
       <ClickableArea

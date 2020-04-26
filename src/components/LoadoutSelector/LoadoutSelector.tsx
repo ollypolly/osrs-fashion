@@ -133,8 +133,6 @@ const WeightArea = styled.div`
   justify-content: center;
 `;
 
-//TODO add other icons
-
 export const icons: { [id: string]: Icon } = {
   head: {
     name: "Head",
@@ -183,8 +181,6 @@ export const icons: { [id: string]: Icon } = {
 };
 
 const LoadoutSelector = () => {
-  //TODO Add loading spinner
-
   return (
     <Wrapper>
       <h2>Loadout</h2>
