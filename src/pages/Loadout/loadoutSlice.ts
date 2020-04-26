@@ -2,7 +2,7 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { GlobalState } from "../..";
 
 export interface LoadoutState {
-  items?: any;
+  items: any;
   itemsLoading?: boolean;
   openDropdown?: string;
   loadout?: any;
@@ -22,7 +22,9 @@ export const fetchItems = createAsyncThunk(
   }
 );
 
-const initialState: LoadoutState = {};
+const initialState: LoadoutState = {
+  items: {},
+};
 
 export const loadoutSlice = createSlice({
   name: "loadout",

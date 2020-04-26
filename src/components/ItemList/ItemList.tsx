@@ -30,30 +30,15 @@ const ItemList = () => {
   const openDropdown = useSelector(selectOpenDropdown)!;
   const itemsLoading = useSelector(selectItemsLoading);
 
+  const itemsNotLoaded = !items[openDropdown];
+
   useEffect(() => {
-    if (
-      (!items ||
-        (items && !items[openDropdown]) ||
-        (items &&
-          items[openDropdown] &&
-          Object.keys(items[openDropdown]).length === 0)) &&
-      !itemsLoading
-    ) {
-      // If not dispatch fetch action
+    if (itemsNotLoaded && !itemsLoading) {
+      // Fetch items
       dispatch(fetchItems(openDropdown));
     }
-  }, [dispatch, items, itemsLoading, openDropdown]);
+  }, [dispatch, itemsNotLoaded, itemsLoading, openDropdown]);
 
-  if (
-    !items ||
-    (items &&
-      items[openDropdown] &&
-      Object.keys(items[openDropdown]).length === 0)
-  ) {
-    return null;
-  }
-
-  // Return loading spinner unless state exists else return list
   return (
     <Dropdown>
       {itemsLoading ? (
