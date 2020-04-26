@@ -7,6 +7,8 @@ import styled from "styled-components";
 import { transparentize } from "polished";
 import { FaCaretDown } from "react-icons/fa";
 import { useEffect } from "react";
+import { useDispatch } from "react-redux";
+import { fetchHelmetItems } from "./loadoutSlice";
 
 // Have isEditable Props
 
@@ -100,9 +102,11 @@ const StyledDescription = styled.textarea`
 `;
 
 const Loadout = () => {
+  const dispatch = useDispatch();
+
   useEffect(() => {
-    console.log("Getting Data...");
-  }, []);
+    dispatch(fetchHelmetItems());
+  }, [dispatch]);
 
   return (
     <>

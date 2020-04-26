@@ -2,11 +2,7 @@ import React from "react";
 import ReactDOM from "react-dom";
 import App from "./App";
 import * as serviceWorker from "./serviceWorker";
-import {
-  configureStore,
-  combineReducers,
-  getDefaultMiddleware,
-} from "@reduxjs/toolkit";
+import { configureStore, combineReducers } from "@reduxjs/toolkit";
 import navReducer, { NavState } from "./components/Nav/navSlice";
 import { Provider } from "react-redux";
 import { persistReducer, persistStore } from "redux-persist";
@@ -15,7 +11,8 @@ import { PersistGate } from "redux-persist/integration/react";
 import sidebarReducer, {
   SidebarState,
 } from "./components/Sidebar/sidebarSlice";
-import { LoadoutState } from "./pages/Loadout/loadoutSlice";
+import loadoutReducer, { LoadoutState } from "./pages/Loadout/loadoutSlice";
+import thunk from "redux-thunk";
 
 export interface GlobalState {
   navReducer: NavState;
@@ -29,15 +26,17 @@ const persistConfig = {
   storage,
 };
 
-const rootReducer = combineReducers({ navReducer, sidebarReducer });
+const rootReducer = combineReducers({
+  navReducer,
+  sidebarReducer,
+  loadoutReducer,
+});
 
 const reducer = persistReducer(persistConfig, rootReducer);
 
 const store = configureStore({
   reducer,
-  middleware: getDefaultMiddleware({
-    serializableCheck: false,
-  }),
+  middleware: [thunk],
 });
 
 const persistor = persistStore(store);

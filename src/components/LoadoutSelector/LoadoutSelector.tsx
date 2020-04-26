@@ -3,6 +3,8 @@ import styled from "styled-components";
 import { darken } from "polished";
 import ItemSelector, { Icon } from "../ItemSelector/ItemSelector";
 import helmetIcon from "../../img/helmet-icon-gray.png";
+import { useSelector } from "react-redux";
+import { selectHelmetLoading } from "../../pages/Loadout/loadoutSlice";
 
 export const Wrapper = styled.div`
   display: flex;
@@ -76,7 +78,6 @@ const ItemSelectorGrid = styled.div`
     grid-column-end: 2;
     grid-row-start: 3;
     grid-row-end: 4;
-    margin-right: 10px;
   }
 
   #torso {
@@ -91,7 +92,6 @@ const ItemSelectorGrid = styled.div`
     grid-column-end: 4;
     grid-row-start: 3;
     grid-row-end: 4;
-    margin-left: 10px;
   }
 
   #legs {
@@ -120,8 +120,12 @@ const ItemSelectorGrid = styled.div`
     grid-column-end: 4;
     grid-row-start: 5;
     grid-row-end: 6;
-    margin-left: 10px;
   }
+`;
+
+const WeightArea = styled.div`
+  display: flex;
+  justify-content: center;
 `;
 
 export const icons: { [id: string]: Icon } = {
@@ -172,18 +176,26 @@ export const icons: { [id: string]: Icon } = {
 };
 
 const LoadoutSelector = () => {
+  const isHelmetLoading = useSelector(selectHelmetLoading);
+
   return (
     <Wrapper>
       <h2>Loadout</h2>
       <ContentContainer>
-        <ItemSelectorGridWrapper>
-          <ItemSelectorGrid>
-            {Object.keys(icons).map((icon) => (
-              <ItemSelector key={icon} id={icon} icon={icons[icon]} />
-            ))}
-          </ItemSelectorGrid>
-        </ItemSelectorGridWrapper>
-        <p>Weight</p>
+        {!isHelmetLoading ? (
+          <ItemSelectorGridWrapper>
+            <ItemSelectorGrid>
+              {Object.keys(icons).map((icon) => (
+                <ItemSelector key={icon} id={icon} icon={icons[icon]} />
+              ))}
+            </ItemSelectorGrid>
+          </ItemSelectorGridWrapper>
+        ) : (
+          <p>Loading</p>
+        )}
+        <WeightArea>
+          <p>Weight</p>
+        </WeightArea>
       </ContentContainer>
     </Wrapper>
   );
