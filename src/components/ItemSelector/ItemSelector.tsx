@@ -8,13 +8,19 @@ export interface Icon {
 }
 
 export interface ItemSelectorProps {
+  id: string;
   icon: Icon;
 }
 
 const StyledDropdownContainer = styled.div`
   height: 50px;
-  width: 50px;
+  width: 100%;
   border-radius: 5px;
+  color: black;
+  font-size: 2em;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   cursor: pointer;
   border: 1px solid lightgray;
 
@@ -33,8 +39,9 @@ const StyledDropdownContainer = styled.div`
 
 const ItemSelector = (props: ItemSelectorProps) => {
   return (
-    <StyledDropdownContainer>
-      <img src={props.icon.image} alt="Helmet Slot" />
+    <StyledDropdownContainer id={props.id}>
+      {props.icon.name.charAt(0)}
+      {/*<img src={props.icon.image} alt="Helmet Slot" />*/}
     </StyledDropdownContainer>
   );
 };
