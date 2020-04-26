@@ -5,7 +5,8 @@ export interface LoadoutState {
   items: any;
   itemsLoading?: boolean;
   openDropdown?: string;
-  loadout?: any;
+  dropdownSearch?: string;
+  loadout?: { [id: string]: string };
 }
 
 export const fetchItems = createAsyncThunk(
@@ -39,6 +40,9 @@ export const loadoutSlice = createSlice({
       }
       state.loadout[action.payload.name] = action.payload.id;
     },
+    setDropdownSearch: (state, action) => {
+      state.dropdownSearch = action.payload;
+    },
   },
   extraReducers: (builder) => {
     builder.addCase(fetchItems.pending, (state, action) => {
@@ -68,6 +72,13 @@ export const selectOpenDropdown = (state: GlobalState) =>
 export const selectCurrentLoadout = (state: GlobalState) =>
   state.loadoutReducer.loadout;
 
-export const { setOpenDropdown, setLoadoutItem } = loadoutSlice.actions;
+export const selectDropdownSearch = (state: GlobalState) =>
+  state.loadoutReducer.dropdownSearch;
+
+export const {
+  setOpenDropdown,
+  setLoadoutItem,
+  setDropdownSearch,
+} = loadoutSlice.actions;
 
 export default loadoutSlice.reducer;
