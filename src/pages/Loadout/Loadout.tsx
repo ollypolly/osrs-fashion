@@ -100,7 +100,7 @@ const StyledDescription = styled.textarea`
 const Loadout = () => {
   return (
     <>
-      <LoadoutHeader>
+      {/*<LoadoutHeader>
         <div>
           <StyledBigInput placeholder="Enter Loadout Name..." />
           <StyledCategory>
@@ -113,7 +113,7 @@ const Loadout = () => {
       </LoadoutHeader>
       <DescriptionContainer>
         <StyledDescription placeholder="Enter Description..." />
-      </DescriptionContainer>
+      </DescriptionContainer>*/}
 
       <MainContent>
         <StatsViewer />

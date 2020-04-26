@@ -89,12 +89,6 @@ const Sidebar = () => {
             {darkMode ? <FaSun /> : <FaMoon />}
           </div>
         </StyledListHeader>
-        <Link to="/">
-          <StyledListItem>Loadout 1</StyledListItem>
-        </Link>
-        <Link to="/">
-          <StyledListItem>Loadout 2</StyledListItem>
-        </Link>
       </ListItems>
       <small>version 0.0.1</small>
     </StyledSidebar>

@@ -82,8 +82,8 @@ const Nav = () => {
           </NavLinkGroup>
 
           <NavLinkGroup>
-            <StyledLink to="/">Create</StyledLink>
-            <StyledLink to="/categories">Browse</StyledLink>
+            <StyledLink to="/">Stat Checker</StyledLink>
+            {/*<StyledLink to="/categories">Browse</StyledLink>*/}
           </NavLinkGroup>
         </StyledNav>
       </Container>
