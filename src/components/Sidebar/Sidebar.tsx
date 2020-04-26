@@ -5,6 +5,7 @@ import { useSelector, useDispatch } from "react-redux";
 import styled from "styled-components";
 import { FaTimes, FaSun, FaMoon } from "react-icons/fa";
 import { darken, transparentize } from "polished";
+import { Link } from "react-router-dom";
 
 interface SidebarProps {
   isOpen: boolean;
@@ -17,12 +18,16 @@ const StyledSidebar = styled.div<SidebarProps>`
   position: fixed;
   top: 0;
   left: ${(props) => (props.isOpen ? "0" : "-251px")};
-  background: ${(props) => darken(0.05, props.theme.navColor)};
+  background: ${(props) => darken(0.04, props.theme.backgroundColor)};
   transition: left 0.3s ease;
 
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+
+  a {
+    text-decoration: none;
+  }
 
   small {
     color: ${(props) => transparentize(0.5, props.theme.textColor)};
@@ -83,8 +88,12 @@ const Sidebar = () => {
             {darkMode ? <FaSun /> : <FaMoon />}
           </div>
         </StyledListHeader>
-        <StyledListItem>Loadout 1</StyledListItem>
-        <StyledListItem>Loadout 2</StyledListItem>
+        <Link to="/">
+          <StyledListItem>Loadout 1</StyledListItem>
+        </Link>
+        <Link to="/">
+          <StyledListItem>Loadout 2</StyledListItem>
+        </Link>
       </ListItems>
       <small>version 0.0.1</small>
     </StyledSidebar>

@@ -11,6 +11,7 @@ import { selectDarkMode } from "./components/Nav/navSlice";
 import { BrowserRouter, Route, Switch } from "react-router-dom";
 import Categories from "./pages/Categories/Categories";
 import Sidebar from "./components/Sidebar/Sidebar";
+import LoadoutList from "./pages/LoadoutList/LoadoutList";
 
 export interface Theme extends DefaultTheme {
   backgroundColor: string;
@@ -28,13 +29,13 @@ const defaultTheme: Partial<Theme> = {
 const lightTheme: Partial<Theme> = {
   ...defaultTheme,
   backgroundColor: "#eeeeee",
-  textColor: "#232931",
+  textColor: "#061325",
   navColor: "#eeeeee",
 };
 
 const darkTheme: Partial<Theme> = {
   ...defaultTheme,
-  backgroundColor: "#232931",
+  backgroundColor: "#061325",
   textColor: "#ececec",
   navColor: "#393e46",
 };
@@ -74,6 +75,7 @@ const App = () => {
           <Switch>
             <Route exact path="/" component={Loadout} />
             <Route exact path="/categories" component={Categories} />
+            <Route exact path="/list" component={LoadoutList} />
           </Switch>
         </Container>
       </BrowserRouter>

@@ -20,7 +20,7 @@ export const Wrapper = styled.div`
 
 export const ContentContainer = styled.div`
   box-sizing: border-box;
-  background: ${(props) => darken(0.05, props.theme.backgroundColor)};
+  background: ${(props) => darken(0.04, props.theme.backgroundColor)};
   border-radius: 5px;
   padding: 1rem;
   min-width: 300px;
