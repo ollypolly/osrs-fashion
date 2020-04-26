@@ -5,7 +5,6 @@ import { useSelector, useDispatch } from "react-redux";
 import styled from "styled-components";
 import { FaTimes, FaSun, FaMoon } from "react-icons/fa";
 import { darken, transparentize } from "polished";
-import { Link } from "react-router-dom";
 
 interface SidebarProps {
   isOpen: boolean;
@@ -59,19 +58,19 @@ const StyledListHeader = styled.div`
   }
 `;
 
-const StyledListItem = styled.li`
-  list-style: none;
-  font-size: 1.3rem;
-  font-weight: 600;
-  padding: 0.5rem 1.5rem;
-  color: ${(props) => transparentize(0.5, props.theme.textColor)};
-  cursor: pointer;
-  transition: color 0.1s ease-in;
+// const StyledListItem = styled.li`
+//   list-style: none;
+//   font-size: 1.3rem;
+//   font-weight: 600;
+//   padding: 0.5rem 1.5rem;
+//   color: ${(props) => transparentize(0.5, props.theme.textColor)};
+//   cursor: pointer;
+//   transition: color 0.1s ease-in;
 
-  &:hover {
-    color: ${(props) => props.theme.textColor};
-  }
-`;
+//   &:hover {
+//     color: ${(props) => props.theme.textColor};
+//   }
+// `;
 
 const ListItems = styled.div``;
 
