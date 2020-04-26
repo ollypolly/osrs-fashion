@@ -34,6 +34,13 @@ export const ContentContainer = styled.div`
   }
 `;
 
+export const LoadoutContainer = styled(ContentContainer)`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+`;
+
 const ItemSelectorGridWrapper = styled.div`
   display: flex;
   justify-content: center;
@@ -181,7 +188,7 @@ const LoadoutSelector = () => {
   return (
     <Wrapper>
       <h2>Loadout</h2>
-      <ContentContainer>
+      <LoadoutContainer>
         {!isHelmetLoading ? (
           <ItemSelectorGridWrapper>
             <ItemSelectorGrid>
@@ -196,7 +203,7 @@ const LoadoutSelector = () => {
         <WeightArea>
           <p>Weight</p>
         </WeightArea>
-      </ContentContainer>
+      </LoadoutContainer>
     </Wrapper>
   );
 };

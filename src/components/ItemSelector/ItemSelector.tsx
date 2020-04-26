@@ -6,6 +6,7 @@ import {
   setOpenDropdown,
   selectOpenDropdown,
 } from "../../pages/Loadout/loadoutSlice";
+import ItemList from "../ItemList/ItemList";
 
 export interface Icon {
   name: string;
@@ -46,11 +47,11 @@ interface DropdownProps {
 const Dropdown = styled.div<DropdownProps>`
   display: ${(props) => (props.isOpen ? "block" : "none")};
   position: absolute;
-  z-index: 999;
+  z-index: 1;
   border: 1px solid gray;
   border-radius: 4px;
-  left: 10px;
-  top: 10px;
+  left: 40px;
+  top: 40px;
   height: 100px;
   width: 200px;
   background: white;
@@ -95,8 +96,8 @@ const ItemSelector = (props: ItemSelectorProps) => {
     };
   }, [isOpen, dispatch]);
 
-  //TODO add onmousemove attribute to show dropdown where the user clicked
-
+  // TODO add onmousemove attribute to show dropdown where the user clicked
+  // TODO Make it so information about the current selected item is shown on hover (moves with the mouse like in game)
   // TODO optimise rerendering so when list is closed it doens't rerender other elements
 
   return (
@@ -113,7 +114,9 @@ const ItemSelector = (props: ItemSelectorProps) => {
         </ClickableArea>
 
         {/*<img src={props.icon.image} alt="Helmet Slot" />*/}
-        <Dropdown isOpen={isOpen} />
+        <Dropdown isOpen={isOpen}>
+          <ItemList />
+        </Dropdown>
       </StyledDropdownContainer>
     </>
   );

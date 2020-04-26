@@ -20,6 +20,7 @@ const StyledSidebar = styled.div<SidebarProps>`
   left: ${(props) => (props.isOpen ? "0" : "-251px")};
   background: ${(props) => darken(0.04, props.theme.backgroundColor)};
   transition: left 0.3s ease;
+  z-index: 2;
 
   display: flex;
   flex-direction: column;
