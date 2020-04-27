@@ -8,6 +8,7 @@ import {
   selectCurrentLoadout,
 } from "../../pages/Loadout/loadoutSlice";
 import ItemList from "../ItemList/ItemList";
+import HoverItemIcon from "../HoverItemIcon/HoverItemIcon";
 
 export interface Icon {
   name: string;
@@ -95,16 +96,15 @@ const ItemSelector = (props: ItemSelectorProps) => {
         }
       >
         {currentLoadout && currentLoadout[props.id] ? (
-          <img
+          <HoverItemIcon
             src={`https://raw.githubusercontent.com/osrsbox/osrsbox-db/master/docs/items-icons/${
               currentLoadout[props.id]
             }.png`}
-            height="32"
-            width="36"
-            alt="Icon"
           />
         ) : (
-          <Icon src={props.icon.image} alt="Head Slot" />
+          <>
+            <Icon src={props.icon.image} alt="Head Slot" />
+          </>
         )}
       </ClickableArea>
       {isOpen && <ItemList />}
