@@ -32,8 +32,12 @@ const StyledValues = styled.div`
   background: lightgray;
   border-radius: 4px;
   padding: 0.3rem;
-  margin: 0.3rem 0;
+  margin-top: 0.3rem;
 `;
+
+const numberWithCommas = (x: number) => {
+  return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+};
 
 const HoverItemInfoWrapper = ({ id, children }: Props) => {
   // Get all items using useSelector hook and selectAllItems selector
@@ -66,7 +70,7 @@ const HoverItemInfoWrapper = ({ id, children }: Props) => {
     <StyledTooltipContent>
       <h3>{itemInfo.name}</h3>
       <small>{itemInfo.examine}</small>
-      <span>{`Cost: ${itemInfo.cost}gp`}</span>
+      <span>{`Cost: ${numberWithCommas(parseInt(itemInfo.cost))}gp`}</span>
       <span>{`Members only: ${itemInfo.members ? "Yes" : "No"}`}</span>
       {!Object.values(equipmentValues).every((value) => value === 0) && (
         <StyledValues>
