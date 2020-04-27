@@ -73,11 +73,6 @@ const FlexDiv = styled.div`
   }
 `;
 
-//TODO Add ability to browse by keyboard only
-// E.g. tab -> search -> arrow down -> enter
-
-//TODO Add 2h weapon support
-
 const ItemList = () => {
   const dispatch = useDispatch();
   const items = useSelector(selectItems);
@@ -118,7 +113,20 @@ const ItemList = () => {
             )}
           </FlexDiv>
 
-          <List height={275} itemCount={1000} itemSize={60} width={300}>
+          <List
+            height={275}
+            itemCount={
+              itemsNotLoaded
+                ? 1
+                : Object.values(items[openDropdown]).filter((item: any) =>
+                    item.name
+                      .toLowerCase()
+                      .includes(dropdownSearch?.toLowerCase() ?? "")
+                  ).length
+            }
+            itemSize={60}
+            width={300}
+          >
             {Item}
           </List>
         </>
