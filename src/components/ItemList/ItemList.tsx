@@ -49,7 +49,7 @@ const StyledSearch = styled.input`
   }
 `;
 
-const CenteredDiv = styled.div`
+export const CenteredDiv = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;

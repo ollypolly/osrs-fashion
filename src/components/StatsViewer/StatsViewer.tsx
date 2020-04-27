@@ -1,7 +1,15 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Wrapper, ContentContainer } from "../LoadoutSelector/LoadoutSelector";
 import styled from "styled-components";
 import { transparentize } from "polished";
+import { useSelector, useDispatch } from "react-redux";
+import {
+  fetchAllItems,
+  selectAllItemsLoading,
+  selectLoadoutValues,
+} from "../../pages/Loadout/loadoutSlice";
+import { CenteredDiv } from "../ItemList/ItemList";
+import ScaleLoader from "react-spinners/ScaleLoader";
 
 const StatArea = styled.div`
   h3 {
@@ -25,46 +33,79 @@ const StatArea = styled.div`
 `;
 
 const StatsViewer = () => {
+  const allItemsLoading = useSelector(selectAllItemsLoading);
+  const loadoutValues = useSelector(selectLoadoutValues);
+  const {
+    attack_crush,
+    attack_magic,
+    attack_ranged,
+    attack_slash,
+    attack_stab,
+    defence_crush,
+    defence_magic,
+    defence_ranged,
+    defence_slash,
+    defence_stab,
+    magic_damage,
+    melee_strength,
+    prayer,
+    ranged_strength,
+  } = loadoutValues;
+
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(fetchAllItems());
+  }, [dispatch]);
+
   return (
     <Wrapper>
       <h2>Stats</h2>
       <ContentContainer>
-        <StatArea>
-          <h3>Attack Bonuses</h3>
-          <ul>
-            <li>Stab</li>
-            <li>Slash</li>
-            <li>Crush</li>
-            <li>Magic</li>
-            <li>Ranged</li>
-          </ul>
-        </StatArea>
-        <StatArea>
-          <h3>Defense Bonuses</h3>
-          <ul>
-            <li>Stab</li>
-            <li>Slash</li>
-            <li>Crush</li>
-            <li>Magic</li>
-            <li>Ranged</li>
-          </ul>
-        </StatArea>
-        <StatArea>
-          <h3>Other Bonuses</h3>
-          <ul>
-            <li>Melee Strength</li>
-            <li>Ranged Strength</li>
-            <li>Magic Damage</li>
-            <li>Prayer</li>
-          </ul>
-        </StatArea>
-        <StatArea>
-          <h3>Target Specific Bonuses</h3>
-          <ul>
-            <li>Undead</li>
-            <li>Slayer</li>
-          </ul>
-        </StatArea>
+        {!allItemsLoading ? (
+          <>
+            <StatArea>
+              <h3>Attack Bonuses</h3>
+              <ul>
+                <li>Stab: {attack_stab}</li>
+                <li>Slash: {attack_slash}</li>
+                <li>Crush: {attack_crush}</li>
+                <li>Magic: {attack_magic}</li>
+                <li>Ranged: {attack_ranged}</li>
+              </ul>
+            </StatArea>
+            <StatArea>
+              <h3>Defense Bonuses</h3>
+              <ul>
+                <li>Stab: {defence_stab}</li>
+                <li>Slash: {defence_slash}</li>
+                <li>Crush: {defence_crush}</li>
+                <li>Magic: {defence_magic}</li>
+                <li>Ranged: {defence_ranged}</li>
+              </ul>
+            </StatArea>
+            <StatArea>
+              <h3>Other Bonuses</h3>
+              <ul>
+                <li>Melee Strength: {melee_strength}</li>
+                <li>Ranged Strength: {ranged_strength}</li>
+                <li>Magic Damage: {magic_damage}</li>
+                <li>Prayer: {prayer}</li>
+              </ul>
+            </StatArea>
+            {/* <StatArea>
+              <h3>Target Specific Bonuses</h3>
+              <ul>
+                <li>Undead</li>
+                <li>Slayer</li>
+              </ul>
+            </StatArea> */}
+          </>
+        ) : (
+          <CenteredDiv>
+            <ScaleLoader color={"#4ecca3"} loading={allItemsLoading} />
+          </CenteredDiv>
+        )}
       </ContentContainer>
     </Wrapper>
   );
