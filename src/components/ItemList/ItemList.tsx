@@ -15,7 +15,7 @@ import { fetchItems } from "../../pages/Loadout/loadoutSlice";
 import ScaleLoader from "react-spinners/ScaleLoader";
 import { FaTimesCircle } from "react-icons/fa";
 import { transparentize } from "polished";
-import HoverItemIcon from "../HoverItemIcon/HoverItemIcon";
+import HoverItemInfoWrapper from "../HoverItemInfoWrapper/HoverItemInfoWrapper";
 
 const Dropdown = styled.div`
   position: absolute;
@@ -84,7 +84,7 @@ const ItemList = () => {
   const itemsNotLoaded = !items[openDropdown];
 
   useEffect(() => {
-    //dispatch(setDropdownSearch(undefined));
+    dispatch(setDropdownSearch(undefined));
     if (itemsNotLoaded && !itemsLoading) {
       dispatch(fetchItems(openDropdown));
     }
@@ -187,9 +187,14 @@ const Item = ({ index, style }: ItemProps) => {
         dispatch(setOpenDropdown(undefined));
       }}
     >
-      <HoverItemIcon
-        src={`https://raw.githubusercontent.com/osrsbox/osrsbox-db/master/docs/items-icons/${item.id}.png`}
-      />
+      <HoverItemInfoWrapper id={item.id}>
+        <img
+          src={`https://raw.githubusercontent.com/osrsbox/osrsbox-db/master/docs/items-icons/${item.id}.png`}
+          height="32"
+          width="36"
+          alt="Icon"
+        />
+      </HoverItemInfoWrapper>
       {item.name}
     </StyledListItem>
   );

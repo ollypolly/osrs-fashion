@@ -1,6 +1,13 @@
 import React from "react";
 import TooltipTrigger from "react-popper-tooltip";
 import "react-popper-tooltip/dist/styles.css";
+import styled from "styled-components";
+
+const StyledSpan = styled.span`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
 
 const Tooltip = ({ children, tooltip, hideArrow, ...props }) => (
   <TooltipTrigger
@@ -32,14 +39,14 @@ const Tooltip = ({ children, tooltip, hideArrow, ...props }) => (
     )}
   >
     {({ getTriggerProps, triggerRef }) => (
-      <span
+      <StyledSpan
         {...getTriggerProps({
           ref: triggerRef,
           className: "trigger",
         })}
       >
         {children}
-      </span>
+      </StyledSpan>
     )}
   </TooltipTrigger>
 );

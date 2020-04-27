@@ -3,7 +3,8 @@ import Tooltip from "../Tooltip";
 import styled from "styled-components";
 
 interface Props {
-  src: string;
+  id: string;
+  children: any;
 }
 
 const StyledTooltip = styled(Tooltip)`
@@ -12,18 +13,18 @@ const StyledTooltip = styled(Tooltip)`
   }
 `;
 
-const HoverItemIcon = ({ src }: Props) => {
+const HoverItemInfoWrapper = ({ id, children }: Props) => {
   return (
     <StyledTooltip
       hideArrow
       followCursor
       placement="top"
       trigger="hover"
-      tooltip="Item Info"
+      tooltip={`Item Info for ${id}`}
     >
-      <img src={src} height="32" width="36" alt="Icon" />
+      {children}
     </StyledTooltip>
   );
 };
 
-export default HoverItemIcon;
+export default HoverItemInfoWrapper;
