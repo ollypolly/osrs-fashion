@@ -7,6 +7,7 @@ import {
   fetchAllItems,
   selectAllItemsLoading,
   selectLoadoutValues,
+  selectAllItemsError,
 } from "../../pages/Loadout/loadoutSlice";
 import { CenteredDiv } from "../ItemList/ItemList";
 import ScaleLoader from "react-spinners/ScaleLoader";
@@ -34,6 +35,8 @@ const StatArea = styled.div`
 
 const StatsViewer = () => {
   const allItemsLoading = useSelector(selectAllItemsLoading);
+  const allItemsError = useSelector(selectAllItemsError);
+
   const loadoutValues = useSelector(selectLoadoutValues);
   const {
     attack_crush,
@@ -62,7 +65,9 @@ const StatsViewer = () => {
     <Wrapper>
       <h2>Stats</h2>
       <ContentContainer>
-        {!allItemsLoading ? (
+        {allItemsError ? (
+          <p>{allItemsError}</p>
+        ) : !allItemsLoading ? (
           <>
             <StatArea>
               <h3>Attack Bonuses</h3>

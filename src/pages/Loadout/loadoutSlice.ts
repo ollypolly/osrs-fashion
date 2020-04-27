@@ -6,6 +6,7 @@ export interface LoadoutState {
   allItems?: any;
   itemsLoading?: boolean;
   allItemsLoading?: boolean;
+  allItemsError?: string;
   openDropdown?: string;
   dropdownSearch?: string;
   loadout?: { [id: string]: string };
@@ -77,6 +78,7 @@ export const loadoutSlice = createSlice({
     });
     builder.addCase(fetchAllItems.rejected, (state, action) => {
       state.allItemsLoading = false;
+      state.allItemsError = "Could not fetch items";
     });
   },
 });
@@ -88,6 +90,9 @@ export const selectAllItems = (state: GlobalState) =>
 
 export const selectAllItemsLoading = (state: GlobalState) =>
   state.loadoutReducer.allItemsLoading;
+
+export const selectAllItemsError = (state: GlobalState) =>
+  state.loadoutReducer.allItemsError;
 
 export const selectItemsLoading = (state: GlobalState) =>
   state.loadoutReducer.itemsLoading;
@@ -114,7 +119,6 @@ export const selectLoadoutArray = (state: GlobalState) => {
 
 export const selectLoadoutValues = (state: GlobalState) => {
   const loadoutArray = selectLoadoutArray(state);
-  console.log(loadoutArray);
 
   const values: { [id: string]: number } = {
     attack_crush: 0,
@@ -142,6 +146,16 @@ export const selectLoadoutValues = (state: GlobalState) => {
   );
 
   return values;
+};
+
+export const selectWeight = (state: GlobalState) => {
+  const loadoutArray = selectLoadoutArray(state);
+
+  let weight = 0;
+
+  loadoutArray?.forEach((item) => (weight += item.weight));
+
+  return weight;
 };
 
 export const {
