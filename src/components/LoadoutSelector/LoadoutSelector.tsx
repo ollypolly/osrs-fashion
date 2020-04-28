@@ -2,7 +2,6 @@ import React from "react";
 import styled from "styled-components";
 import { darken, transparentize } from "polished";
 import ItemSelector, { Icon } from "../ItemSelector/ItemSelector";
-import helmetIcon from "../../img/helmet-icon-gray.png";
 import { selectWeight, setLoadout } from "../../pages/Loadout/loadoutSlice";
 import { useSelector, useDispatch } from "react-redux";
 import { FaWeightHanging, FaEraser } from "react-icons/fa";
@@ -162,47 +161,47 @@ const ClearIcon = styled.div`
 export const icons: { [id: string]: Icon } = {
   head: {
     name: "Head",
-    image: helmetIcon,
+    image: "",
   },
   cape: {
     name: "Cape",
-    image: helmetIcon,
+    image: "",
   },
   neck: {
     name: "Neck",
-    image: helmetIcon,
+    image: "",
   },
   ammo: {
     name: "Ammo",
-    image: helmetIcon,
+    image: "",
   },
   weapon: {
     name: "Weapon",
-    image: helmetIcon,
+    image: "",
   },
   body: {
     name: "Body",
-    image: helmetIcon,
+    image: "",
   },
   shield: {
     name: "Shield",
-    image: helmetIcon,
+    image: "",
   },
   legs: {
     name: "Legs",
-    image: helmetIcon,
+    image: "",
   },
   hands: {
     name: "Hands",
-    image: helmetIcon,
+    image: "",
   },
   feet: {
     name: "Feet",
-    image: helmetIcon,
+    image: "",
   },
   ring: {
     name: "Ring",
-    image: helmetIcon,
+    image: "",
   },
 };
 
