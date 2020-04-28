@@ -56,7 +56,6 @@ const StatsViewer = () => {
 
   return (
     <Wrapper>
-      <h2>Stats</h2>
       <ContentContainer>
         {allItemsError ? (
           <p>{allItemsError}</p>
