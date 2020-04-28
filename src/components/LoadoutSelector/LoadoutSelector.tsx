@@ -30,6 +30,9 @@ export const ContentContainer = styled.div`
   padding: 1rem;
   min-width: 300px;
   min-height: 461px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 
   @media screen and (max-width: 900px) {
     width: 100%;

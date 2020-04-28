@@ -60,7 +60,7 @@ const StatsViewer = () => {
         {allItemsError ? (
           <p>{allItemsError}</p>
         ) : !allItemsLoading ? (
-          <>
+          <div>
             <StatArea>
               <h3>Attack Bonuses</h3>
               <ul>
@@ -97,7 +97,7 @@ const StatsViewer = () => {
                 <li>Slayer</li>
               </ul>
             </StatArea> */}
-          </>
+          </div>
         ) : (
           <CenteredDiv>
             <ScaleLoader color={"#4ecca3"} loading={allItemsLoading} />
