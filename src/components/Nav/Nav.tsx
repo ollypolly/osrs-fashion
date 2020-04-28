@@ -77,7 +77,7 @@ const Nav = () => {
         <StyledNav>
           <NavLinkGroup>
             {/* <FaBars onClick={() => dispatch(toggleIsOpen())} /> */}
-            <span className="subtitle">osrs</span>
+            {/* <span className="subtitle">osrs</span> */}
             <StyledLink to="/">
               <h2>fashionscape</h2>
             </StyledLink>

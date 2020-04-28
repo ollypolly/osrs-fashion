@@ -35,6 +35,10 @@ export const StyledBigInput = styled.input`
   width: 100%;
   padding-left: 0.5rem;
 
+  @media screen and (max-width: 541px) {
+    padding-left: 0;
+  }
+
   /* border-bottom: 2px solid
     ${(props) => transparentize(0.5, props.theme.textColor)};
   
