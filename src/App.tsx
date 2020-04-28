@@ -14,6 +14,7 @@ import Categories from "./pages/Categories/Categories";
 import Sidebar from "./components/Sidebar/Sidebar";
 import LoadoutList from "./pages/LoadoutList/LoadoutList";
 import { QueryParamProvider } from "use-query-params";
+import Footer from "./components/Footer/Footer";
 
 export interface Theme extends DefaultTheme {
   backgroundColor: string;
@@ -43,7 +44,19 @@ const darkTheme: Partial<Theme> = {
 };
 
 const GlobalStyles = createGlobalStyle`
+
+html {
+  height: 100%;
+}
+
+#root {
+  height: 100vh;
+  display: flex;
+    flex-direction: column;
+}
+
   body {
+    height: 100vh;
     margin: 0;
     font-family: 'Inter', sans-serif;
     background: ${(props: ThemeProps<Theme>) => props.theme.backgroundColor};
@@ -64,6 +77,8 @@ export const Container = styled.div`
   padding: 1.5rem;
   max-width: 1100px;
   margin: auto;
+
+  flex: 1 0 auto;
 `;
 
 const App = () => {
@@ -84,6 +99,7 @@ const App = () => {
             </QueryParamProvider>
           </Switch>
         </Container>
+        <Footer />
       </BrowserRouter>
     </ThemeProvider>
   );

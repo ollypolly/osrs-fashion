@@ -13,6 +13,7 @@ const Links = styled.ul`
 const LinkIcon = styled.li`
   display: inline-block;
   font-size: 1.5em;
+  padding-right: 0.5rem;
 
   cursor: pointer;
 

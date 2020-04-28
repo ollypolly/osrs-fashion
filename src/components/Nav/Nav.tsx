@@ -63,7 +63,7 @@ const NavLinkGroup = styled.div`
     font-size: 0.9em;
     color: ${(props) => props.theme.textColor};
     font-weight: 200;
-    margin-left: 0.3rem;
+    margin-right: 0.3rem;
   }
 `;
 
@@ -77,10 +77,10 @@ const Nav = () => {
         <StyledNav>
           <NavLinkGroup>
             {/* <FaBars onClick={() => dispatch(toggleIsOpen())} /> */}
-            <StyledLink to="/">
-              <h2>loadout</h2>
-            </StyledLink>
             <span className="subtitle">osrs</span>
+            <StyledLink to="/">
+              <h2>fashionscape</h2>
+            </StyledLink>
           </NavLinkGroup>
 
           <NavLinkGroup>

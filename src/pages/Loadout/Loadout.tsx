@@ -33,6 +33,7 @@ export const StyledBigInput = styled.input`
   color: ${(props) => props.theme.textColor};
   padding: 0;
   width: 100%;
+  padding-left: 0.5rem;
 
   /* border-bottom: 2px solid
     ${(props) => transparentize(0.5, props.theme.textColor)};
