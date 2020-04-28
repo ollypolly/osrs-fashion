@@ -9,14 +9,17 @@ import {
   selectItemsLoading,
   selectDropdownSearch,
   setDropdownSearch,
+  selectCurrentLoadout,
+  setLoadout,
 } from "../../pages/Loadout/loadoutSlice";
 import styled from "styled-components";
 import { fetchItems } from "../../pages/Loadout/loadoutSlice";
 import ScaleLoader from "react-spinners/ScaleLoader";
-import { FaTimesCircle } from "react-icons/fa";
+import { FaTimesCircle, FaEraser } from "react-icons/fa";
 import { transparentize } from "polished";
 import HoverItemInfoWrapper from "../HoverItemInfoWrapper/HoverItemInfoWrapper";
 import { StringParam, useQueryParams } from "use-query-params";
+import Tooltip from "../Tooltip";
 
 const Dropdown = styled.div`
   position: absolute;
@@ -33,6 +36,10 @@ const Dropdown = styled.div`
     font-size: 0.6em;
     padding: 0 0.5rem;
   }
+`;
+
+const Wrapper = styled.div`
+  position: relative;
 `;
 
 const StyledSearch = styled.input`
@@ -75,12 +82,48 @@ const FlexDiv = styled.div`
   }
 `;
 
+const ClearIcon = styled.div`
+  position: absolute;
+  top: 5px;
+  right: 10px;
+
+  svg {
+    font-size: 0.7em;
+    cursor: pointer;
+
+    transition: color 0.1s ease-in;
+    color: ${transparentize(0.5, "black")};
+  }
+
+  &:hover {
+    svg {
+      color: black;
+    }
+  }
+`;
+
 const ItemList = () => {
   const dispatch = useDispatch();
   const items = useSelector(selectItems);
   const openDropdown = useSelector(selectOpenDropdown)!;
   const itemsLoading = useSelector(selectItemsLoading);
   const dropdownSearch = useSelector(selectDropdownSearch);
+  const loadout = useSelector(selectCurrentLoadout);
+
+  const [query, setQuery] = useQueryParams({
+    head: StringParam,
+    cape: StringParam,
+    neck: StringParam,
+    ammo: StringParam,
+    weapon: StringParam,
+    body: StringParam,
+    shield: StringParam,
+    legs: StringParam,
+    hands: StringParam,
+    feet: StringParam,
+    ring: StringParam,
+    name: StringParam,
+  });
 
   const itemsNotLoaded = !items[openDropdown];
 
@@ -98,8 +141,30 @@ const ItemList = () => {
           <ScaleLoader color={"#4ecca3"} loading={itemsLoading} />
         </CenteredDiv>
       ) : (
-        <>
+        <Wrapper>
           <strong>Select {openDropdown} item</strong>
+          <Tooltip
+            hideArrow
+            followCursor
+            placement="top"
+            trigger="hover"
+            tooltip={`Clear ${openDropdown} item`}
+          >
+            <ClearIcon
+              onClick={() => {
+                const queryClone: { [id: string]: any } = { ...query };
+                delete queryClone[openDropdown];
+
+                const loadoutClone: { [id: string]: any } = { ...loadout };
+                delete loadoutClone[openDropdown];
+                setQuery({ ...queryClone }, "push");
+                dispatch(setLoadout(loadoutClone));
+                dispatch(setOpenDropdown(undefined));
+              }}
+            >
+              <FaEraser />
+            </ClearIcon>
+          </Tooltip>
           <FlexDiv>
             <StyledSearch
               placeholder="Search..."
@@ -131,7 +196,7 @@ const ItemList = () => {
           >
             {Item}
           </List>
-        </>
+        </Wrapper>
       )}
     </Dropdown>
   );
