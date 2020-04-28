@@ -9,6 +9,7 @@ import {
 } from "../../pages/Loadout/loadoutSlice";
 import ItemList from "../ItemList/ItemList";
 import HoverItemInfoWrapper from "../HoverItemInfoWrapper/HoverItemInfoWrapper";
+import icons from "../../img/icons.png";
 
 export interface Icon {
   name: string;
@@ -53,6 +54,52 @@ const ClickableArea = styled.div`
   align-items: center;
   justify-content: center;
   cursor: pointer;
+`;
+
+const IconDiv = styled.div`
+  background: url(${icons}) no-repeat 50% 9px;
+  width: 50px;
+  height: 50px;
+
+  &#cape {
+    background-position: 50% -391px;
+  }
+
+  &#neck {
+    background-position: 50% -241px;
+  }
+
+  &#ammo {
+    background-position: 50% -491px;
+  }
+
+  &#weapon {
+    background-position: 50% -141px;
+  }
+
+  &#body {
+    background-position: 50% -41px;
+  }
+
+  &#shield {
+    background-position: 50% -191px;
+  }
+
+  &#legs {
+    background-position: 50% -91px;
+  }
+
+  &#feet {
+    background-position: 50% -341px;
+  }
+
+  &#hands {
+    background-position: 50% -291px;
+  }
+
+  &#ring {
+    background-position: 50% -441px;
+  }
 `;
 
 const ItemSelector = (props: ItemSelectorProps) => {
@@ -108,7 +155,7 @@ const ItemSelector = (props: ItemSelectorProps) => {
           </HoverItemInfoWrapper>
         ) : (
           <>
-            <Icon src={props.icon.image} alt="Head Slot" />
+            <IconDiv id={props.id} />
           </>
         )}
       </ClickableArea>

@@ -6,8 +6,8 @@ import styled from "styled-components";
 import { FaTimes, FaSun, FaMoon } from "react-icons/fa";
 import { darken, transparentize } from "polished";
 
-interface SidebarProps {
-  isOpen: boolean;
+export interface SidebarProps {
+  isSidebarOpen?: boolean;
 }
 
 const StyledSidebar = styled.div<SidebarProps>`
@@ -16,7 +16,7 @@ const StyledSidebar = styled.div<SidebarProps>`
   height: 100%;
   position: fixed;
   top: 0;
-  left: ${(props) => (props.isOpen ? "0" : "-251px")};
+  left: ${(props) => (props.isSidebarOpen ? "0" : "-251px")};
   background: ${(props) => darken(0.04, props.theme.backgroundColor)};
   transition: left 0.3s ease;
   z-index: 2;
@@ -77,10 +77,10 @@ const ListItems = styled.div``;
 const Sidebar = () => {
   const dispatch = useDispatch();
   const darkMode = useSelector(selectDarkMode);
-  const isOpen = useSelector(selectIsOpen);
+  const isSidebarOpen = useSelector(selectIsOpen);
 
   return (
-    <StyledSidebar isOpen={isOpen}>
+    <StyledSidebar isSidebarOpen={isSidebarOpen}>
       <ListItems>
         <StyledListHeader>
           <FaTimes onClick={() => dispatch(toggleIsOpen())} />

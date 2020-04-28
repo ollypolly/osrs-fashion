@@ -5,6 +5,7 @@ import styled, {
   ThemeProvider,
   createGlobalStyle,
   DefaultTheme,
+  ThemeProps,
 } from "styled-components";
 import { useSelector } from "react-redux";
 import { selectDarkMode } from "./components/Nav/navSlice";
@@ -45,10 +46,8 @@ const GlobalStyles = createGlobalStyle`
   body {
     margin: 0;
     font-family: 'Inter', sans-serif;
-    background: ${(props: any) => props.theme.backgroundColor};
-    color: ${(props: any) => props.theme.textColor};
-
-    left: ${(props) => (props.isNavOpen ? "250px" : "0")};
+    background: ${(props: ThemeProps<Theme>) => props.theme.backgroundColor};
+    color: ${(props: ThemeProps<Theme>) => props.theme.textColor};
 
     h1, h2, h3 {
       margin: 0;
@@ -75,7 +74,6 @@ const App = () => {
       <GlobalStyles />
       <BrowserRouter>
         <Sidebar />
-
         <Nav />
         <Container>
           <Switch>
