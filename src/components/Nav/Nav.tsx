@@ -2,11 +2,12 @@ import React from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 import { lighten } from "polished";
-import { FaBars } from "react-icons/fa";
+import { FaSun, FaMoon } from "react-icons/fa";
 import { Container } from "../../App";
-import { toggleIsOpen } from "../Sidebar/sidebarSlice";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { transparentize } from "polished";
+import { toggleDarkMode, selectDarkMode } from "./navSlice";
+import Tooltip from "../Tooltip";
 
 const NavBackground = styled.div`
   background: ${(props) => props.theme.backgroundColor};
@@ -51,11 +52,11 @@ const NavLinkGroup = styled.div`
     }
   }
 
-  a {
+  /* a {
     margin-left: 1rem;
-  }
+  } */
 
-  span {
+  .subtitle {
     border: 1px solid ${(props) => props.theme.textColor};
     border-radius: 5px;
     padding: 0.1rem;
@@ -68,21 +69,33 @@ const NavLinkGroup = styled.div`
 
 const Nav = () => {
   const dispatch = useDispatch();
+  const darkMode = useSelector(selectDarkMode);
 
   return (
     <NavBackground>
       <Container>
         <StyledNav>
           <NavLinkGroup>
-            <FaBars onClick={() => dispatch(toggleIsOpen())} />
+            {/* <FaBars onClick={() => dispatch(toggleIsOpen())} /> */}
             <StyledLink to="/">
               <h2>loadout</h2>
             </StyledLink>
-            <span>osrs</span>
+            <span className="subtitle">osrs</span>
           </NavLinkGroup>
 
           <NavLinkGroup>
-            <StyledLink to="/">Stat Checker</StyledLink>
+            <Tooltip
+              hideArrow
+              followCursor
+              placement="top"
+              trigger="hover"
+              tooltip={`${darkMode ? "Light" : "Dark"} Mode`}
+            >
+              <div onClick={() => dispatch(toggleDarkMode())}>
+                {darkMode ? <FaSun /> : <FaMoon />}
+              </div>
+            </Tooltip>
+            {/* <StyledLink to="/">Stat Checker</StyledLink> */}
             {/*<StyledLink to="/categories">Browse</StyledLink>*/}
           </NavLinkGroup>
         </StyledNav>
