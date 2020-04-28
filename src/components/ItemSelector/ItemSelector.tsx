@@ -10,6 +10,7 @@ import {
 import ItemList from "../ItemList/ItemList";
 import HoverItemInfoWrapper from "../HoverItemInfoWrapper/HoverItemInfoWrapper";
 import icons from "../../img/icons.png";
+import Tooltip from "../Tooltip";
 
 export interface Icon {
   name: string;
@@ -154,9 +155,15 @@ const ItemSelector = (props: ItemSelectorProps) => {
             />
           </HoverItemInfoWrapper>
         ) : (
-          <>
+          <Tooltip
+            hideArrow
+            followCursor
+            placement="top"
+            trigger="hover"
+            tooltip={`Select ${props.id} item`}
+          >
             <IconDiv id={props.id} />
-          </>
+          </Tooltip>
         )}
       </ClickableArea>
       {isOpen && <ItemList />}

@@ -55,7 +55,7 @@ const GlobalStyles = createGlobalStyle`
 
     .tooltip-container {
       color: black;
-      width: 200px;
+      max-width: 200px;
     }
   }
 `;
