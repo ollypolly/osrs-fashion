@@ -8,6 +8,7 @@ import {
   selectCurrentLoadout,
 } from "../../pages/Loadout/loadoutSlice";
 import ItemList from "../ItemList/ItemList";
+import HoverItemInfoWrapper from "../HoverItemInfoWrapper/HoverItemInfoWrapper";
 
 export interface Icon {
   name: string;
@@ -85,11 +86,6 @@ const ItemSelector = (props: ItemSelectorProps) => {
     };
   }, [isOpen, dispatch]);
 
-  //TODO only load items when dropdown is opened
-
-  // TODO add onmousemove attribute to show dropdown where the user clicked
-  // TODO Make it so information about the current selected item is shown on hover (moves with the mouse like in game)
-
   return (
     <StyledDropdownContainer ref={dropdownRef} id={props.id}>
       <ClickableArea
@@ -100,16 +96,20 @@ const ItemSelector = (props: ItemSelectorProps) => {
         }
       >
         {currentLoadout && currentLoadout[props.id] ? (
-          <img
-            src={`https://raw.githubusercontent.com/osrsbox/osrsbox-db/master/docs/items-icons/${
-              currentLoadout[props.id]
-            }.png`}
-            height="32"
-            width="36"
-            alt="Icon"
-          />
+          <HoverItemInfoWrapper id={currentLoadout[props.id]}>
+            <img
+              src={`https://raw.githubusercontent.com/osrsbox/osrsbox-db/master/docs/items-icons/${
+                currentLoadout[props.id]
+              }.png`}
+              height="32"
+              width="36"
+              alt="Icon"
+            />
+          </HoverItemInfoWrapper>
         ) : (
-          <Icon src={props.icon.image} alt="Head Slot" />
+          <>
+            <Icon src={props.icon.image} alt="Head Slot" />
+          </>
         )}
       </ClickableArea>
       {isOpen && <ItemList />}

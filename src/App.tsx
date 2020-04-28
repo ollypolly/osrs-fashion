@@ -12,6 +12,7 @@ import { BrowserRouter, Route, Switch } from "react-router-dom";
 import Categories from "./pages/Categories/Categories";
 import Sidebar from "./components/Sidebar/Sidebar";
 import LoadoutList from "./pages/LoadoutList/LoadoutList";
+import { QueryParamProvider } from "use-query-params";
 
 export interface Theme extends DefaultTheme {
   backgroundColor: string;
@@ -52,6 +53,11 @@ const GlobalStyles = createGlobalStyle`
     h1, h2, h3 {
       margin: 0;
     }
+
+    .tooltip-container {
+      color: black;
+      width: 200px;
+    }
   }
 `;
 
@@ -73,9 +79,11 @@ const App = () => {
         <Nav />
         <Container>
           <Switch>
-            <Route exact path="/" component={Loadout} />
-            <Route exact path="/categories" component={Categories} />
-            <Route exact path="/list" component={LoadoutList} />
+            <QueryParamProvider ReactRouterRoute={Route}>
+              <Route exact path="/" component={Loadout} />
+              <Route exact path="/categories" component={Categories} />
+              <Route exact path="/list" component={LoadoutList} />
+            </QueryParamProvider>
           </Switch>
         </Container>
       </BrowserRouter>

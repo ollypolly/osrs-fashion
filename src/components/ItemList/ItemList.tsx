@@ -15,6 +15,8 @@ import { fetchItems } from "../../pages/Loadout/loadoutSlice";
 import ScaleLoader from "react-spinners/ScaleLoader";
 import { FaTimesCircle } from "react-icons/fa";
 import { transparentize } from "polished";
+import HoverItemInfoWrapper from "../HoverItemInfoWrapper/HoverItemInfoWrapper";
+import { StringParam, useQueryParams } from "use-query-params";
 
 const Dropdown = styled.div`
   position: absolute;
@@ -48,7 +50,7 @@ const StyledSearch = styled.input`
   }
 `;
 
-const CenteredDiv = styled.div`
+export const CenteredDiv = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
@@ -73,11 +75,6 @@ const FlexDiv = styled.div`
   }
 `;
 
-//TODO Add ability to browse by keyboard only
-// E.g. tab -> search -> arrow down -> enter
-
-//TODO Add 2h weapon support
-
 const ItemList = () => {
   const dispatch = useDispatch();
   const items = useSelector(selectItems);
@@ -88,7 +85,7 @@ const ItemList = () => {
   const itemsNotLoaded = !items[openDropdown];
 
   useEffect(() => {
-    //dispatch(setDropdownSearch(undefined));
+    dispatch(setDropdownSearch(undefined));
     if (itemsNotLoaded && !itemsLoading) {
       dispatch(fetchItems(openDropdown));
     }
@@ -118,7 +115,20 @@ const ItemList = () => {
             )}
           </FlexDiv>
 
-          <List height={275} itemCount={1000} itemSize={60} width={300}>
+          <List
+            height={275}
+            itemCount={
+              itemsNotLoaded
+                ? 1
+                : Object.values(items[openDropdown]).filter((item: any) =>
+                    item.name
+                      .toLowerCase()
+                      .includes(dropdownSearch?.toLowerCase() ?? "")
+                  ).length
+            }
+            itemSize={60}
+            width={300}
+          >
             {Item}
           </List>
         </>
@@ -149,6 +159,20 @@ const StyledListItem = styled.div`
 `;
 
 const Item = ({ index, style }: ItemProps) => {
+  const [query, setQuery] = useQueryParams({
+    head: StringParam,
+    cape: StringParam,
+    neck: StringParam,
+    ammo: StringParam,
+    weapon: StringParam,
+    body: StringParam,
+    shield: StringParam,
+    legs: StringParam,
+    hands: StringParam,
+    feet: StringParam,
+    ring: StringParam,
+    name: StringParam,
+  });
   const dispatch = useDispatch();
   const items = useSelector(selectItems);
   const openDropdown = useSelector(selectOpenDropdown);
@@ -174,16 +198,20 @@ const Item = ({ index, style }: ItemProps) => {
     <StyledListItem
       style={style}
       onClick={() => {
+        setQuery({ ...query, [openDropdown]: item.id }, "push");
+
         dispatch(setLoadoutItem({ id: item.id, name: openDropdown }));
         dispatch(setOpenDropdown(undefined));
       }}
     >
-      <img
-        src={`https://raw.githubusercontent.com/osrsbox/osrsbox-db/master/docs/items-icons/${item.id}.png`}
-        height="32"
-        width="36"
-        alt="Icon"
-      />
+      <HoverItemInfoWrapper id={item.id}>
+        <img
+          src={`https://raw.githubusercontent.com/osrsbox/osrsbox-db/master/docs/items-icons/${item.id}.png`}
+          height="32"
+          width="36"
+          alt="Icon"
+        />
+      </HoverItemInfoWrapper>
       {item.name}
     </StyledListItem>
   );

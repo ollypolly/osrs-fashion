@@ -3,6 +3,9 @@ import styled from "styled-components";
 import { darken } from "polished";
 import ItemSelector, { Icon } from "../ItemSelector/ItemSelector";
 import helmetIcon from "../../img/helmet-icon-gray.png";
+import { selectWeight } from "../../pages/Loadout/loadoutSlice";
+import { useSelector } from "react-redux";
+import { FaWeightHanging } from "react-icons/fa";
 
 export const Wrapper = styled.div`
   display: flex;
@@ -133,8 +136,6 @@ const WeightArea = styled.div`
   justify-content: center;
 `;
 
-//TODO add other icons
-
 export const icons: { [id: string]: Icon } = {
   head: {
     name: "Head",
@@ -183,11 +184,12 @@ export const icons: { [id: string]: Icon } = {
 };
 
 const LoadoutSelector = () => {
-  //TODO Add loading spinner
+  const weight = useSelector(selectWeight);
 
   return (
     <Wrapper>
       <h2>Loadout</h2>
+
       <LoadoutContainer>
         <ItemSelectorGridWrapper>
           <ItemSelectorGrid>
@@ -197,7 +199,9 @@ const LoadoutSelector = () => {
           </ItemSelectorGrid>
         </ItemSelectorGridWrapper>
         <WeightArea>
-          <p>Weight</p>
+          <p>
+            <FaWeightHanging /> {Math.round(weight)}kg
+          </p>
         </WeightArea>
       </LoadoutContainer>
     </Wrapper>
