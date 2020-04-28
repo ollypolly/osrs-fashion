@@ -57,13 +57,11 @@ const NavLinkGroup = styled.div`
   } */
 
   .subtitle {
-    border: 1px solid ${(props) => props.theme.textColor};
-    border-radius: 5px;
-    padding: 0.1rem;
-    font-size: 0.9em;
+    /* border: 1px solid ${(props) => props.theme.textColor};
+    border-radius: 5px; */
+    font-size: 1.5em;
     color: ${(props) => props.theme.textColor};
     font-weight: 200;
-    margin-right: 0.3rem;
   }
 `;
 
@@ -77,10 +75,11 @@ const Nav = () => {
         <StyledNav>
           <NavLinkGroup>
             {/* <FaBars onClick={() => dispatch(toggleIsOpen())} /> */}
-            {/* <span className="subtitle">osrs</span> */}
+            <span className="subtitle">osrs</span>
             <StyledLink to="/">
-              <h2>fashionscape</h2>
+              <h2>.fashion</h2>
             </StyledLink>
+            {/* <span className="subtitle">Share osrs loadouts</span> */}
           </NavLinkGroup>
 
           <NavLinkGroup>
