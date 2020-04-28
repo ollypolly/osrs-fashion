@@ -141,10 +141,11 @@ const WeightArea = styled.div`
 
 const ClearIcon = styled.div`
   position: absolute;
-  top: 15px;
-  right: 15px;
+  top: 18px;
+  right: 18px;
 
   svg {
+    font-size: 1.5em;
     cursor: pointer;
 
     transition: color 0.1s ease-in;

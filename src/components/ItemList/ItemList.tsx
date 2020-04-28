@@ -85,7 +85,7 @@ const FlexDiv = styled.div`
 const ClearIcon = styled.div`
   position: absolute;
   top: 5px;
-  right: 10px;
+  right: 14px;
 
   svg {
     font-size: 0.7em;
