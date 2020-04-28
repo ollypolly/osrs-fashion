@@ -1,11 +1,13 @@
 import React from "react";
 import styled from "styled-components";
-import { darken } from "polished";
+import { darken, transparentize } from "polished";
 import ItemSelector, { Icon } from "../ItemSelector/ItemSelector";
 import helmetIcon from "../../img/helmet-icon-gray.png";
-import { selectWeight } from "../../pages/Loadout/loadoutSlice";
-import { useSelector } from "react-redux";
-import { FaWeightHanging } from "react-icons/fa";
+import { selectWeight, setLoadout } from "../../pages/Loadout/loadoutSlice";
+import { useSelector, useDispatch } from "react-redux";
+import { FaWeightHanging, FaEraser } from "react-icons/fa";
+import Tooltip from "../Tooltip";
+import { useQueryParams, StringParam } from "use-query-params";
 
 export const Wrapper = styled.div`
   display: flex;
@@ -40,13 +42,15 @@ export const LoadoutContainer = styled(ContentContainer)`
   justify-content: center;
   align-items: center;
   flex-direction: column;
+
+  position: relative;
 `;
 
 const ItemSelectorGridWrapper = styled.div`
   display: flex;
   justify-content: center;
 `;
-//loadout grid
+
 const ItemSelectorGrid = styled.div`
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -136,6 +140,25 @@ const WeightArea = styled.div`
   justify-content: center;
 `;
 
+const ClearIcon = styled.div`
+  position: absolute;
+  top: 15px;
+  right: 15px;
+
+  svg {
+    cursor: pointer;
+
+    transition: color 0.1s ease-in;
+    color: ${(props) => transparentize(0.5, props.theme.textColor)};
+  }
+
+  &:hover {
+    svg {
+      color: ${(props) => props.theme.textColor};
+    }
+  }
+`;
+
 export const icons: { [id: string]: Icon } = {
   head: {
     name: "Head",
@@ -185,6 +208,11 @@ export const icons: { [id: string]: Icon } = {
 
 const LoadoutSelector = () => {
   const weight = useSelector(selectWeight);
+  const dispatch = useDispatch();
+
+  const [query, setQuery] = useQueryParams({
+    name: StringParam,
+  });
 
   return (
     <Wrapper>
@@ -192,6 +220,22 @@ const LoadoutSelector = () => {
 
       <LoadoutContainer>
         <ItemSelectorGridWrapper>
+          <Tooltip
+            hideArrow
+            followCursor
+            placement="top"
+            trigger="hover"
+            tooltip="Clear all"
+          >
+            <ClearIcon
+              onClick={() => {
+                setQuery(query, "push");
+                dispatch(setLoadout({}));
+              }}
+            >
+              <FaEraser />
+            </ClearIcon>
+          </Tooltip>
           <ItemSelectorGrid>
             {Object.keys(icons).map((icon) => (
               <ItemSelector key={icon} id={icon} icon={icons[icon]} />
