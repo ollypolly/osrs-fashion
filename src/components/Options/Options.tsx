@@ -38,7 +38,7 @@ const Options = () => {
         followCursor
         placement="top"
         trigger="hover"
-        tooltip={copied ? "Copied!" : "Copy to Clipboard"}
+        tooltip={copied ? "Copied!" : "Copy URL to Clipboard"}
       >
         <LinkIcon title="Copy URL to Clipboard">
           <FaCopy

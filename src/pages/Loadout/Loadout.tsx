@@ -12,6 +12,7 @@ import {
   selectAllItems,
   setLoadoutName,
   selectLoadoutName,
+  selectAllItemsError,
 } from "./loadoutSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { CenteredDiv } from "../../components/ItemList/ItemList";
@@ -55,10 +56,13 @@ const LoadoutHeader = styled.div`
   }
 
   @media screen and (max-width: 541px) {
-    flex-direction: column;
-    align-items: flex-start;
-
     div {
+      flex-direction: column;
+      align-items: flex-start;
+      margin-bottom: 0;
+    }
+
+    input {
       margin-bottom: 0.5rem;
     }
   }
@@ -116,6 +120,8 @@ const MainContent = styled.div`
 const Loadout = () => {
   const dispatch = useDispatch();
   const allItemsLoading = useSelector(selectAllItemsLoading);
+  const allItemsError = useSelector(selectAllItemsError);
+
   const allItems = useSelector(selectAllItems);
   const loadoutName = useSelector(selectLoadoutName);
 
@@ -144,17 +150,19 @@ const Loadout = () => {
     const name = clonedParams.name;
     delete clonedParams.name;
 
-    if (clonedParams && clonedParams.head && !allItemsLoading) {
+    if (Object.keys(clonedParams).length !== 0 && !allItemsLoading) {
       dispatch(setLoadout(clonedParams));
-      if (name) {
-        dispatch(setLoadoutName(name));
-      }
+    }
+    if (name) {
+      dispatch(setLoadoutName(name));
     }
   }, [allItemsLoading, dispatch, allItems]);
 
   return (
     <>
-      {allItemsLoading ? (
+      {allItemsError ? (
+        <p>{allItemsError}</p>
+      ) : allItemsLoading ? (
         <CenteredDiv>
           <ScaleLoader color={"#4ecca3"} loading={allItemsLoading} />
         </CenteredDiv>
