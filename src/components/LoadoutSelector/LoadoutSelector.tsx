@@ -189,6 +189,7 @@ const LoadoutSelector = () => {
   return (
     <Wrapper>
       <h2>Loadout</h2>
+
       <LoadoutContainer>
         <ItemSelectorGridWrapper>
           <ItemSelectorGrid>

@@ -1,7 +1,8 @@
-import React from "react";
-import { FaSave, FaTrash, FaShare } from "react-icons/fa";
+import React, { useState } from "react";
+import { FaCopy } from "react-icons/fa";
 import styled from "styled-components";
 import { transparentize } from "polished";
+import Tooltip from "../Tooltip";
 
 const Links = styled.ul`
   list-style: none;
@@ -28,9 +29,27 @@ const LinkIcon = styled.li`
 `;
 
 const Options = () => {
+  const [copied, setCopied] = useState(false);
+
   return (
     <Links>
-      <LinkIcon title="Save Loadout">
+      <Tooltip
+        hideArrow
+        followCursor
+        placement="top"
+        trigger="hover"
+        tooltip={copied ? "Copied!" : "Copy to Clipboard"}
+      >
+        <LinkIcon title="Copy URL to Clipboard">
+          <FaCopy
+            onClick={() => {
+              navigator.clipboard.writeText(window.location.href);
+              setCopied(true);
+            }}
+          />
+        </LinkIcon>
+      </Tooltip>
+      {/* <LinkIcon title="Save Loadout">
         <FaSave />
       </LinkIcon>
       <LinkIcon title="Delete Loadout">
@@ -38,7 +57,7 @@ const Options = () => {
       </LinkIcon>
       <LinkIcon title="Share Loadout">
         <FaShare />
-      </LinkIcon>
+      </LinkIcon> */}
     </Links>
   );
 };

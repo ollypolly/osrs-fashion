@@ -16,6 +16,7 @@ import ScaleLoader from "react-spinners/ScaleLoader";
 import { FaTimesCircle } from "react-icons/fa";
 import { transparentize } from "polished";
 import HoverItemInfoWrapper from "../HoverItemInfoWrapper/HoverItemInfoWrapper";
+import { StringParam, useQueryParams } from "use-query-params";
 
 const Dropdown = styled.div`
   position: absolute;
@@ -158,6 +159,20 @@ const StyledListItem = styled.div`
 `;
 
 const Item = ({ index, style }: ItemProps) => {
+  const [query, setQuery] = useQueryParams({
+    head: StringParam,
+    cape: StringParam,
+    neck: StringParam,
+    ammo: StringParam,
+    weapon: StringParam,
+    body: StringParam,
+    shield: StringParam,
+    legs: StringParam,
+    hands: StringParam,
+    feet: StringParam,
+    ring: StringParam,
+    name: StringParam,
+  });
   const dispatch = useDispatch();
   const items = useSelector(selectItems);
   const openDropdown = useSelector(selectOpenDropdown);
@@ -183,6 +198,8 @@ const Item = ({ index, style }: ItemProps) => {
     <StyledListItem
       style={style}
       onClick={() => {
+        setQuery({ ...query, [openDropdown]: item.id }, "push");
+
         dispatch(setLoadoutItem({ id: item.id, name: openDropdown }));
         dispatch(setOpenDropdown(undefined));
       }}

@@ -1,19 +1,35 @@
-import React from "react";
+import React, { useEffect } from "react";
 import LoadoutSelector from "../../components/LoadoutSelector/LoadoutSelector";
 import StatsViewer from "../../components/StatsViewer/StatsViewer";
 import styled from "styled-components";
 import { transparentize } from "polished";
+import Options from "../../components/Options/Options";
+import qs from "query-string";
+import {
+  selectAllItemsLoading,
+  setLoadout,
+  fetchAllItems,
+  selectAllItems,
+  setLoadoutName,
+  selectLoadoutName,
+} from "./loadoutSlice";
+import { useDispatch, useSelector } from "react-redux";
+import { CenteredDiv } from "../../components/ItemList/ItemList";
+import ScaleLoader from "react-spinners/ScaleLoader";
+import { StringParam, useQueryParams } from "use-query-params";
+
+// If url parameter exists for this part of the loadout, load it in and update the loadout
 
 // Have isEditable Props
 
 export const StyledBigInput = styled.input`
+  font-family: 'Inter', sans-serif;
   font-size: 2em;
-  font-weight: bold;
+  font-weight: bolder;
   background: none;
   border: none;
   outline: none;
   color: ${(props) => props.theme.textColor};
-  margin-bottom: 0.2rem;
   padding: 0;
   width: 100%;
 
@@ -30,21 +46,23 @@ export const StyledBigInput = styled.input`
   
 `;
 
-// const LoadoutHeader = styled.div`
-//   display: flex;
-//   align-items: center;
-//   justify-content: space-between;
-//   margin-bottom: 1.5rem;
+const LoadoutHeader = styled.div`
+  div {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 3rem;
+  }
 
-//   @media screen and (max-width: 541px) {
-//     flex-direction: column;
-//     align-items: flex-start;
+  @media screen and (max-width: 541px) {
+    flex-direction: column;
+    align-items: flex-start;
 
-//     div {
-//       margin-bottom: 0.5rem;
-//     }
-//   }
-// `;
+    div {
+      margin-bottom: 0.5rem;
+    }
+  }
+`;
 
 const MainContent = styled.div`
   display: flex;
@@ -96,29 +114,85 @@ const MainContent = styled.div`
 // `;
 
 const Loadout = () => {
+  const dispatch = useDispatch();
+  const allItemsLoading = useSelector(selectAllItemsLoading);
+  const allItems = useSelector(selectAllItems);
+  const loadoutName = useSelector(selectLoadoutName);
+
+  const [query, setQuery] = useQueryParams({
+    head: StringParam,
+    cape: StringParam,
+    neck: StringParam,
+    ammo: StringParam,
+    weapon: StringParam,
+    body: StringParam,
+    shield: StringParam,
+    legs: StringParam,
+    hands: StringParam,
+    feet: StringParam,
+    ring: StringParam,
+    name: StringParam,
+  });
+
+  useEffect(() => {
+    if (!allItems) {
+      dispatch(fetchAllItems());
+    }
+
+    const params = qs.parse(window.location.search);
+    const clonedParams = { ...params };
+    const name = clonedParams.name;
+    delete clonedParams.name;
+
+    if (clonedParams && clonedParams.head && !allItemsLoading) {
+      dispatch(setLoadout(clonedParams));
+      if (name) {
+        dispatch(setLoadoutName(name));
+      }
+    }
+  }, [allItemsLoading, dispatch, allItems]);
+
   return (
     <>
-      {/*<LoadoutHeader>
-        <div>
-          <StyledBigInput placeholder="Enter Loadout Name..." />
-          <StyledCategory>
+      {allItemsLoading ? (
+        <CenteredDiv>
+          <ScaleLoader color={"#4ecca3"} loading={allItemsLoading} />
+        </CenteredDiv>
+      ) : (
+        <>
+          <LoadoutHeader>
+            <div>
+              <StyledBigInput
+                value={loadoutName ?? ""}
+                placeholder="Enter Loadout Name..."
+                onChange={(event) => {
+                  setQuery({ ...query, name: event.target.value }, "push");
+                  dispatch(setLoadoutName(event.target.value));
+                }}
+              />
+              {/*<StyledCategory>
             <h2>Select Category</h2>
             <FaCaretDown />
-          </StyledCategory>
-        </div>
+          </StyledCategory>*/}
 
-        <Options />
-      </LoadoutHeader>
-      <DescriptionContainer>
+              <Options />
+            </div>
+          </LoadoutHeader>
+
+          {/*<DescriptionContainer>
         <StyledDescription placeholder="Enter Description..." />
       </DescriptionContainer>*/}
 
-      <MainContent>
-        <LoadoutSelector />
-        <StatsViewer />
+          <MainContent>
+            <>
+              <LoadoutSelector />
+              <StatsViewer />
+            </>
 
-        {/*<InventorySelector />*/}
-      </MainContent>
+            {/*<InventorySelector />*/}
+          </MainContent>
+        </>
+      )}
     </>
   );
 };

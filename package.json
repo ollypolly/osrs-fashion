@@ -17,6 +17,7 @@
     "@types/redux-thunk": "^2.1.0",
     "@types/styled-components": "^5.1.0",
     "polished": "^3.5.2",
+    "query-string": "^6.12.1",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-icons": "^3.10.0",
@@ -29,7 +30,8 @@
     "redux-persist": "^6.0.0",
     "redux-thunk": "^2.3.0",
     "styled-components": "^5.1.0",
-    "typescript": "~3.7.2"
+    "typescript": "~3.7.2",
+    "use-query-params": "^1.1.1"
   },
   "scripts": {
     "start": "react-scripts start",

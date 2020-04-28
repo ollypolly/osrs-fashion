@@ -1,10 +1,9 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { Wrapper, ContentContainer } from "../LoadoutSelector/LoadoutSelector";
 import styled from "styled-components";
 import { transparentize } from "polished";
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 import {
-  fetchAllItems,
   selectAllItemsLoading,
   selectLoadoutValues,
   selectAllItemsError,
@@ -54,12 +53,6 @@ const StatsViewer = () => {
     prayer,
     ranged_strength,
   } = loadoutValues;
-
-  const dispatch = useDispatch();
-
-  useEffect(() => {
-    dispatch(fetchAllItems());
-  }, [dispatch]);
 
   return (
     <Wrapper>
