@@ -1,7 +1,7 @@
 export const loadouts = [
   {
     name: "Attack slash",
-    tagline: "Best in slot for attack using the slash style",
+    tagline: "...and Bandos was his name-o",
     category: "bis",
     background_image: "https://i.imgur.com/Xc089cL.png",
     loadout_name: "BIS: Attack slash 🤺",
@@ -21,7 +21,7 @@ export const loadouts = [
   },
   {
     name: "Attack ranged",
-    tagline: "",
+    tagline: "Take from the poor and give to the rich",
     loadout_name: "BIS: Attack ranged",
     category: "bis",
     background_image: "https://i.imgur.com/9klTDyL.png",
@@ -41,7 +41,7 @@ export const loadouts = [
   },
   {
     name: "Attack magic",
-    tagline: "",
+    tagline: "Channel your inner Merlin",
     loadout_name: "BIS: Attack magic",
     category: "bis",
     background_image: "https://i.imgur.com/69Meg7E.png",
@@ -61,7 +61,7 @@ export const loadouts = [
   },
   {
     name: "Graceful tunes 🎶",
-    tagline: "",
+    tagline: "Music to your ears",
     loadout_name: "Graceful tunes 🎶",
     category: "emo",
     background_image: "https://i.imgur.com/049tv3l.png",
@@ -96,7 +96,7 @@ export const loadouts = [
   },
   {
     name: "Post Max 3rd Age",
-    tagline: "",
+    tagline: "u/GravessOSRS",
     loadout_name: "Post Max 3rd Age",
     category: "emo",
     background_image: "https://i.redd.it/us3dmvw9rdr41.png",
@@ -231,7 +231,7 @@ export const loadouts = [
       head: 21900,
       body: 23975,
       feet: 21733,
-      neck: 6585,
+      neck: 12436,
       shield: 12817,
       weapon: 23680,
       hands: 13103,
