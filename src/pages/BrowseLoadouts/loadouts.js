@@ -1,6 +1,6 @@
 export const loadouts = [
   {
-    name: "Attack slash",
+    name: "Attack - Slash",
     tagline: "...and Bandos was his name-o",
     category: "bis",
     background_image: "https://i.imgur.com/Xc089cL.png",
@@ -20,7 +20,7 @@ export const loadouts = [
     },
   },
   {
-    name: "Attack ranged",
+    name: "Attack - Ranged",
     tagline: "Take from the poor and give to the rich",
     loadout_name: "BIS: Attack ranged",
     category: "bis",
@@ -40,7 +40,7 @@ export const loadouts = [
     },
   },
   {
-    name: "Attack magic",
+    name: "Attack - Magic",
     tagline: "Channel your inner Merlin",
     loadout_name: "BIS: Attack magic",
     category: "bis",
