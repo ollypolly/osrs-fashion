@@ -11,7 +11,7 @@ export interface LoadoutState {
   dropdownSearch?: string;
   loadout?: { [id: string]: string };
   loadoutName?: string;
-  openImageUrl?: string;
+  openModalContent?: any;
 }
 
 export const fetchItems = createAsyncThunk(
@@ -63,8 +63,8 @@ export const loadoutSlice = createSlice({
     setLoadoutName: (state, action) => {
       state.loadoutName = action.payload;
     },
-    setOpenImageUrl: (state, action) => {
-      state.openImageUrl = action.payload;
+    setOpenModalContent: (state, action) => {
+      state.openModalContent = action.payload;
     },
   },
   extraReducers: (builder) => {
@@ -173,8 +173,8 @@ export const selectWeight = (state: GlobalState) => {
 export const selectLoadoutName = (state: GlobalState) =>
   state.loadoutReducer.loadoutName;
 
-export const selectOpenImageUrl = (state: GlobalState) =>
-  state.loadoutReducer.openImageUrl;
+export const selectOpenModalContent = (state: GlobalState) =>
+  state.loadoutReducer.openModalContent;
 
 export const {
   setOpenDropdown,
@@ -182,7 +182,7 @@ export const {
   setLoadout,
   setDropdownSearch,
   setLoadoutName,
-  setOpenImageUrl,
+  setOpenModalContent,
 } = loadoutSlice.actions;
 
 export default loadoutSlice.reducer;

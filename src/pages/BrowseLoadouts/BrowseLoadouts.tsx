@@ -5,8 +5,8 @@ import {
   setLoadout,
   fetchAllItems,
   selectAllItems,
-  selectOpenImageUrl,
-  setOpenImageUrl,
+  selectOpenModalContent,
+  setOpenModalContent,
   selectAllItemsLoading,
 } from "../Loadout/loadoutSlice";
 import { transparentize } from "polished";
@@ -103,10 +103,12 @@ const PopUpLoadoutSelector = styled.div<PopUpLoadoutSelectorProps>`
   left: 0;
   right: 0;
   background: rgba(0, 0, 0, 0.6);
-  transition: opacity 500ms;
   z-index: 999;
   visibility: ${(props) => (props.hidden ? "hidden" : "visible")};
   opacity: ${(props) => (props.hidden ? "0" : "1")};
+  display: flex;
+  justify-content: center;
+  align-items: center;
 
   .popup {
     position: relative;
@@ -164,6 +166,10 @@ const PopUpLoadoutSelector = styled.div<PopUpLoadoutSelectorProps>`
       }
     }
   }
+
+  @media screen and (max-width: 541px) {
+    display: block;
+  }
 `;
 
 const StyledHeading = styled.div``;
@@ -195,7 +201,7 @@ const BrowseLoadouts = () => {
   const allItemsLoading = useSelector(selectAllItemsLoading);
   const [hideLoadout, setHideLoadout] = useState(true);
   const popupRef = useRef<HTMLDivElement>(null);
-  const openImageUrl = useSelector(selectOpenImageUrl);
+  const openModalContent = useSelector(selectOpenModalContent);
 
   useEffect(() => {
     if (!allItems) {
@@ -210,6 +216,8 @@ const BrowseLoadouts = () => {
         }
         // outside click
         setHideLoadout(true);
+        dispatch(setLoadout(undefined));
+        dispatch(setOpenModalContent(undefined));
       }
     };
 
@@ -233,7 +241,11 @@ const BrowseLoadouts = () => {
       <PopUpLoadoutSelector hidden={hideLoadout}>
         <div className="popup" ref={popupRef}>
           <div className="image-container">
-            <img className="full-image" src={openImageUrl} alt="Loadout" />
+            <img
+              className="full-image"
+              src={openModalContent && openModalContent.background_image}
+              alt="Loadout"
+            />
           </div>
 
           <LoadoutSelector />
@@ -267,10 +279,10 @@ const BrowseLoadouts = () => {
                       backgroundImage: `linear-gradient( rgba(0, 0, 0, 0.05), rgba(0, 0, 0, 0.05) ), url(${loadout.background_image})`,
                     }}
                     key={loadout.name}
-                    onClick={() => {
-                      dispatch(setLoadout(loadout.loadout));
+                    onClick={async () => {
+                      await dispatch(setLoadout(loadout.loadout));
+                      dispatch(setOpenModalContent(loadout));
                       setHideLoadout(false);
-                      dispatch(setOpenImageUrl(loadout.background_image));
                     }}
                   >
                     <div className="name-and-tag">
