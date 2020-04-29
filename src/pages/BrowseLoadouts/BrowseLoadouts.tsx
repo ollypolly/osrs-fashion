@@ -179,17 +179,17 @@ const categoryMap: { [id: string]: any } = {
     name: "Best of r/fashionscape",
     tagline: "Like r/malefashion but better",
   },
-  bis: { name: "Best In Slot", tagline: "It doesn't get better than this" },
-  emo: { name: "Emo fits", tagline: "For when you're feeling extra emosh" },
+  bis: { name: "Best in Slot", tagline: "It doesn't get better than this" },
+  emo: { name: "Hot Topics", tagline: "For when you're feeling extra edgy" },
 
-  skill: {
-    name: "Working hard or hardly workin'",
-    tagline: "For when you need to look good whilst skilling",
-  },
-  pet: {
-    name: "Walking the dog",
-    tagline: "Outfits which use a pet to accessorise",
-  },
+  // skill: {
+  //   name: "Working hard or hardly workin'",
+  //   tagline: "For when you need to look good whilst skilling",
+  // },
+  // pet: {
+  //   name: "Walking the dog",
+  //   tagline: "Outfits which use a pet to accessorise",
+  // },
 };
 
 //TODO Add bouncing arrow to say scroll more on the right
