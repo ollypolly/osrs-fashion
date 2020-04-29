@@ -84,9 +84,9 @@ const StatsViewer = () => {
             <StatArea>
               <h3>Other bonuses</h3>
               <ul>
-                <li>Melee Strength: {melee_strength}</li>
-                <li>Ranged Strength: {ranged_strength}</li>
-                <li>Magic Damage: {magic_damage}</li>
+                <li>Melee strength: {melee_strength}</li>
+                <li>Ranged strength: {ranged_strength}</li>
+                <li>Magic damage: {magic_damage}</li>
                 <li>Prayer: {prayer}</li>
               </ul>
             </StatArea>
