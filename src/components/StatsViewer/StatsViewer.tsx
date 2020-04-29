@@ -62,7 +62,7 @@ const StatsViewer = () => {
         ) : !allItemsLoading ? (
           <div>
             <StatArea>
-              <h3>Attack Bonuses</h3>
+              <h3>Attack bonus</h3>
               <ul>
                 <li>Stab: {attack_stab}</li>
                 <li>Slash: {attack_slash}</li>
@@ -72,7 +72,7 @@ const StatsViewer = () => {
               </ul>
             </StatArea>
             <StatArea>
-              <h3>Defense Bonuses</h3>
+              <h3>Defense bonus</h3>
               <ul>
                 <li>Stab: {defence_stab}</li>
                 <li>Slash: {defence_slash}</li>
@@ -82,7 +82,7 @@ const StatsViewer = () => {
               </ul>
             </StatArea>
             <StatArea>
-              <h3>Other Bonuses</h3>
+              <h3>Other bonuses</h3>
               <ul>
                 <li>Melee Strength: {melee_strength}</li>
                 <li>Ranged Strength: {ranged_strength}</li>

@@ -177,7 +177,7 @@ const Loadout = () => {
             <div>
               <StyledBigInput
                 value={loadoutName ?? ""}
-                placeholder="Enter Loadout Name..."
+                placeholder="Enter loadout name..."
                 onChange={(event) => {
                   setQuery({ ...query, name: event.target.value }, "push");
                   dispatch(setLoadoutName(event.target.value));
