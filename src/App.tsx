@@ -77,11 +77,15 @@ html {
 `;
 
 export const Container = styled.div`
-  padding: 2rem 1.5rem 1.5rem 1.5rem;
   max-width: 900px;
   margin: auto;
+  width: 100%;
 
   flex: 1 0 auto;
+`;
+
+const Padding = styled.div`
+  padding: 1.5rem;
 `;
 
 const App = () => {
@@ -95,14 +99,16 @@ const App = () => {
         <Sidebar />
         <Nav />
         <Container>
-          <Switch>
-            <QueryParamProvider ReactRouterRoute={Route}>
-              <Route exact path="/" component={Loadout} />
-              <Route exact path="/categories" component={Categories} />
-              <Route exact path="/list" component={LoadoutList} />
-              <Route exact path="/browse" component={BrowseLoadouts} />
-            </QueryParamProvider>
-          </Switch>
+          <Padding>
+            <Switch>
+              <QueryParamProvider ReactRouterRoute={Route}>
+                <Route exact path="/" component={Loadout} />
+                <Route exact path="/categories" component={Categories} />
+                <Route exact path="/list" component={LoadoutList} />
+                <Route exact path="/browse" component={BrowseLoadouts} />
+              </QueryParamProvider>
+            </Switch>
+          </Padding>
         </Container>
         <Footer />
       </BrowserRouter>

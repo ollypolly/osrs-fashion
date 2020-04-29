@@ -9,8 +9,10 @@ import {
 import { transparentize } from "polished";
 import { loadouts } from "./loadouts";
 import LoadoutSelector from "../../components/LoadoutSelector/LoadoutSelector";
+import { FaTimes } from "react-icons/fa";
 
 const StyledBrowseMore = styled.div`
+  overflow: hidden;
   hr {
     border-color: ${(props) => transparentize(0.8, props.theme.textColor)};
   }
@@ -35,20 +37,6 @@ const FlexDiv = styled.div`
   margin-bottom: 1rem;
   overflow: auto;
   white-space: nowrap;
-
-  button {
-    margin: 0.3rem;
-    padding: 0.2rem;
-    background: lightgray;
-    border-radius: 4px;
-    cursor: pointer;
-    transition: background 0.1s ease-in-out;
-    border: none;
-
-    &:hover {
-      background: gray;
-    }
-  }
 `;
 
 const StyledLoadoutCard = styled.div`
@@ -117,12 +105,29 @@ const PopUpLoadoutSelector = styled.div<PopUpLoadoutSelectorProps>`
   opacity: ${(props) => (props.hidden ? "0" : "1")};
 
   .popup {
+    position: relative;
     margin: 70px auto;
     padding: 20px;
     border-radius: 5px;
-    width: 30%;
+    width: 300px;
     position: relative;
     transition: all 5s ease-in-out;
+
+    .close-icon {
+      position: absolute;
+      font-size: 1.5em;
+      top: 48px;
+      left: 45px;
+
+      cursor: pointer;
+
+      transition: color 0.1s ease-in;
+      color: ${(props) => transparentize(0.5, props.theme.textColor)};
+
+      &:hover {
+        color: ${(props) => props.theme.textColor};
+      }
+    }
   }
 `;
 
@@ -186,6 +191,10 @@ const BrowseLoadouts = () => {
       <PopUpLoadoutSelector hidden={hideLoadout}>
         <div className="popup" ref={popupRef}>
           <LoadoutSelector />
+          <FaTimes
+            className="close-icon"
+            onClick={() => setHideLoadout(true)}
+          />
         </div>
       </PopUpLoadoutSelector>
 
@@ -194,7 +203,7 @@ const BrowseLoadouts = () => {
         const categoryInfo = categoryMap[category];
 
         return (
-          <React.Fragment key={category}>
+          <div key={category}>
             <StyledHeading>
               <h2>{categoryInfo.name}</h2>
               <small>{categoryInfo.tagline}</small>
@@ -220,7 +229,7 @@ const BrowseLoadouts = () => {
                   </StyledLoadoutCard>
                 ))}
             </FlexDiv>
-          </React.Fragment>
+          </div>
         );
       })}
     </StyledBrowseMore>
