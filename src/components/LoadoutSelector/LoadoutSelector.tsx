@@ -8,7 +8,7 @@ import {
   selectCurrentLoadout,
 } from "../../pages/Loadout/loadoutSlice";
 import { useSelector, useDispatch } from "react-redux";
-import { FaWeightHanging, FaTrashAlt } from "react-icons/fa";
+import { FaWeightHanging, FaBan } from "react-icons/fa";
 import Tooltip from "../Tooltip";
 import { useQueryParams, StringParam } from "use-query-params";
 
@@ -247,7 +247,7 @@ const LoadoutSelector = () => {
                   dispatch(setLoadout({}));
                 }}
               >
-                <FaTrashAlt />
+                <FaBan />
               </ClearIcon>
             </Tooltip>
           )}

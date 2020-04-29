@@ -15,7 +15,7 @@ import {
 import styled from "styled-components";
 import { fetchItems } from "../../pages/Loadout/loadoutSlice";
 import ScaleLoader from "react-spinners/ScaleLoader";
-import { FaTimesCircle, FaTrashAlt } from "react-icons/fa";
+import { FaTimesCircle, FaBan } from "react-icons/fa";
 import { transparentize } from "polished";
 import HoverItemInfoWrapper from "../HoverItemInfoWrapper/HoverItemInfoWrapper";
 import { StringParam, useQueryParams } from "use-query-params";
@@ -163,7 +163,7 @@ const ItemList = () => {
                   dispatch(setOpenDropdown(undefined));
                 }}
               >
-                <FaTrashAlt />
+                <FaBan />
               </ClearIcon>
             </Tooltip>
           )}
