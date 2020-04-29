@@ -150,8 +150,8 @@ const ItemSelector = (props: ItemSelectorProps) => {
                 src={`https://raw.githubusercontent.com/osrsbox/osrsbox-db/master/docs/items-icons/${
                   currentLoadout[props.id]
                 }.png`}
-                height="32"
-                width="36"
+                height="44"
+                width="48"
                 alt="Icon"
               />
             </HoverItemInfoWrapper>

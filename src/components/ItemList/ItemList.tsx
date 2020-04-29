@@ -313,8 +313,8 @@ const Item = ({ index, style }: ItemProps) => {
       <HoverItemInfoWrapper id={item.id}>
         <img
           src={`https://raw.githubusercontent.com/osrsbox/osrsbox-db/master/docs/items-icons/${item.id}.png`}
-          height="32"
-          width="36"
+          height="44"
+          width="48"
           alt="Icon"
         />
       </HoverItemInfoWrapper>
