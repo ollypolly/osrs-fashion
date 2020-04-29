@@ -5,11 +5,16 @@ import {
   setLoadout,
   fetchAllItems,
   selectAllItems,
+  selectOpenImageUrl,
+  setOpenImageUrl,
+  selectAllItemsLoading,
 } from "../Loadout/loadoutSlice";
 import { transparentize } from "polished";
 import { loadouts } from "./loadouts";
 import LoadoutSelector from "../../components/LoadoutSelector/LoadoutSelector";
 import { FaTimes } from "react-icons/fa";
+import { CenteredDiv } from "../../components/ItemList/ItemList";
+import ScaleLoader from "react-spinners/ScaleLoader";
 
 const StyledBrowseMore = styled.div`
   overflow: hidden;
@@ -94,6 +99,7 @@ interface PopUpLoadoutSelectorProps {
 
 const PopUpLoadoutSelector = styled.div<PopUpLoadoutSelectorProps>`
   position: fixed;
+  overflow-y: scroll;
   top: 0;
   bottom: 0;
   left: 0;
@@ -106,14 +112,33 @@ const PopUpLoadoutSelector = styled.div<PopUpLoadoutSelectorProps>`
 
   .popup {
     position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     margin: 70px auto;
     padding: 20px;
     border-radius: 5px;
-    width: 300px;
+    max-width: 400px;
+    height: 450px;
     position: relative;
-    transition: all 5s ease-in-out;
+
+    .clear-icon {
+      display: none;
+    }
+
+    .image-container {
+      height: 100%;
+      align-self: center;
+      box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    }
+
+    .full-image {
+      height: 100%;
+      align-self: center;
+    }
 
     .close-icon {
+      display: none;
       position: absolute;
       font-size: 1.5em;
       top: 48px;
@@ -128,18 +153,31 @@ const PopUpLoadoutSelector = styled.div<PopUpLoadoutSelectorProps>`
         color: ${(props) => props.theme.textColor};
       }
     }
+
+    @media screen and (max-width: 541px) {
+      flex-direction: column;
+      width: 300px;
+      height: auto;
+
+      .full-image {
+        width: 100%;
+        align-self: center;
+        height: auto;
+      }
+    }
   }
 `;
 
 const StyledHeading = styled.div``;
 
 const categoryMap: { [id: string]: any } = {
-  bis: { name: "Best In Slot", tagline: "It doesn't get better than this" },
-  emo: { name: "Emo fits", tagline: "For when you're feeling extra emosh" },
   fashionscape: {
     name: "Best of r/fashionscape",
     tagline: "Like r/malefashion but better",
   },
+  bis: { name: "Best In Slot", tagline: "It doesn't get better than this" },
+  emo: { name: "Emo fits", tagline: "For when you're feeling extra emosh" },
+
   skill: {
     name: "Working hard or hardly workin'",
     tagline: "For when you need to look good whilst skilling",
@@ -156,8 +194,10 @@ const categoryMap: { [id: string]: any } = {
 const BrowseLoadouts = () => {
   const dispatch = useDispatch();
   const allItems = useSelector(selectAllItems);
+  const allItemsLoading = useSelector(selectAllItemsLoading);
   const [hideLoadout, setHideLoadout] = useState(true);
   const popupRef = useRef<HTMLDivElement>(null);
+  const openImageUrl = useSelector(selectOpenImageUrl);
 
   useEffect(() => {
     if (!allItems) {
@@ -186,10 +226,18 @@ const BrowseLoadouts = () => {
     };
   }, [dispatch, allItems, hideLoadout]);
 
-  return (
+  return allItemsLoading ? (
+    <CenteredDiv>
+      <ScaleLoader color={"#4ecca3"} loading={allItemsLoading} />
+    </CenteredDiv>
+  ) : (
     <StyledBrowseMore>
       <PopUpLoadoutSelector hidden={hideLoadout}>
         <div className="popup" ref={popupRef}>
+          <div className="image-container">
+            <img className="full-image" src={openImageUrl} alt="Loadout" />
+          </div>
+
           <LoadoutSelector />
           <FaTimes
             className="close-icon"
@@ -198,7 +246,7 @@ const BrowseLoadouts = () => {
         </div>
       </PopUpLoadoutSelector>
 
-      <h1>Browse loadouts</h1>
+      <h1>Some of our favs</h1>
       {Object.keys(categoryMap).map((category) => {
         const categoryInfo = categoryMap[category];
 
@@ -220,6 +268,7 @@ const BrowseLoadouts = () => {
                     onClick={() => {
                       dispatch(setLoadout(loadout.loadout));
                       setHideLoadout(false);
+                      dispatch(setOpenImageUrl(loadout.background_image));
                     }}
                   >
                     <div className="name-and-tag">

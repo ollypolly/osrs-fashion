@@ -242,6 +242,7 @@ const LoadoutSelector = () => {
               tooltip="Clear all"
             >
               <ClearIcon
+                className="clear-icon"
                 onClick={() => {
                   setQuery(query, "push");
                   dispatch(setLoadout({}));

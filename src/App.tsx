@@ -77,7 +77,7 @@ html {
 `;
 
 export const Container = styled.div`
-  max-width: 900px;
+  max-width: 1000px;
   margin: auto;
   width: 100%;
 
