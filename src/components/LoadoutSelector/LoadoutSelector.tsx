@@ -2,7 +2,11 @@ import React from "react";
 import styled from "styled-components";
 import { darken, transparentize } from "polished";
 import ItemSelector, { Icon } from "../ItemSelector/ItemSelector";
-import { selectWeight, setLoadout } from "../../pages/Loadout/loadoutSlice";
+import {
+  selectWeight,
+  setLoadout,
+  selectCurrentLoadout,
+} from "../../pages/Loadout/loadoutSlice";
 import { useSelector, useDispatch } from "react-redux";
 import { FaWeightHanging, FaTrashAlt } from "react-icons/fa";
 import Tooltip from "../Tooltip";
@@ -218,6 +222,7 @@ export const icons: { [id: string]: Icon } = {
 
 const LoadoutSelector = () => {
   const weight = useSelector(selectWeight);
+  const loadout = useSelector(selectCurrentLoadout);
   const dispatch = useDispatch();
 
   const [query, setQuery] = useQueryParams({
@@ -228,22 +233,24 @@ const LoadoutSelector = () => {
     <Wrapper>
       <LoadoutContainer>
         <ItemSelectorGridWrapper>
-          <Tooltip
-            hideArrow
-            followCursor
-            placement="top"
-            trigger="hover"
-            tooltip="Clear all"
-          >
-            <ClearIcon
-              onClick={() => {
-                setQuery(query, "push");
-                dispatch(setLoadout({}));
-              }}
+          {loadout && Object.keys(loadout).length !== 0 && (
+            <Tooltip
+              hideArrow
+              followCursor
+              placement="top"
+              trigger="hover"
+              tooltip="Clear all"
             >
-              <FaTrashAlt />
-            </ClearIcon>
-          </Tooltip>
+              <ClearIcon
+                onClick={() => {
+                  setQuery(query, "push");
+                  dispatch(setLoadout({}));
+                }}
+              >
+                <FaTrashAlt />
+              </ClearIcon>
+            </Tooltip>
+          )}
           <ItemSelectorGrid>
             {Object.keys(icons).map((icon) => (
               <ItemSelector key={icon} id={icon} icon={icons[icon]} />
