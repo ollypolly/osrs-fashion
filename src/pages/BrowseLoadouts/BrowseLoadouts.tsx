@@ -22,13 +22,11 @@ const StyledBrowseMore = styled.div`
     border-color: ${(props) => transparentize(0.8, props.theme.textColor)};
   }
 
-  h1 {
+  .heading {
     margin-bottom: 2rem;
-    color: ${(props) => transparentize(0.1, props.theme.textColor)};
-  }
-
-  h2 {
-    color: ${(props) => transparentize(0.1, props.theme.textColor)};
+    small {
+      font-size: 110%;
+    }
   }
 
   small {
@@ -246,7 +244,11 @@ const BrowseLoadouts = () => {
         </div>
       </PopUpLoadoutSelector>
 
-      <h1>Some of our favs</h1>
+      <div className="heading">
+        <h1>Looking for inspiration?</h1>
+        <small>Here's some of our favs</small>
+      </div>
+
       {Object.keys(categoryMap).map((category) => {
         const categoryInfo = categoryMap[category];
 

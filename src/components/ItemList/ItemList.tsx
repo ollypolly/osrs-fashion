@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useRef } from "react";
 import { FixedSizeList as List } from "react-window";
 import { useSelector, useDispatch } from "react-redux";
 import {
@@ -121,6 +121,8 @@ const ItemList = () => {
 
   const currentItem = loadout && allItems[loadout[openDropdown]];
 
+  const searchRef = useRef<HTMLInputElement>(null);
+
   const [query, setQuery] = useQueryParams({
     head: StringParam,
     cape: StringParam,
@@ -142,6 +144,10 @@ const ItemList = () => {
     dispatch(setDropdownSearch(undefined));
     if (itemsNotLoaded && !itemsLoading) {
       dispatch(fetchItems(openDropdown));
+    }
+
+    if (searchRef && searchRef.current) {
+      searchRef.current.focus();
     }
   }, [dispatch, itemsNotLoaded, itemsLoading, openDropdown]);
 
@@ -200,6 +206,7 @@ const ItemList = () => {
           )}
           <FlexDiv>
             <StyledSearch
+              ref={searchRef}
               placeholder="Search..."
               value={dropdownSearch ?? ""}
               onChange={(event) =>
