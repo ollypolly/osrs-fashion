@@ -1,9 +1,14 @@
-import React from "react";
+import React, { useEffect, useState, useRef } from "react";
 import styled from "styled-components";
-import { useDispatch } from "react-redux";
-import { setLoadout } from "../../pages/Loadout/loadoutSlice";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  setLoadout,
+  fetchAllItems,
+  selectAllItems,
+} from "../Loadout/loadoutSlice";
 import { transparentize } from "polished";
 import { loadouts } from "./loadouts";
+import LoadoutSelector from "../../components/LoadoutSelector/LoadoutSelector";
 
 const StyledBrowseMore = styled.div`
   hr {
@@ -95,6 +100,32 @@ const StyledLoadoutCard = styled.div`
   }
 `;
 
+interface PopUpLoadoutSelectorProps {
+  hidden: boolean;
+}
+
+const PopUpLoadoutSelector = styled.div<PopUpLoadoutSelectorProps>`
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: rgba(0, 0, 0, 0.6);
+  transition: opacity 500ms;
+  z-index: 999;
+  visibility: ${(props) => (props.hidden ? "hidden" : "visible")};
+  opacity: ${(props) => (props.hidden ? "0" : "1")};
+
+  .popup {
+    margin: 70px auto;
+    padding: 20px;
+    border-radius: 5px;
+    width: 30%;
+    position: relative;
+    transition: all 5s ease-in-out;
+  }
+`;
+
 const StyledHeading = styled.div``;
 
 const categoryMap: { [id: string]: any } = {
@@ -114,18 +145,50 @@ const categoryMap: { [id: string]: any } = {
   },
 };
 
-//TODO Have smooth scrolling back to top on click
 //TODO Add bouncing arrow to say scroll more on the right
 //TODO add filters e.g combat levels, fire cape
 
-//TODO move browse loadouts to seperate page, have loadout view pop up as modal when clicked on
-//TODO add centered popup equipment selector
-
 const BrowseLoadouts = () => {
   const dispatch = useDispatch();
+  const allItems = useSelector(selectAllItems);
+  const [hideLoadout, setHideLoadout] = useState(true);
+  const popupRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (!allItems) {
+      dispatch(fetchAllItems());
+    }
+
+    const handleClickOutside = (e: any) => {
+      if (popupRef && popupRef.current) {
+        if (popupRef.current.contains(e.target)) {
+          // inside click
+          return;
+        }
+        // outside click
+        setHideLoadout(true);
+      }
+    };
+
+    if (!hideLoadout) {
+      document.addEventListener("mousedown", handleClickOutside);
+    } else {
+      document.removeEventListener("mousedown", handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [dispatch, allItems, hideLoadout]);
 
   return (
     <StyledBrowseMore>
+      <PopUpLoadoutSelector hidden={hideLoadout}>
+        <div className="popup" ref={popupRef}>
+          <LoadoutSelector />
+        </div>
+      </PopUpLoadoutSelector>
+
       <h1>Browse loadouts</h1>
       {Object.keys(categoryMap).map((category) => {
         const categoryInfo = categoryMap[category];
@@ -147,6 +210,7 @@ const BrowseLoadouts = () => {
                     key={loadout.name}
                     onClick={() => {
                       dispatch(setLoadout(loadout.loadout));
+                      setHideLoadout(false);
                     }}
                   >
                     <div className="name-and-tag">

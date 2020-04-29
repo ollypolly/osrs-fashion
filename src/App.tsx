@@ -16,7 +16,7 @@ import LoadoutList from "./pages/LoadoutList/LoadoutList";
 import { QueryParamProvider } from "use-query-params";
 import Footer from "./components/Footer/Footer";
 import { toast } from "react-toastify";
-import BrowseLoadouts from "./components/BrowseLoadouts/BrowseLoadouts";
+import BrowseLoadouts from "./pages/BrowseLoadouts/BrowseLoadouts";
 
 export interface Theme extends DefaultTheme {
   backgroundColor: string;
