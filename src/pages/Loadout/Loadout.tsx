@@ -57,7 +57,8 @@ const LoadoutHeader = styled.div`
     display: flex;
     align-items: center;
     justify-content: space-between;
-    margin-bottom: 3rem;
+    max-width: 636px;
+    margin: 0 auto 3rem auto;
   }
 
   @media screen and (max-width: 541px) {
@@ -155,12 +156,10 @@ const Loadout = () => {
     const name = clonedParams.name;
     delete clonedParams.name;
 
-    if (Object.keys(clonedParams).length !== 0 && !allItemsLoading) {
+    if (!allItemsLoading) {
       dispatch(setLoadout(clonedParams));
     }
-    if (name) {
-      dispatch(setLoadoutName(name));
-    }
+    dispatch(setLoadoutName(name));
   }, [allItemsLoading, dispatch, allItems]);
 
   return (
