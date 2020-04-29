@@ -3,7 +3,6 @@ import { Link } from "react-router-dom";
 import styled from "styled-components";
 import { lighten } from "polished";
 import { FaSun, FaMoon } from "react-icons/fa";
-import { Container } from "../../App";
 import { useDispatch, useSelector } from "react-redux";
 import { transparentize } from "polished";
 import { toggleDarkMode, selectDarkMode } from "./navSlice";
@@ -41,6 +40,10 @@ const NavLinkGroup = styled.div`
   justify-content: space-between;
   align-items: center;
 
+  a {
+    margin-right: 1rem;
+  }
+
   svg {
     cursor: pointer;
     font-size: 1.5rem;
@@ -65,6 +68,12 @@ const NavLinkGroup = styled.div`
   }
 `;
 
+const Container = styled.div`
+  padding: 1.5rem;
+  max-width: 1100px;
+  margin: auto;
+`;
+
 const Nav = () => {
   const dispatch = useDispatch();
   const darkMode = useSelector(selectDarkMode);
@@ -83,6 +92,8 @@ const Nav = () => {
           </NavLinkGroup>
 
           <NavLinkGroup>
+            <StyledLink to="/">Create</StyledLink>
+            <StyledLink to="/browse">Browse</StyledLink>
             <Tooltip
               hideArrow
               followCursor
@@ -94,8 +105,6 @@ const Nav = () => {
                 {darkMode ? <FaSun /> : <FaMoon />}
               </div>
             </Tooltip>
-            {/* <StyledLink to="/">Stat Checker</StyledLink> */}
-            {/*<StyledLink to="/categories">Browse</StyledLink>*/}
           </NavLinkGroup>
         </StyledNav>
       </Container>

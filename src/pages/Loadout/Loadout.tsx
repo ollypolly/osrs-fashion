@@ -53,7 +53,7 @@ export const StyledBigInput = styled.input`
 `;
 
 const LoadoutHeader = styled.div`
-  div {
+  .header-area {
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -61,7 +61,7 @@ const LoadoutHeader = styled.div`
   }
 
   @media screen and (max-width: 541px) {
-    div {
+    .header-area {
       flex-direction: column;
       align-items: flex-start;
       margin-bottom: 0;
@@ -174,7 +174,7 @@ const Loadout = () => {
       ) : (
         <>
           <LoadoutHeader>
-            <div>
+            <div className="header-area">
               <StyledBigInput
                 value={loadoutName ?? ""}
                 placeholder="Enter loadout name..."
@@ -187,21 +187,17 @@ const Loadout = () => {
             <h2>Select Category</h2>
             <FaCaretDown />
           </StyledCategory>*/}
-
               <Options />
             </div>
           </LoadoutHeader>
-
           {/*<DescriptionContainer>
         <StyledDescription placeholder="Enter Description..." />
       </DescriptionContainer>*/}
-
           <MainContent>
             <>
               <LoadoutSelector />
               <StatsViewer />
             </>
-
             {/*<InventorySelector />*/}
           </MainContent>
         </>

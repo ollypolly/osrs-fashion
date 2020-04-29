@@ -16,6 +16,7 @@ import LoadoutList from "./pages/LoadoutList/LoadoutList";
 import { QueryParamProvider } from "use-query-params";
 import Footer from "./components/Footer/Footer";
 import { toast } from "react-toastify";
+import BrowseLoadouts from "./components/BrowseLoadouts/BrowseLoadouts";
 
 export interface Theme extends DefaultTheme {
   backgroundColor: string;
@@ -62,6 +63,7 @@ html {
     font-family: 'Inter', sans-serif;
     background: ${(props: ThemeProps<Theme>) => props.theme.backgroundColor};
     color: ${(props: ThemeProps<Theme>) => props.theme.textColor};
+    scroll-behavior: smooth;
 
     h1, h2, h3 {
       margin: 0;
@@ -75,8 +77,8 @@ html {
 `;
 
 export const Container = styled.div`
-  padding: 1.5rem;
-  max-width: 1100px;
+  padding: 2rem 1.5rem 1.5rem 1.5rem;
+  max-width: 900px;
   margin: auto;
 
   flex: 1 0 auto;
@@ -98,6 +100,7 @@ const App = () => {
               <Route exact path="/" component={Loadout} />
               <Route exact path="/categories" component={Categories} />
               <Route exact path="/list" component={LoadoutList} />
+              <Route exact path="/browse" component={BrowseLoadouts} />
             </QueryParamProvider>
           </Switch>
         </Container>
