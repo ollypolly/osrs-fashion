@@ -15,7 +15,7 @@ import {
 import styled from "styled-components";
 import { fetchItems } from "../../pages/Loadout/loadoutSlice";
 import ScaleLoader from "react-spinners/ScaleLoader";
-import { FaTimesCircle, FaEraser } from "react-icons/fa";
+import { FaTimesCircle, FaTrashAlt } from "react-icons/fa";
 import { transparentize } from "polished";
 import HoverItemInfoWrapper from "../HoverItemInfoWrapper/HoverItemInfoWrapper";
 import { StringParam, useQueryParams } from "use-query-params";
@@ -143,28 +143,30 @@ const ItemList = () => {
       ) : (
         <Wrapper>
           <strong>Select {openDropdown} item</strong>
-          <Tooltip
-            hideArrow
-            followCursor
-            placement="top"
-            trigger="hover"
-            tooltip={`Clear ${openDropdown} item`}
-          >
-            <ClearIcon
-              onClick={() => {
-                const queryClone: { [id: string]: any } = { ...query };
-                delete queryClone[openDropdown];
-
-                const loadoutClone: { [id: string]: any } = { ...loadout };
-                delete loadoutClone[openDropdown];
-                setQuery({ ...queryClone }, "push");
-                dispatch(setLoadout(loadoutClone));
-                dispatch(setOpenDropdown(undefined));
-              }}
+          {loadout && loadout[openDropdown] && (
+            <Tooltip
+              hideArrow
+              followCursor
+              placement="top"
+              trigger="hover"
+              tooltip={`Clear ${openDropdown} item`}
             >
-              <FaEraser />
-            </ClearIcon>
-          </Tooltip>
+              <ClearIcon
+                onClick={() => {
+                  const queryClone: { [id: string]: any } = { ...query };
+                  delete queryClone[openDropdown];
+
+                  const loadoutClone: { [id: string]: any } = { ...loadout };
+                  delete loadoutClone[openDropdown];
+                  setQuery({ ...queryClone }, "push");
+                  dispatch(setLoadout(loadoutClone));
+                  dispatch(setOpenDropdown(undefined));
+                }}
+              >
+                <FaTrashAlt />
+              </ClearIcon>
+            </Tooltip>
+          )}
           <FlexDiv>
             <StyledSearch
               placeholder="Search..."

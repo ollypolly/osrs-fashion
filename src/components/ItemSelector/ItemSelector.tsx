@@ -144,16 +144,18 @@ const ItemSelector = (props: ItemSelectorProps) => {
         }
       >
         {currentLoadout && currentLoadout[props.id] ? (
-          <HoverItemInfoWrapper id={currentLoadout[props.id]}>
-            <img
-              src={`https://raw.githubusercontent.com/osrsbox/osrsbox-db/master/docs/items-icons/${
-                currentLoadout[props.id]
-              }.png`}
-              height="32"
-              width="36"
-              alt="Icon"
-            />
-          </HoverItemInfoWrapper>
+          <>
+            <HoverItemInfoWrapper id={currentLoadout[props.id]}>
+              <img
+                src={`https://raw.githubusercontent.com/osrsbox/osrsbox-db/master/docs/items-icons/${
+                  currentLoadout[props.id]
+                }.png`}
+                height="32"
+                width="36"
+                alt="Icon"
+              />
+            </HoverItemInfoWrapper>
+          </>
         ) : (
           <Tooltip
             hideArrow

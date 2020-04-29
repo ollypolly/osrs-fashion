@@ -15,6 +15,7 @@ import Sidebar from "./components/Sidebar/Sidebar";
 import LoadoutList from "./pages/LoadoutList/LoadoutList";
 import { QueryParamProvider } from "use-query-params";
 import Footer from "./components/Footer/Footer";
+import { toast } from "react-toastify";
 
 export interface Theme extends DefaultTheme {
   backgroundColor: string;
@@ -83,6 +84,7 @@ export const Container = styled.div`
 
 const App = () => {
   const darkMode = useSelector(selectDarkMode);
+  toast.configure();
 
   return (
     <ThemeProvider theme={darkMode ? darkTheme : lightTheme}>

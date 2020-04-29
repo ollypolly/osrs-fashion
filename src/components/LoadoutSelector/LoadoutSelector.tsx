@@ -4,7 +4,7 @@ import { darken, transparentize } from "polished";
 import ItemSelector, { Icon } from "../ItemSelector/ItemSelector";
 import { selectWeight, setLoadout } from "../../pages/Loadout/loadoutSlice";
 import { useSelector, useDispatch } from "react-redux";
-import { FaWeightHanging, FaEraser } from "react-icons/fa";
+import { FaWeightHanging, FaTrashAlt } from "react-icons/fa";
 import Tooltip from "../Tooltip";
 import { useQueryParams, StringParam } from "use-query-params";
 
@@ -209,6 +209,13 @@ export const icons: { [id: string]: Icon } = {
   },
 };
 
+// const WikiLink = styled.div`
+//   position: absolute;
+//   top: 15px;
+//   left: 15px;
+//   height: 50px;
+// `;
+
 const LoadoutSelector = () => {
   const weight = useSelector(selectWeight);
   const dispatch = useDispatch();
@@ -234,7 +241,7 @@ const LoadoutSelector = () => {
                 dispatch(setLoadout({}));
               }}
             >
-              <FaEraser />
+              <FaTrashAlt />
             </ClearIcon>
           </Tooltip>
           <ItemSelectorGrid>
