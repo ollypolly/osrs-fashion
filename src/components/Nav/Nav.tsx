@@ -88,7 +88,7 @@ const Nav = () => {
               followCursor
               placement="top"
               trigger="hover"
-              tooltip={`${darkMode ? "Light" : "Dark"} Mode`}
+              tooltip={`${darkMode ? "Light" : "Dark"} mode`}
             >
               <div onClick={() => dispatch(toggleDarkMode())}>
                 {darkMode ? <FaSun /> : <FaMoon />}
