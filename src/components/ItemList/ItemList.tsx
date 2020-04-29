@@ -11,6 +11,7 @@ import {
   setDropdownSearch,
   selectCurrentLoadout,
   setLoadout,
+  selectAllItems,
 } from "../../pages/Loadout/loadoutSlice";
 import styled from "styled-components";
 import { fetchItems } from "../../pages/Loadout/loadoutSlice";
@@ -20,6 +21,7 @@ import { transparentize } from "polished";
 import HoverItemInfoWrapper from "../HoverItemInfoWrapper/HoverItemInfoWrapper";
 import { StringParam, useQueryParams } from "use-query-params";
 import Tooltip from "../Tooltip";
+import wikiIcon from "../../img/wiki_icon.svg";
 
 const Dropdown = styled.div`
   position: absolute;
@@ -102,6 +104,11 @@ const ClearIcon = styled.div`
   }
 `;
 
+const WikiIcon = styled(ClearIcon)`
+  right: 50px;
+  cursor: pointer;
+`;
+
 const ItemList = () => {
   const dispatch = useDispatch();
   const items = useSelector(selectItems);
@@ -109,6 +116,10 @@ const ItemList = () => {
   const itemsLoading = useSelector(selectItemsLoading);
   const dropdownSearch = useSelector(selectDropdownSearch);
   const loadout = useSelector(selectCurrentLoadout);
+
+  const allItems = useSelector(selectAllItems);
+
+  const currentItem = loadout && allItems[loadout[openDropdown]];
 
   const [query, setQuery] = useQueryParams({
     head: StringParam,
@@ -144,28 +155,48 @@ const ItemList = () => {
         <Wrapper>
           <strong>Select {openDropdown} item</strong>
           {loadout && loadout[openDropdown] && (
-            <Tooltip
-              hideArrow
-              followCursor
-              placement="top"
-              trigger="hover"
-              tooltip={`Clear ${openDropdown} item`}
-            >
-              <ClearIcon
-                onClick={() => {
-                  const queryClone: { [id: string]: any } = { ...query };
-                  delete queryClone[openDropdown];
-
-                  const loadoutClone: { [id: string]: any } = { ...loadout };
-                  delete loadoutClone[openDropdown];
-                  setQuery({ ...queryClone }, "push");
-                  dispatch(setLoadout(loadoutClone));
-                  dispatch(setOpenDropdown(undefined));
-                }}
+            <>
+              <Tooltip
+                hideArrow
+                followCursor
+                placement="top"
+                trigger="hover"
+                tooltip={`Clear ${openDropdown} item`}
               >
-                <FaBan />
-              </ClearIcon>
-            </Tooltip>
+                <ClearIcon
+                  onClick={() => {
+                    const queryClone: { [id: string]: any } = { ...query };
+                    delete queryClone[openDropdown];
+
+                    const loadoutClone: { [id: string]: any } = { ...loadout };
+                    delete loadoutClone[openDropdown];
+                    setQuery({ ...queryClone }, "push");
+                    dispatch(setLoadout(loadoutClone));
+                    dispatch(setOpenDropdown(undefined));
+                  }}
+                >
+                  <FaBan />
+                </ClearIcon>
+              </Tooltip>
+
+              <Tooltip
+                hideArrow
+                followCursor
+                placement="top"
+                trigger="hover"
+                tooltip={`${currentItem?.name} OSRS Wiki page`}
+              >
+                <a
+                  href={currentItem?.wiki_url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <WikiIcon>
+                    <img src={wikiIcon} height="21" alt="OSRS Wiki" />
+                  </WikiIcon>
+                </a>
+              </Tooltip>
+            </>
           )}
           <FlexDiv>
             <StyledSearch
@@ -175,6 +206,7 @@ const ItemList = () => {
                 dispatch(setDropdownSearch(event.target.value))
               }
             />
+
             {dropdownSearch && (
               <FaTimesCircle
                 onClick={() => dispatch(setDropdownSearch(undefined))}
