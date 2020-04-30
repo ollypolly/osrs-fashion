@@ -6,6 +6,7 @@ import {
   setOpenDropdown,
   selectOpenDropdown,
   selectCurrentLoadout,
+  selectAllItems,
 } from "../../pages/Loadout/loadoutSlice";
 import ItemList from "../ItemList/ItemList";
 import HoverItemInfoWrapper from "../HoverItemInfoWrapper/HoverItemInfoWrapper";
@@ -106,6 +107,7 @@ const IconDiv = styled.div`
 const ItemSelector = (props: ItemSelectorProps) => {
   const openDropdown = useSelector(selectOpenDropdown);
   const currentLoadout = useSelector(selectCurrentLoadout);
+  const allItems = useSelector(selectAllItems);
   const dispatch = useDispatch();
   const dropdownRef = useRef<HTMLDivElement>(null);
 
@@ -147,9 +149,9 @@ const ItemSelector = (props: ItemSelectorProps) => {
           <>
             <HoverItemInfoWrapper id={currentLoadout[props.id]}>
               <img
-                src={`https://raw.githubusercontent.com/osrsbox/osrsbox-db/master/docs/items-icons/${
-                  currentLoadout[props.id]
-                }.png`}
+                src={`data:image/png;base64, ${
+                  allItems[currentLoadout[props.id]].icon
+                }`}
                 height="44"
                 width="48"
                 alt="Icon"

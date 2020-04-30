@@ -2,7 +2,6 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { GlobalState } from "../..";
 
 export interface LoadoutState {
-  items: any;
   allItems?: any;
   itemsLoading?: boolean;
   allItemsLoading: boolean;
@@ -14,20 +13,6 @@ export interface LoadoutState {
   openModalContent?: any;
 }
 
-export const fetchItems = createAsyncThunk(
-  "items/fetch",
-  async (type: string) => {
-    const response = await fetch(
-      `https://raw.githubusercontent.com/osrsbox/osrsbox-db/master/docs/items-json-slot/items-${type}.json`
-    );
-
-    return response.json().then((data) => ({
-      name: type,
-      items: data,
-    }));
-  }
-);
-
 export const fetchAllItems = createAsyncThunk("all-items/fetch", async () => {
   const response = await fetch(
     `https://raw.githubusercontent.com/osrsbox/osrsbox-db/master/docs/items-complete.json`
@@ -37,7 +22,6 @@ export const fetchAllItems = createAsyncThunk("all-items/fetch", async () => {
 });
 
 const initialState: LoadoutState = {
-  items: {},
   allItemsLoading: true,
 };
 
@@ -68,19 +52,6 @@ export const loadoutSlice = createSlice({
     },
   },
   extraReducers: (builder) => {
-    builder.addCase(fetchItems.pending, (state, action) => {
-      state.itemsLoading = true;
-    });
-    builder.addCase(fetchItems.fulfilled, (state, action) => {
-      if (!state.items) {
-        state.items = {};
-      }
-      state.items[action.payload.name] = action.payload.items;
-      state.itemsLoading = false;
-    });
-    builder.addCase(fetchItems.rejected, (state, action) => {
-      state.itemsLoading = false;
-    });
     builder.addCase(fetchAllItems.pending, (state, action) => {
       state.allItemsLoading = true;
     });
@@ -94,8 +65,6 @@ export const loadoutSlice = createSlice({
     });
   },
 });
-
-export const selectItems = (state: GlobalState) => state.loadoutReducer.items;
 
 export const selectAllItems = (state: GlobalState) =>
   state.loadoutReducer.allItems;

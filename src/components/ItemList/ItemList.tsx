@@ -2,11 +2,9 @@ import React, { useEffect, useRef } from "react";
 import { FixedSizeList as List } from "react-window";
 import { useSelector, useDispatch } from "react-redux";
 import {
-  selectItems,
   setLoadoutItem,
   setOpenDropdown,
   selectOpenDropdown,
-  selectItemsLoading,
   selectDropdownSearch,
   setDropdownSearch,
   selectCurrentLoadout,
@@ -14,8 +12,6 @@ import {
   selectAllItems,
 } from "../../pages/Loadout/loadoutSlice";
 import styled from "styled-components";
-import { fetchItems } from "../../pages/Loadout/loadoutSlice";
-import ScaleLoader from "react-spinners/ScaleLoader";
 import { FaTimesCircle, FaBan } from "react-icons/fa";
 import { transparentize } from "polished";
 import HoverItemInfoWrapper from "../HoverItemInfoWrapper/HoverItemInfoWrapper";
@@ -111,13 +107,19 @@ const WikiIcon = styled(ClearIcon)`
 
 const ItemList = () => {
   const dispatch = useDispatch();
-  const items = useSelector(selectItems);
   const openDropdown = useSelector(selectOpenDropdown)!;
-  const itemsLoading = useSelector(selectItemsLoading);
   const dropdownSearch = useSelector(selectDropdownSearch);
   const loadout = useSelector(selectCurrentLoadout);
 
   const allItems = useSelector(selectAllItems);
+  const slotItems = [...Object.values(allItems)]
+    .filter(
+      (item: any) =>
+        item.equipment &&
+        item.equipment.slot === openDropdown &&
+        item.name.toLowerCase().includes(dropdownSearch?.toLowerCase() ?? "")
+    )
+    .sort((a: any, b: any) => a.name.localeCompare(b.name));
 
   const currentItem = loadout && allItems[loadout[openDropdown]];
 
@@ -138,107 +140,87 @@ const ItemList = () => {
     name: StringParam,
   });
 
-  const itemsNotLoaded = !items[openDropdown];
-
   useEffect(() => {
     dispatch(setDropdownSearch(undefined));
-    if (itemsNotLoaded && !itemsLoading) {
-      dispatch(fetchItems(openDropdown));
-    }
-
     if (searchRef && searchRef.current) {
       searchRef.current.focus();
     }
-  }, [dispatch, itemsNotLoaded, itemsLoading, openDropdown]);
+  }, [dispatch]);
 
   return (
     <Dropdown>
-      {itemsLoading ? (
-        <CenteredDiv>
-          <ScaleLoader color={"#4ecca3"} loading={itemsLoading} />
-        </CenteredDiv>
-      ) : (
-        <Wrapper>
-          <strong>Select {openDropdown} item</strong>
-          {loadout && loadout[openDropdown] && (
-            <>
-              <Tooltip
-                hideArrow
-                followCursor
-                placement="top"
-                trigger="hover"
-                tooltip={`Clear ${openDropdown} item`}
+      <Wrapper>
+        <strong>Select {openDropdown} item</strong>
+        {loadout && loadout[openDropdown] && (
+          <>
+            <Tooltip
+              hideArrow
+              followCursor
+              placement="top"
+              trigger="hover"
+              tooltip={`Clear ${openDropdown} item`}
+            >
+              <ClearIcon
+                onClick={() => {
+                  const queryClone: { [id: string]: any } = { ...query };
+                  delete queryClone[openDropdown];
+
+                  const loadoutClone: { [id: string]: any } = { ...loadout };
+                  delete loadoutClone[openDropdown];
+                  setQuery({ ...queryClone }, "push");
+                  dispatch(setLoadout(loadoutClone));
+                  dispatch(setOpenDropdown(undefined));
+                }}
               >
-                <ClearIcon
-                  onClick={() => {
-                    const queryClone: { [id: string]: any } = { ...query };
-                    delete queryClone[openDropdown];
+                <FaBan />
+              </ClearIcon>
+            </Tooltip>
 
-                    const loadoutClone: { [id: string]: any } = { ...loadout };
-                    delete loadoutClone[openDropdown];
-                    setQuery({ ...queryClone }, "push");
-                    dispatch(setLoadout(loadoutClone));
-                    dispatch(setOpenDropdown(undefined));
-                  }}
-                >
-                  <FaBan />
-                </ClearIcon>
-              </Tooltip>
-
-              <Tooltip
-                hideArrow
-                followCursor
-                placement="top"
-                trigger="hover"
-                tooltip={`${currentItem?.name} OSRS Wiki page`}
+            <Tooltip
+              hideArrow
+              followCursor
+              placement="top"
+              trigger="hover"
+              tooltip={`${currentItem?.name} OSRS Wiki page`}
+            >
+              <a
+                href={currentItem?.wiki_url}
+                target="_blank"
+                rel="noopener noreferrer"
               >
-                <a
-                  href={currentItem?.wiki_url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  <WikiIcon>
-                    <img src={wikiIcon} height="21" alt="OSRS Wiki" />
-                  </WikiIcon>
-                </a>
-              </Tooltip>
-            </>
-          )}
-          <FlexDiv>
-            <StyledSearch
-              ref={searchRef}
-              placeholder="Search..."
-              value={dropdownSearch ?? ""}
-              onChange={(event) =>
-                dispatch(setDropdownSearch(event.target.value))
-              }
-            />
-
-            {dropdownSearch && (
-              <FaTimesCircle
-                onClick={() => dispatch(setDropdownSearch(undefined))}
-              />
-            )}
-          </FlexDiv>
-
-          <List
-            height={275}
-            itemCount={
-              itemsNotLoaded
-                ? 1
-                : Object.values(items[openDropdown]).filter((item: any) =>
-                    item.name
-                      .toLowerCase()
-                      .includes(dropdownSearch?.toLowerCase() ?? "")
-                  ).length
+                <WikiIcon>
+                  <img src={wikiIcon} height="21" alt="OSRS Wiki" />
+                </WikiIcon>
+              </a>
+            </Tooltip>
+          </>
+        )}
+        <FlexDiv>
+          <StyledSearch
+            ref={searchRef}
+            placeholder="Search..."
+            value={dropdownSearch ?? ""}
+            onChange={(event) =>
+              dispatch(setDropdownSearch(event.target.value))
             }
-            itemSize={60}
-            width={300}
-          >
-            {Item}
-          </List>
-        </Wrapper>
-      )}
+          />
+
+          {dropdownSearch && (
+            <FaTimesCircle
+              onClick={() => dispatch(setDropdownSearch(undefined))}
+            />
+          )}
+        </FlexDiv>
+
+        <List
+          height={275}
+          itemCount={slotItems.length}
+          itemSize={60}
+          width={300}
+        >
+          {Item}
+        </List>
+      </Wrapper>
     </Dropdown>
   );
 };
@@ -280,21 +262,24 @@ const Item = ({ index, style }: ItemProps) => {
     name: StringParam,
   });
   const dispatch = useDispatch();
-  const items = useSelector(selectItems);
   const openDropdown = useSelector(selectOpenDropdown);
   const dropdownSearch = useSelector(selectDropdownSearch);
+  const allItems = useSelector(selectAllItems);
 
-  if (!openDropdown || !items[openDropdown]) {
+  if (!openDropdown) {
     return null;
   }
 
-  const specificItems = [...Object.values(items[openDropdown])]
-    .filter((item: any) =>
-      item.name.toLowerCase().includes(dropdownSearch?.toLowerCase() ?? "")
+  const slotItems = [...Object.values(allItems)]
+    .filter(
+      (item: any) =>
+        item.equipment &&
+        item.equipment.slot === openDropdown &&
+        item.name.toLowerCase().includes(dropdownSearch?.toLowerCase() ?? "")
     )
     .sort((a: any, b: any) => a.name.localeCompare(b.name));
 
-  const item: any = specificItems[index];
+  const item: any = slotItems[index];
 
   if (!item) {
     return null;
@@ -312,7 +297,7 @@ const Item = ({ index, style }: ItemProps) => {
     >
       <HoverItemInfoWrapper id={item.id}>
         <img
-          src={`https://raw.githubusercontent.com/osrsbox/osrsbox-db/master/docs/items-icons/${item.id}.png`}
+          src={`data:image/png;base64, ${item.icon}`}
           height="44"
           width="48"
           alt="Icon"
