@@ -273,7 +273,11 @@ const Item = ({ index, style }: ItemProps) => {
   const slotItems = [...Object.values(allItems)]
     .filter((item: any) =>
       openDropdown === "weapon"
-        ? (item.equipment && item.equipment.slot === "weapon") ||
+        ? (item.equipment &&
+            item.equipment.slot === "weapon" &&
+            item.name
+              .toLowerCase()
+              .includes(dropdownSearch?.toLowerCase() ?? "")) ||
           (item.equipment &&
             item.equipment.slot === "2h" &&
             item.name
