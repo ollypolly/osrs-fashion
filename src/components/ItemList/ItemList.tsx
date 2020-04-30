@@ -299,10 +299,17 @@ const Item = ({ index, style }: ItemProps) => {
     <StyledListItem
       style={style}
       onClick={() => {
-        setQuery({ ...query, [openDropdown]: item.id }, "push");
-
         dispatch(setLoadoutItem({ id: item.id, name: openDropdown }));
         dispatch(setOpenDropdown(undefined));
+        const queryClone: { [id: string]: any } = { ...query };
+
+        if (item.equipment && item.equipment.slot === "2h") {
+          dispatch(setLoadoutItem({ id: undefined, name: "shield" }));
+          // Clear item from url
+          delete queryClone["shield"];
+        }
+
+        setQuery({ ...queryClone, [openDropdown]: item.id }, "push");
       }}
     >
       <HoverItemInfoWrapper id={item.id}>

@@ -136,14 +136,23 @@ const ItemSelector = (props: ItemSelectorProps) => {
     };
   }, [isOpen, dispatch]);
 
+  const disabledShieldSlot =
+    currentLoadout &&
+    allItems[currentLoadout.weapon] &&
+    allItems[currentLoadout.weapon].equipment &&
+    allItems[currentLoadout.weapon].equipment.slot === "2h" &&
+    props.id === "shield";
+
   return (
     <StyledDropdownContainer ref={dropdownRef} id={props.id}>
       <ClickableArea
-        onClick={() =>
-          isOpen
-            ? dispatch(setOpenDropdown(undefined))
-            : dispatch(setOpenDropdown(props.id))
-        }
+        onClick={() => {
+          if (!disabledShieldSlot) {
+            isOpen
+              ? dispatch(setOpenDropdown(undefined))
+              : dispatch(setOpenDropdown(props.id));
+          }
+        }}
       >
         {currentLoadout && currentLoadout[props.id] ? (
           <>

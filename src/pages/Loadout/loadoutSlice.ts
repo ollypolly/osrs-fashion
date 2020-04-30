@@ -36,7 +36,11 @@ export const loadoutSlice = createSlice({
       if (!state.loadout) {
         state.loadout = {};
       }
-      state.loadout[action.payload.name] = action.payload.id;
+      if (!action.payload.id) {
+        delete state.loadout[action.payload.name];
+      } else {
+        state.loadout[action.payload.name] = action.payload.id;
+      }
     },
     setLoadout: (state, action) => {
       state.loadout = action.payload;
