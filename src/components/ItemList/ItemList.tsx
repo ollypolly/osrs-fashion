@@ -271,11 +271,17 @@ const Item = ({ index, style }: ItemProps) => {
   }
 
   const slotItems = [...Object.values(allItems)]
-    .filter(
-      (item: any) =>
-        item.equipment &&
-        item.equipment.slot === openDropdown &&
-        item.name.toLowerCase().includes(dropdownSearch?.toLowerCase() ?? "")
+    .filter((item: any) =>
+      openDropdown === "weapon"
+        ? (item.equipment && item.equipment.slot === "weapon") ||
+          (item.equipment &&
+            item.equipment.slot === "2h" &&
+            item.name
+              .toLowerCase()
+              .includes(dropdownSearch?.toLowerCase() ?? ""))
+        : item.equipment &&
+          item.equipment.slot === openDropdown &&
+          item.name.toLowerCase().includes(dropdownSearch?.toLowerCase() ?? "")
     )
     .sort((a: any, b: any) => a.name.localeCompare(b.name));
 
