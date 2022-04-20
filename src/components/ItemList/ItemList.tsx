@@ -20,18 +20,10 @@ import Tooltip from "../Tooltip";
 import wikiIcon from "../../img/wiki_icon.svg";
 
 const Dropdown = styled.div`
-  position: absolute;
   z-index: 1;
-  border: 1px solid gray;
-  border-radius: 4px;
-  left: 40px;
-  top: 40px;
-  height: 340px;
-  width: 300px;
   background: white;
 
   strong {
-    font-size: 0.6em;
     padding: 0 0.5rem;
   }
 `;
@@ -41,7 +33,6 @@ const Wrapper = styled.div`
 `;
 
 const StyledSearch = styled.input`
-  font-size: 0.5em;
   font-weight: bold;
   background: none;
   border: none;
@@ -115,12 +106,13 @@ const ItemList = () => {
   const slotItems = [...Object.values(allItems)]
     .filter(
       (item: any) =>
-        item.equipment &&
-        (item.equipment.slot === openDropdown ||
+        (item.equipment?.slot === openDropdown ||
           (openDropdown === "weapon" && item.equipment.slot === "2h")) &&
         item.name.toLowerCase().includes(dropdownSearch?.toLowerCase() ?? "")
     )
     .sort((a: any, b: any) => a.name.localeCompare(b.name));
+
+  console.log(openDropdown);
 
   const currentItem = loadout && allItems[loadout[openDropdown]];
 
@@ -234,7 +226,6 @@ interface ItemProps {
 const StyledListItem = styled.div`
   display: flex;
   align-items: center;
-  font-size: 0.5em;
   padding: 0 0.5rem;
   cursor: pointer;
 
@@ -302,6 +293,8 @@ const Item = ({ index, style }: ItemProps) => {
         }
 
         setQuery({ ...queryClone, [openDropdown]: item.id }, "push");
+
+        // Close tooltip
       }}
     >
       <HoverItemInfoWrapper id={item.id}>

@@ -71,7 +71,7 @@ html {
 
     .tooltip-container {
       color: black;
-      max-width: 200px;
+      
     }
   }
 `;
