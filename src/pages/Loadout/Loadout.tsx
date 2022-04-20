@@ -12,6 +12,7 @@ import {
   selectAllItems,
   setLoadoutName,
   selectLoadoutName,
+  selectAllItemsError,
 } from "./loadoutSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { CenteredDiv } from "../../components/ItemList/ItemList";
@@ -32,6 +33,11 @@ export const StyledBigInput = styled.input`
   color: ${(props) => props.theme.textColor};
   padding: 0;
   width: 100%;
+  padding-left: 0.5rem;
+
+  @media screen and (max-width: 541px) {
+    padding-left: 0;
+  }
 
   /* border-bottom: 2px solid
     ${(props) => transparentize(0.5, props.theme.textColor)};
@@ -47,18 +53,22 @@ export const StyledBigInput = styled.input`
 `;
 
 const LoadoutHeader = styled.div`
-  div {
+  .header-area {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    margin-bottom: 3rem;
+    max-width: 636px;
+    margin: 0 auto 3rem auto;
   }
 
   @media screen and (max-width: 541px) {
-    flex-direction: column;
-    align-items: flex-start;
+    .header-area {
+      flex-direction: column;
+      align-items: flex-start;
+      margin-bottom: 0;
+    }
 
-    div {
+    input {
       margin-bottom: 0.5rem;
     }
   }
@@ -116,6 +126,8 @@ const MainContent = styled.div`
 const Loadout = () => {
   const dispatch = useDispatch();
   const allItemsLoading = useSelector(selectAllItemsLoading);
+  const allItemsError = useSelector(selectAllItemsError);
+
   const allItems = useSelector(selectAllItems);
   const loadoutName = useSelector(selectLoadoutName);
 
@@ -144,27 +156,27 @@ const Loadout = () => {
     const name = clonedParams.name;
     delete clonedParams.name;
 
-    if (clonedParams && clonedParams.head && !allItemsLoading) {
+    if (!allItemsLoading) {
       dispatch(setLoadout(clonedParams));
-      if (name) {
-        dispatch(setLoadoutName(name));
-      }
     }
+    dispatch(setLoadoutName(name));
   }, [allItemsLoading, dispatch, allItems]);
 
   return (
     <>
-      {allItemsLoading ? (
+      {allItemsError ? (
+        <p>{allItemsError}</p>
+      ) : allItemsLoading ? (
         <CenteredDiv>
           <ScaleLoader color={"#4ecca3"} loading={allItemsLoading} />
         </CenteredDiv>
       ) : (
         <>
           <LoadoutHeader>
-            <div>
+            <div className="header-area">
               <StyledBigInput
                 value={loadoutName ?? ""}
-                placeholder="Enter Loadout Name..."
+                placeholder="Enter loadout name..."
                 onChange={(event) => {
                   setQuery({ ...query, name: event.target.value }, "push");
                   dispatch(setLoadoutName(event.target.value));
@@ -174,21 +186,17 @@ const Loadout = () => {
             <h2>Select Category</h2>
             <FaCaretDown />
           </StyledCategory>*/}
-
               <Options />
             </div>
           </LoadoutHeader>
-
           {/*<DescriptionContainer>
         <StyledDescription placeholder="Enter Description..." />
       </DescriptionContainer>*/}
-
           <MainContent>
             <>
               <LoadoutSelector />
               <StatsViewer />
             </>
-
             {/*<InventorySelector />*/}
           </MainContent>
         </>

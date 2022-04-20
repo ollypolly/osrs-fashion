@@ -1,8 +1,10 @@
-import React, { useState } from "react";
-import { FaCopy } from "react-icons/fa";
+import React from "react";
+import { FaShareAlt } from "react-icons/fa";
 import styled from "styled-components";
 import { transparentize } from "polished";
 import Tooltip from "../Tooltip";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const Links = styled.ul`
   list-style: none;
@@ -13,6 +15,7 @@ const Links = styled.ul`
 const LinkIcon = styled.li`
   display: inline-block;
   font-size: 1.5em;
+  padding-right: 0.5rem;
 
   cursor: pointer;
 
@@ -29,8 +32,6 @@ const LinkIcon = styled.li`
 `;
 
 const Options = () => {
-  const [copied, setCopied] = useState(false);
-
   return (
     <Links>
       <Tooltip
@@ -38,13 +39,15 @@ const Options = () => {
         followCursor
         placement="top"
         trigger="hover"
-        tooltip={copied ? "Copied!" : "Copy to Clipboard"}
+        tooltip="Share"
       >
-        <LinkIcon title="Copy URL to Clipboard">
-          <FaCopy
+        <LinkIcon title="Share">
+          <FaShareAlt
             onClick={() => {
-              navigator.clipboard.writeText(window.location.href);
-              setCopied(true);
+              navigator.clipboard
+                .writeText(window.location.href)
+                .then(() => toast.success("URL copied to clipboard!"))
+                .catch((err) => toast.error(err));
             }}
           />
         </LinkIcon>

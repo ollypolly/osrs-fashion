@@ -2,11 +2,11 @@ import React from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 import { lighten } from "polished";
-import { FaBars } from "react-icons/fa";
-import { Container } from "../../App";
-import { toggleIsOpen } from "../Sidebar/sidebarSlice";
-import { useDispatch } from "react-redux";
+import { FaSun, FaMoon } from "react-icons/fa";
+import { useDispatch, useSelector } from "react-redux";
 import { transparentize } from "polished";
+import { toggleDarkMode, selectDarkMode } from "./navSlice";
+import Tooltip from "../Tooltip";
 
 const NavBackground = styled.div`
   background: ${(props) => props.theme.backgroundColor};
@@ -40,6 +40,10 @@ const NavLinkGroup = styled.div`
   justify-content: space-between;
   align-items: center;
 
+  a {
+    margin-right: 1rem;
+  }
+
   svg {
     cursor: pointer;
     font-size: 1.5rem;
@@ -51,39 +55,56 @@ const NavLinkGroup = styled.div`
     }
   }
 
-  a {
+  /* a {
     margin-left: 1rem;
-  }
+  } */
 
-  span {
-    border: 1px solid ${(props) => props.theme.textColor};
-    border-radius: 5px;
-    padding: 0.1rem;
-    font-size: 0.9em;
+  .subtitle {
+    /* border: 1px solid ${(props) => props.theme.textColor};
+    border-radius: 5px; */
+    font-size: 1.5em;
     color: ${(props) => props.theme.textColor};
     font-weight: 200;
-    margin-left: 0.3rem;
   }
+`;
+
+const Container = styled.div`
+  padding: 1.5rem;
+  max-width: 1100px;
+  margin: auto;
 `;
 
 const Nav = () => {
   const dispatch = useDispatch();
+  const darkMode = useSelector(selectDarkMode);
 
   return (
     <NavBackground>
       <Container>
         <StyledNav>
           <NavLinkGroup>
-            <FaBars onClick={() => dispatch(toggleIsOpen())} />
+            {/* <FaBars onClick={() => dispatch(toggleIsOpen())} /> */}
+            <span className="subtitle">osrs</span>
             <StyledLink to="/">
-              <h2>loadout</h2>
+              <h2>.fashion</h2>
             </StyledLink>
-            <span>osrs</span>
+            {/* <span className="subtitle">Share osrs loadouts</span> */}
           </NavLinkGroup>
 
           <NavLinkGroup>
-            <StyledLink to="/">Stat Checker</StyledLink>
-            {/*<StyledLink to="/categories">Browse</StyledLink>*/}
+            <StyledLink to="/">Create</StyledLink>
+            <StyledLink to="/browse">Browse</StyledLink>
+            <Tooltip
+              hideArrow
+              followCursor
+              placement="top"
+              trigger="hover"
+              tooltip={`${darkMode ? "Light" : "Dark"} mode`}
+            >
+              <div onClick={() => dispatch(toggleDarkMode())}>
+                {darkMode ? <FaSun /> : <FaMoon />}
+              </div>
+            </Tooltip>
           </NavLinkGroup>
         </StyledNav>
       </Container>

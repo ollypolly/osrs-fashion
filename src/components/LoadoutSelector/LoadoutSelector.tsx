@@ -1,11 +1,16 @@
 import React from "react";
 import styled from "styled-components";
-import { darken } from "polished";
+import { darken, transparentize } from "polished";
 import ItemSelector, { Icon } from "../ItemSelector/ItemSelector";
-import helmetIcon from "../../img/helmet-icon-gray.png";
-import { selectWeight } from "../../pages/Loadout/loadoutSlice";
-import { useSelector } from "react-redux";
-import { FaWeightHanging } from "react-icons/fa";
+import {
+  selectWeight,
+  setLoadout,
+  selectCurrentLoadout,
+} from "../../pages/Loadout/loadoutSlice";
+import { useSelector, useDispatch } from "react-redux";
+import { FaWeightHanging, FaBan } from "react-icons/fa";
+import Tooltip from "../Tooltip";
+import { useQueryParams, StringParam } from "use-query-params";
 
 export const Wrapper = styled.div`
   display: flex;
@@ -29,6 +34,9 @@ export const ContentContainer = styled.div`
   padding: 1rem;
   min-width: 300px;
   min-height: 461px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 
   @media screen and (max-width: 900px) {
     width: 100%;
@@ -40,13 +48,15 @@ export const LoadoutContainer = styled(ContentContainer)`
   justify-content: center;
   align-items: center;
   flex-direction: column;
+
+  position: relative;
 `;
 
 const ItemSelectorGridWrapper = styled.div`
   display: flex;
   justify-content: center;
 `;
-//loadout grid
+
 const ItemSelectorGrid = styled.div`
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -136,62 +146,112 @@ const WeightArea = styled.div`
   justify-content: center;
 `;
 
+const ClearIcon = styled.div`
+  position: absolute;
+  top: 18px;
+  right: 18px;
+
+  svg {
+    font-size: 1.5em;
+    cursor: pointer;
+
+    transition: color 0.1s ease-in;
+    color: ${(props) => transparentize(0.5, props.theme.textColor)};
+  }
+
+  &:hover {
+    svg {
+      color: ${(props) => props.theme.textColor};
+    }
+  }
+`;
+
 export const icons: { [id: string]: Icon } = {
   head: {
     name: "Head",
-    image: helmetIcon,
+    image: "",
   },
   cape: {
     name: "Cape",
-    image: helmetIcon,
+    image: "",
   },
   neck: {
     name: "Neck",
-    image: helmetIcon,
+    image: "",
   },
   ammo: {
     name: "Ammo",
-    image: helmetIcon,
+    image: "",
   },
   weapon: {
     name: "Weapon",
-    image: helmetIcon,
+    image: "",
   },
   body: {
     name: "Body",
-    image: helmetIcon,
+    image: "",
   },
   shield: {
     name: "Shield",
-    image: helmetIcon,
+    image: "",
   },
   legs: {
     name: "Legs",
-    image: helmetIcon,
+    image: "",
   },
   hands: {
     name: "Hands",
-    image: helmetIcon,
+    image: "",
   },
   feet: {
     name: "Feet",
-    image: helmetIcon,
+    image: "",
   },
   ring: {
     name: "Ring",
-    image: helmetIcon,
+    image: "",
   },
 };
 
+// const WikiLink = styled.div`
+//   position: absolute;
+//   top: 15px;
+//   left: 15px;
+//   height: 50px;
+// `;
+
 const LoadoutSelector = () => {
   const weight = useSelector(selectWeight);
+  const loadout = useSelector(selectCurrentLoadout);
+  const dispatch = useDispatch();
+
+  const [query, setQuery] = useQueryParams({
+    name: StringParam,
+  });
 
   return (
     <Wrapper>
-      <h2>Loadout</h2>
-
       <LoadoutContainer>
         <ItemSelectorGridWrapper>
+          {loadout && Object.keys(loadout).length !== 0 && (
+            <Tooltip
+              hideArrow
+              followCursor
+              placement="top"
+              trigger="hover"
+              tooltip="Clear all"
+            >
+              <ClearIcon
+                className="clear-icon"
+                onClick={() => {
+                  setQuery(query, "push");
+                  dispatch(setLoadout({}));
+                }}
+              >
+                <FaBan />
+              </ClearIcon>
+            </Tooltip>
+          )}
           <ItemSelectorGrid>
             {Object.keys(icons).map((icon) => (
               <ItemSelector key={icon} id={icon} icon={icons[icon]} />

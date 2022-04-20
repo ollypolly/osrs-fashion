@@ -5,6 +5,7 @@ import styled, {
   ThemeProvider,
   createGlobalStyle,
   DefaultTheme,
+  ThemeProps,
 } from "styled-components";
 import { useSelector } from "react-redux";
 import { selectDarkMode } from "./components/Nav/navSlice";
@@ -13,6 +14,9 @@ import Categories from "./pages/Categories/Categories";
 import Sidebar from "./components/Sidebar/Sidebar";
 import LoadoutList from "./pages/LoadoutList/LoadoutList";
 import { QueryParamProvider } from "use-query-params";
+import Footer from "./components/Footer/Footer";
+import { toast } from "react-toastify";
+import BrowseLoadouts from "./pages/BrowseLoadouts/BrowseLoadouts";
 
 export interface Theme extends DefaultTheme {
   backgroundColor: string;
@@ -42,13 +46,24 @@ const darkTheme: Partial<Theme> = {
 };
 
 const GlobalStyles = createGlobalStyle`
+
+html {
+  height: 100%;
+}
+
+#root {
+  height: 100vh;
+  display: flex;
+    flex-direction: column;
+}
+
   body {
+    height: 100vh;
     margin: 0;
     font-family: 'Inter', sans-serif;
-    background: ${(props: any) => props.theme.backgroundColor};
-    color: ${(props: any) => props.theme.textColor};
-
-    left: ${(props) => (props.isNavOpen ? "250px" : "0")};
+    background: ${(props: ThemeProps<Theme>) => props.theme.backgroundColor};
+    color: ${(props: ThemeProps<Theme>) => props.theme.textColor};
+    scroll-behavior: smooth;
 
     h1, h2, h3 {
       margin: 0;
@@ -56,36 +71,46 @@ const GlobalStyles = createGlobalStyle`
 
     .tooltip-container {
       color: black;
-      width: 200px;
+      max-width: 200px;
     }
   }
 `;
 
 export const Container = styled.div`
-  padding: 1.5rem;
-  max-width: 1100px;
+  max-width: 1000px;
   margin: auto;
+  width: 100%;
+
+  flex: 1 0 auto;
+`;
+
+const Padding = styled.div`
+  padding: 1.5rem;
 `;
 
 const App = () => {
   const darkMode = useSelector(selectDarkMode);
+  toast.configure();
 
   return (
     <ThemeProvider theme={darkMode ? darkTheme : lightTheme}>
       <GlobalStyles />
       <BrowserRouter>
         <Sidebar />
-
         <Nav />
         <Container>
-          <Switch>
-            <QueryParamProvider ReactRouterRoute={Route}>
-              <Route exact path="/" component={Loadout} />
-              <Route exact path="/categories" component={Categories} />
-              <Route exact path="/list" component={LoadoutList} />
-            </QueryParamProvider>
-          </Switch>
+          <Padding>
+            <Switch>
+              <QueryParamProvider ReactRouterRoute={Route}>
+                <Route exact path="/" component={Loadout} />
+                <Route exact path="/categories" component={Categories} />
+                <Route exact path="/list" component={LoadoutList} />
+                <Route exact path="/browse" component={BrowseLoadouts} />
+              </QueryParamProvider>
+            </Switch>
+          </Padding>
         </Container>
+        <Footer />
       </BrowserRouter>
     </ThemeProvider>
   );
