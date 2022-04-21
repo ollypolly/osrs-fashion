@@ -9,7 +9,7 @@ import styled, {
 } from "styled-components";
 import { useSelector } from "react-redux";
 import { selectDarkMode } from "./components/Nav/navSlice";
-import { BrowserRouter, Route, Switch } from "react-router-dom";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Categories from "./pages/Categories/Categories";
 import Sidebar from "./components/Sidebar/Sidebar";
 import LoadoutList from "./pages/LoadoutList/LoadoutList";
@@ -101,14 +101,14 @@ const App = () => {
         <Nav />
         <Container>
           <Padding>
-            <Switch>
-              <QueryParamProvider>
-                <Route exact path="/" component={Loadout} />
-                <Route exact path="/categories" component={Categories} />
-                <Route exact path="/list" component={LoadoutList} />
-                <Route exact path="/browse" component={BrowseLoadouts} />
-              </QueryParamProvider>
-            </Switch>
+            <QueryParamProvider>
+              <Routes>
+                <Route path="/" element={<Loadout />} />
+                <Route path="/categories" element={<Categories />} />
+                <Route path="/list" element={<LoadoutList />} />
+                <Route path="/browse" element={<BrowseLoadouts />} />
+              </Routes>
+            </QueryParamProvider>
           </Padding>
         </Container>
         <Footer />

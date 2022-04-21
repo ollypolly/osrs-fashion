@@ -138,6 +138,13 @@ const ItemSelector = (props: ItemSelectorProps) => {
                 : dispatch(setOpenDropdown(props.id));
             }
           }}
+          onTouchStart={() => {
+            if (!disabledShieldSlot) {
+              isOpen
+                ? dispatch(setOpenDropdown(undefined))
+                : dispatch(setOpenDropdown(props.id));
+            }
+          }}
         >
           {currentLoadout && currentLoadout[props.id] ? (
             <>
