@@ -96,7 +96,7 @@ const WikiIcon = styled(ClearIcon)`
   cursor: pointer;
 `;
 
-const ItemList = () => {
+const ItemList = ({ id }: { id: string }) => {
   const dispatch = useDispatch();
   const openDropdown = useSelector(selectOpenDropdown)!;
   const dropdownSearch = useSelector(selectDropdownSearch);
@@ -107,7 +107,7 @@ const ItemList = () => {
     .filter(
       (item: any) =>
         (item.equipment?.slot === openDropdown ||
-          (openDropdown === "weapon" && item.equipment.slot === "2h")) &&
+          (openDropdown === "weapon" && item.equipment?.slot === "2h")) &&
         item.name.toLowerCase().includes(dropdownSearch?.toLowerCase() ?? "")
     )
     .sort((a: any, b: any) => a.name.localeCompare(b.name));
@@ -117,6 +117,35 @@ const ItemList = () => {
   const currentItem = loadout && allItems[loadout[openDropdown]];
 
   const searchRef = useRef<HTMLInputElement>(null);
+  const dropdownRef = useRef<HTMLDivElement>(null);
+
+  const isOpen = id === openDropdown;
+
+  useEffect(() => {
+    console.log(isOpen);
+    const handleClickOutside = (e: any) => {
+      console.log(dropdownRef);
+      if (dropdownRef && dropdownRef.current) {
+        console.log(dropdownRef.current, e.target);
+        if (dropdownRef.current.contains(e.target)) {
+          // inside click
+          return;
+        }
+        // outside click
+        dispatch(setOpenDropdown(undefined));
+      }
+    };
+
+    if (isOpen) {
+      document.addEventListener("mousedown", handleClickOutside);
+    } else {
+      document.removeEventListener("mousedown", handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [isOpen, dispatch]);
 
   const [query, setQuery] = useQueryParams({
     head: StringParam,
@@ -141,7 +170,7 @@ const ItemList = () => {
   }, [dispatch]);
 
   return (
-    <Dropdown>
+    <Dropdown ref={dropdownRef}>
       <Wrapper>
         <strong>Select {openDropdown} item</strong>
         {loadout && loadout[openDropdown] && (
@@ -293,8 +322,6 @@ const Item = ({ index, style }: ItemProps) => {
         }
 
         setQuery({ ...queryClone, [openDropdown]: item.id }, "push");
-
-        // Close tooltip
       }}
     >
       <HoverItemInfoWrapper id={item.id}>

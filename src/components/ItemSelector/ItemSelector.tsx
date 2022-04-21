@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { useEffect, useRef } from "react";
 import styled from "styled-components";
 import { transparentize } from "polished";
 import { useSelector, useDispatch } from "react-redux";
@@ -115,6 +115,30 @@ const ItemSelector = (props: ItemSelectorProps) => {
 
   const isOpen = props.id === openDropdown;
 
+  // useEffect(() => {
+  //   const handleClickOutside = (e: any) => {
+  //     if (dropdownRef && dropdownRef.current) {
+  //       console.log(dropdownRef.current, e.target);
+  //       if (dropdownRef.current.contains(e.target)) {
+  //         // inside click
+  //         return;
+  //       }
+  //       // outside click
+  //       dispatch(setOpenDropdown(undefined));
+  //     }
+  //   };
+
+  //   if (isOpen) {
+  //     document.addEventListener("mousedown", handleClickOutside);
+  //   } else {
+  //     document.removeEventListener("mousedown", handleClickOutside);
+  //   }
+
+  //   return () => {
+  //     document.removeEventListener("mousedown", handleClickOutside);
+  //   };
+  // }, [isOpen, dispatch]);
+
   const disabledShieldSlot = !!(
     currentLoadout &&
     allItems[currentLoadout.weapon]?.equipment?.slot === "2h" &&
@@ -132,7 +156,7 @@ const ItemSelector = (props: ItemSelectorProps) => {
         tooltipShown={openDropdown === props.id && !!openDropdown}
         placement="bottom"
         trigger="click"
-        tooltip={<ItemList />}
+        tooltip={<ItemList id={props.id} />}
       >
         <ClickableArea
           disabledShieldSlot={disabledShieldSlot}
