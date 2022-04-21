@@ -18,7 +18,7 @@ const StyledTooltip = styled(Tooltip)`
 const StyledTooltipContent = styled.div`
   display: flex;
   flex-direction: column;
-
+  padding: 0.5rem;
   h3 {
   }
 
