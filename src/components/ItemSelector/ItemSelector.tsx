@@ -1,4 +1,4 @@
-import React, { useRef, useEffect } from "react";
+import React, { useEffect, useRef } from "react";
 import styled from "styled-components";
 import { transparentize } from "polished";
 import { useSelector, useDispatch } from "react-redux";
@@ -49,10 +49,6 @@ const Icon = styled.img`
   width: 100%;
   height: 100%;
 `;
-
-interface DropdownProps {
-  isOpen: boolean;
-}
 
 const ClickableArea = styled.div<ClickableAreaProps>`
   height: 50px;
@@ -119,35 +115,11 @@ const ItemSelector = (props: ItemSelectorProps) => {
 
   const isOpen = props.id === openDropdown;
 
-  useEffect(() => {
-    const handleClickOutside = (e: any) => {
-      if (dropdownRef && dropdownRef.current) {
-        if (dropdownRef.current.contains(e.target)) {
-          // inside click
-          return;
-        }
-        // outside click
-        dispatch(setOpenDropdown(undefined));
-      }
-    };
-
-    if (isOpen) {
-      document.addEventListener("mousedown", handleClickOutside);
-    } else {
-      document.removeEventListener("mousedown", handleClickOutside);
-    }
-
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
-  }, [isOpen, dispatch]);
-
-  const disabledShieldSlot =
+  const disabledShieldSlot = !!(
     currentLoadout &&
-    allItems[currentLoadout.weapon] &&
-    allItems[currentLoadout.weapon].equipment &&
-    allItems[currentLoadout.weapon].equipment.slot === "2h" &&
-    props.id === "shield";
+    allItems[currentLoadout.weapon]?.equipment?.slot === "2h" &&
+    props.id === "shield"
+  );
 
   return (
     <StyledDropdownContainer
@@ -155,42 +127,49 @@ const ItemSelector = (props: ItemSelectorProps) => {
       ref={dropdownRef}
       id={props.id}
     >
-      <ClickableArea
-        disabledShieldSlot={disabledShieldSlot}
-        onClick={() => {
-          if (!disabledShieldSlot) {
-            isOpen
-              ? dispatch(setOpenDropdown(undefined))
-              : dispatch(setOpenDropdown(props.id));
-          }
-        }}
+      <Tooltip
+        hideArrow={false}
+        tooltipShown={openDropdown === props.id && !!openDropdown}
+        placement="bottom"
+        trigger="click"
+        tooltip={<ItemList id={props.id} />}
       >
-        {currentLoadout && currentLoadout[props.id] ? (
-          <>
-            <HoverItemInfoWrapper id={currentLoadout[props.id]}>
-              <img
-                src={`data:image/png;base64, ${
-                  allItems[currentLoadout[props.id]].icon
-                }`}
-                height="44"
-                width="48"
-                alt="Icon"
-              />
-            </HoverItemInfoWrapper>
-          </>
-        ) : (
-          <Tooltip
-            hideArrow
-            followCursor
-            placement="top"
-            trigger={disabledShieldSlot ? "none" : "hover"}
-            tooltip={`Select ${props.id} item`}
-          >
-            <IconDiv id={props.id} />
-          </Tooltip>
-        )}
-      </ClickableArea>
-      {isOpen && <ItemList />}
+        <ClickableArea
+          disabledShieldSlot={disabledShieldSlot}
+          onClick={() => {
+            if (!disabledShieldSlot) {
+              isOpen
+                ? dispatch(setOpenDropdown(undefined))
+                : dispatch(setOpenDropdown(props.id));
+            }
+          }}
+        >
+          {currentLoadout && currentLoadout[props.id] ? (
+            <>
+              <HoverItemInfoWrapper id={currentLoadout[props.id]}>
+                <img
+                  src={`data:image/png;base64, ${
+                    allItems[currentLoadout[props.id]].icon
+                  }`}
+                  height="44"
+                  width="48"
+                  alt="Icon"
+                />
+              </HoverItemInfoWrapper>
+            </>
+          ) : (
+            <Tooltip
+              hideArrow
+              followCursor
+              placement="top"
+              trigger={disabledShieldSlot ? "none" : "hover"}
+              tooltip={`Select ${props.id} item`}
+            >
+              <IconDiv id={props.id} />
+            </Tooltip>
+          )}
+        </ClickableArea>
+      </Tooltip>
     </StyledDropdownContainer>
   );
 };

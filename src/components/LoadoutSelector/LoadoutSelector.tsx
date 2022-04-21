@@ -211,6 +211,10 @@ export const icons: { [id: string]: Icon } = {
     name: "Ring",
     image: "",
   },
+  pet: {
+    name: "Pet",
+    image: "",
+  },
 };
 
 // const WikiLink = styled.div`

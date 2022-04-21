@@ -18,20 +18,13 @@ import HoverItemInfoWrapper from "../HoverItemInfoWrapper/HoverItemInfoWrapper";
 import { StringParam, useQueryParams } from "use-query-params";
 import Tooltip from "../Tooltip";
 import wikiIcon from "../../img/wiki_icon.svg";
+import { Box } from "@mui/material";
 
 const Dropdown = styled.div`
-  position: absolute;
   z-index: 1;
-  border: 1px solid gray;
-  border-radius: 4px;
-  left: 40px;
-  top: 40px;
-  height: 340px;
-  width: 300px;
   background: white;
 
   strong {
-    font-size: 0.6em;
     padding: 0 0.5rem;
   }
 `;
@@ -41,7 +34,6 @@ const Wrapper = styled.div`
 `;
 
 const StyledSearch = styled.input`
-  font-size: 0.5em;
   font-weight: bold;
   background: none;
   border: none;
@@ -105,7 +97,7 @@ const WikiIcon = styled(ClearIcon)`
   cursor: pointer;
 `;
 
-const ItemList = () => {
+const ItemList = ({ id }: { id: string }) => {
   const dispatch = useDispatch();
   const openDropdown = useSelector(selectOpenDropdown)!;
   const dropdownSearch = useSelector(selectDropdownSearch);
@@ -115,9 +107,8 @@ const ItemList = () => {
   const slotItems = [...Object.values(allItems)]
     .filter(
       (item: any) =>
-        item.equipment &&
-        (item.equipment.slot === openDropdown ||
-          (openDropdown === "weapon" && item.equipment.slot === "2h")) &&
+        (item.equipment?.slot === openDropdown ||
+          (openDropdown === "weapon" && item.equipment?.slot === "2h")) &&
         item.name.toLowerCase().includes(dropdownSearch?.toLowerCase() ?? "")
     )
     .sort((a: any, b: any) => a.name.localeCompare(b.name));
@@ -125,6 +116,32 @@ const ItemList = () => {
   const currentItem = loadout && allItems[loadout[openDropdown]];
 
   const searchRef = useRef<HTMLInputElement>(null);
+  const dropdownRef = useRef<HTMLDivElement>(null);
+
+  const isOpen = id === openDropdown;
+
+  useEffect(() => {
+    const handleClickOutside = (e: any) => {
+      if (dropdownRef && dropdownRef.current) {
+        if (dropdownRef.current.contains(e.target)) {
+          // inside click
+          return;
+        }
+        // outside click
+        dispatch(setOpenDropdown(undefined));
+      }
+    };
+
+    if (isOpen) {
+      document.addEventListener("mousedown", handleClickOutside);
+    } else {
+      document.removeEventListener("mousedown", handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [isOpen, dispatch]);
 
   const [query, setQuery] = useQueryParams({
     head: StringParam,
@@ -149,53 +166,57 @@ const ItemList = () => {
   }, [dispatch]);
 
   return (
-    <Dropdown>
+    <Dropdown ref={dropdownRef}>
       <Wrapper>
-        <strong>Select {openDropdown} item</strong>
-        {loadout && loadout[openDropdown] && (
-          <>
-            <Tooltip
-              hideArrow
-              followCursor
-              placement="top"
-              trigger="hover"
-              tooltip={`Clear ${openDropdown} item`}
-            >
-              <ClearIcon
-                onClick={() => {
-                  const queryClone: { [id: string]: any } = { ...query };
-                  delete queryClone[openDropdown];
-
-                  const loadoutClone: { [id: string]: any } = { ...loadout };
-                  delete loadoutClone[openDropdown];
-                  setQuery({ ...queryClone }, "push");
-                  dispatch(setLoadout(loadoutClone));
-                  dispatch(setOpenDropdown(undefined));
-                }}
+        <Box mt={1}>
+          <strong>Select {openDropdown} item</strong>
+          {loadout && loadout[openDropdown] && (
+            <>
+              <Tooltip
+                hideArrow
+                followCursor
+                placement="top"
+                trigger="hover"
+                tooltip={`Clear ${openDropdown} item`}
+                interactive
               >
-                <FaBan />
-              </ClearIcon>
-            </Tooltip>
+                <ClearIcon
+                  onClick={() => {
+                    const queryClone: { [id: string]: any } = { ...query };
+                    delete queryClone[openDropdown];
 
-            <Tooltip
-              hideArrow
-              followCursor
-              placement="top"
-              trigger="hover"
-              tooltip={`${currentItem?.name} OSRS Wiki page`}
-            >
-              <a
-                href={currentItem?.wiki_url}
-                target="_blank"
-                rel="noopener noreferrer"
+                    const loadoutClone: { [id: string]: any } = { ...loadout };
+                    delete loadoutClone[openDropdown];
+                    setQuery({ ...queryClone }, "push");
+                    dispatch(setLoadout(loadoutClone));
+                    dispatch(setOpenDropdown(undefined));
+                  }}
+                >
+                  <FaBan />
+                </ClearIcon>
+              </Tooltip>
+
+              <Tooltip
+                hideArrow
+                followCursor
+                placement="top"
+                trigger="hover"
+                tooltip={`${currentItem?.name} OSRS Wiki page`}
               >
-                <WikiIcon>
-                  <img src={wikiIcon} height="21" alt="OSRS Wiki" />
-                </WikiIcon>
-              </a>
-            </Tooltip>
-          </>
-        )}
+                <a
+                  href={currentItem?.wiki_url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <WikiIcon>
+                    <img src={wikiIcon} height="21" alt="OSRS Wiki" />
+                  </WikiIcon>
+                </a>
+              </Tooltip>
+            </>
+          )}
+        </Box>
+
         <FlexDiv>
           <StyledSearch
             ref={searchRef}
@@ -234,7 +255,6 @@ interface ItemProps {
 const StyledListItem = styled.div`
   display: flex;
   align-items: center;
-  font-size: 0.5em;
   padding: 0 0.5rem;
   cursor: pointer;
 

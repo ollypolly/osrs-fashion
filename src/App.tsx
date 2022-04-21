@@ -71,7 +71,8 @@ html {
 
     .tooltip-container {
       color: black;
-      max-width: 200px;
+      
+      padding: 0;
     }
   }
 `;
@@ -101,7 +102,7 @@ const App = () => {
         <Container>
           <Padding>
             <Switch>
-              <QueryParamProvider ReactRouterRoute={Route}>
+              <QueryParamProvider>
                 <Route exact path="/" component={Loadout} />
                 <Route exact path="/categories" component={Categories} />
                 <Route exact path="/list" component={LoadoutList} />
