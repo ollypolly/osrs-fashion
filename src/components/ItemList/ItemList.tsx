@@ -18,6 +18,7 @@ import HoverItemInfoWrapper from "../HoverItemInfoWrapper/HoverItemInfoWrapper";
 import { StringParam, useQueryParams } from "use-query-params";
 import Tooltip from "../Tooltip";
 import wikiIcon from "../../img/wiki_icon.svg";
+import { Box } from "@mui/material";
 
 const Dropdown = styled.div`
   z-index: 1;
@@ -112,8 +113,6 @@ const ItemList = ({ id }: { id: string }) => {
     )
     .sort((a: any, b: any) => a.name.localeCompare(b.name));
 
-  console.log(openDropdown);
-
   const currentItem = loadout && allItems[loadout[openDropdown]];
 
   const searchRef = useRef<HTMLInputElement>(null);
@@ -122,11 +121,8 @@ const ItemList = ({ id }: { id: string }) => {
   const isOpen = id === openDropdown;
 
   useEffect(() => {
-    console.log(isOpen);
     const handleClickOutside = (e: any) => {
-      console.log(dropdownRef);
       if (dropdownRef && dropdownRef.current) {
-        console.log(dropdownRef.current, e.target);
         if (dropdownRef.current.contains(e.target)) {
           // inside click
           return;
@@ -172,51 +168,55 @@ const ItemList = ({ id }: { id: string }) => {
   return (
     <Dropdown ref={dropdownRef}>
       <Wrapper>
-        <strong>Select {openDropdown} item</strong>
-        {loadout && loadout[openDropdown] && (
-          <>
-            <Tooltip
-              hideArrow
-              followCursor
-              placement="top"
-              trigger="hover"
-              tooltip={`Clear ${openDropdown} item`}
-            >
-              <ClearIcon
-                onClick={() => {
-                  const queryClone: { [id: string]: any } = { ...query };
-                  delete queryClone[openDropdown];
-
-                  const loadoutClone: { [id: string]: any } = { ...loadout };
-                  delete loadoutClone[openDropdown];
-                  setQuery({ ...queryClone }, "push");
-                  dispatch(setLoadout(loadoutClone));
-                  dispatch(setOpenDropdown(undefined));
-                }}
+        <Box mt={1}>
+          <strong>Select {openDropdown} item</strong>
+          {loadout && loadout[openDropdown] && (
+            <>
+              <Tooltip
+                hideArrow
+                followCursor
+                placement="top"
+                trigger="hover"
+                tooltip={`Clear ${openDropdown} item`}
+                interactive
               >
-                <FaBan />
-              </ClearIcon>
-            </Tooltip>
+                <ClearIcon
+                  onClick={() => {
+                    const queryClone: { [id: string]: any } = { ...query };
+                    delete queryClone[openDropdown];
 
-            <Tooltip
-              hideArrow
-              followCursor
-              placement="top"
-              trigger="hover"
-              tooltip={`${currentItem?.name} OSRS Wiki page`}
-            >
-              <a
-                href={currentItem?.wiki_url}
-                target="_blank"
-                rel="noopener noreferrer"
+                    const loadoutClone: { [id: string]: any } = { ...loadout };
+                    delete loadoutClone[openDropdown];
+                    setQuery({ ...queryClone }, "push");
+                    dispatch(setLoadout(loadoutClone));
+                    dispatch(setOpenDropdown(undefined));
+                  }}
+                >
+                  <FaBan />
+                </ClearIcon>
+              </Tooltip>
+
+              <Tooltip
+                hideArrow
+                followCursor
+                placement="top"
+                trigger="hover"
+                tooltip={`${currentItem?.name} OSRS Wiki page`}
               >
-                <WikiIcon>
-                  <img src={wikiIcon} height="21" alt="OSRS Wiki" />
-                </WikiIcon>
-              </a>
-            </Tooltip>
-          </>
-        )}
+                <a
+                  href={currentItem?.wiki_url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <WikiIcon>
+                    <img src={wikiIcon} height="21" alt="OSRS Wiki" />
+                  </WikiIcon>
+                </a>
+              </Tooltip>
+            </>
+          )}
+        </Box>
+
         <FlexDiv>
           <StyledSearch
             ref={searchRef}

@@ -115,30 +115,6 @@ const ItemSelector = (props: ItemSelectorProps) => {
 
   const isOpen = props.id === openDropdown;
 
-  // useEffect(() => {
-  //   const handleClickOutside = (e: any) => {
-  //     if (dropdownRef && dropdownRef.current) {
-  //       console.log(dropdownRef.current, e.target);
-  //       if (dropdownRef.current.contains(e.target)) {
-  //         // inside click
-  //         return;
-  //       }
-  //       // outside click
-  //       dispatch(setOpenDropdown(undefined));
-  //     }
-  //   };
-
-  //   if (isOpen) {
-  //     document.addEventListener("mousedown", handleClickOutside);
-  //   } else {
-  //     document.removeEventListener("mousedown", handleClickOutside);
-  //   }
-
-  //   return () => {
-  //     document.removeEventListener("mousedown", handleClickOutside);
-  //   };
-  // }, [isOpen, dispatch]);
-
   const disabledShieldSlot = !!(
     currentLoadout &&
     allItems[currentLoadout.weapon]?.equipment?.slot === "2h" &&
