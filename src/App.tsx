@@ -72,6 +72,7 @@ html {
     .tooltip-container {
       color: black;
       
+      padding: 0;
     }
   }
 `;
