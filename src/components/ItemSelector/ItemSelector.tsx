@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react";
+import React, { useRef } from "react";
 import styled from "styled-components";
 import { transparentize } from "polished";
 import { useSelector, useDispatch } from "react-redux";
@@ -43,11 +43,6 @@ const StyledDropdownContainer = styled.div<ClickableAreaProps>`
     background: ${(props) =>
       props.disabledShieldSlot ? transparentize(0.3, "white") : "white"};
   }
-`;
-
-const Icon = styled.img`
-  width: 100%;
-  height: 100%;
 `;
 
 const ClickableArea = styled.div<ClickableAreaProps>`
