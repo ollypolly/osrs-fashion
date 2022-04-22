@@ -16,6 +16,36 @@ export const loadouts = [
     },
   },
   {
+    name: "Who let the dogs out?",
+    tagline: "Who, who who?",
+    category: "pets",
+    background_image:
+      "https://preview.redd.it/b3fjbbyofyu81.png?width=640&crop=smart&auto=webp&s=edb880333d474f080a641b7d2b76d5f17b8806f7",
+    loadout_name: "Who let the dogs out?",
+    loadout: {
+      head: "24527",
+      cape: "23859",
+      pet: "13247",
+    },
+  },
+  {
+    name: "A Dragonkin's Vengeance",
+    tagline: "Fus roh dah!",
+    category: "pets",
+    background_image:
+      "https://preview.redd.it/30wqnqzyowq81.jpg?width=640&crop=smart&auto=webp&s=3c08d67e8b1d4391e20085983a5ca1a59d805b04",
+    loadout_name: "A Dragonkin's Vengeance",
+    loadout: {
+      head: "20029",
+      neck: "24780",
+      body: "20517",
+      legs: "4087",
+      feet: "23294",
+      pet: "21358",
+      weapon: "13652",
+    },
+  },
+  {
     name: "Attack - Slash",
     tagline: "...and Bandos was his name-o",
     category: "bis",
