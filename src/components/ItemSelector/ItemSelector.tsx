@@ -11,6 +11,7 @@ import {
 import ItemList from "../ItemList/ItemList";
 import HoverItemInfoWrapper from "../HoverItemInfoWrapper/HoverItemInfoWrapper";
 import icons from "../../img/icons.png";
+import pet from "../../img/pet.png";
 import Tooltip from "@mui/material/Tooltip";
 import Popper from "../Tooltip";
 
@@ -99,6 +100,11 @@ const IconDiv = styled.div`
 
   &#ring {
     background-position: 50% -441px;
+  }
+
+  &#pet {
+    background: url(${pet}) no-repeat 50% 0px;
+    background-size: 50px;
   }
 `;
 
