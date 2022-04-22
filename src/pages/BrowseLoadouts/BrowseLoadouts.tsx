@@ -256,7 +256,7 @@ const BrowseLoadouts = () => {
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
-  }, [dispatch, allItems, hideLoadout]);
+  }, [dispatch, allItems, hideLoadout, setQuery]);
 
   useEffect(() => {
     if (query.selected) {
@@ -267,6 +267,7 @@ const BrowseLoadouts = () => {
       dispatch(setOpenModalContent(loadout));
       setHideLoadout(false);
     }
+    // eslint-disable-next-line
   }, []);
 
   return allItemsLoading ? (
