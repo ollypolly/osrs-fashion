@@ -128,9 +128,29 @@ const PopUpLoadoutSelector = styled.div<PopUpLoadoutSelectorProps>`
     }
 
     .image-container {
+      position: relative;
       height: 100%;
       align-self: center;
       box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+
+      .name-and-tag {
+        position: absolute;
+        background-color: rgba(0, 0, 0, 0.25);
+        padding: 0.5rem;
+        border-radius: 6px;
+        margin: 0.5rem;
+        top: 0;
+        left: 0;
+
+        h2 {
+          font-size: 1em;
+          color: white;
+        }
+
+        small {
+          color: lightgray;
+        }
+      }
     }
 
     .full-image {
@@ -258,6 +278,14 @@ const BrowseLoadouts = () => {
       <PopUpLoadoutSelector hidden={hideLoadout}>
         <div className="popup" ref={popupRef}>
           <div className="image-container">
+            {openModalContent && (
+              <div className="name-and-tag">
+                <h2>{openModalContent.name}</h2>
+                {openModalContent.tagline && (
+                  <small>{openModalContent.tagline}</small>
+                )}
+              </div>
+            )}
             <img
               className="full-image"
               src={openModalContent && openModalContent.background_image}
