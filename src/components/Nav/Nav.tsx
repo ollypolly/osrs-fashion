@@ -7,6 +7,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { transparentize } from "polished";
 import { toggleDarkMode, selectDarkMode } from "./navSlice";
 import Tooltip from "@mui/material/Tooltip";
+import { darken, Box } from "@mui/material";
 
 const NavBackground = styled.div`
   background: ${(props) => props.theme.backgroundColor};
@@ -66,6 +67,12 @@ const NavLinkGroup = styled.div`
     color: ${(props) => props.theme.textColor};
     font-weight: 200;
   }
+
+  .version {
+    font-size: 1em;
+    color: ${(props) => darken(props.theme.textColor, 0.6)};
+    font-weight: 200;
+  }
 `;
 
 const Container = styled.div`
@@ -82,14 +89,28 @@ const Nav = () => {
     <NavBackground>
       <Container>
         <StyledNav>
-          <NavLinkGroup>
-            {/* <FaBars onClick={() => dispatch(toggleIsOpen())} /> */}
+          <Box
+            sx={{
+              display: "flex",
+              alignItems: "baseline",
+              "& .subtitle": {
+                fontSize: "1.5em",
+                fontWeight: "200",
+              },
+              "& .version": {
+                fontSize: "0.8em",
+                opacity: 0.6,
+                fontWeight: 200,
+                marginLeft: "0.5rem",
+              },
+            }}
+          >
             <span className="subtitle">osrs</span>
             <StyledLink to="/">
               <h2>.fashion</h2>
             </StyledLink>
-            {/* <span className="subtitle">Share osrs loadouts</span> */}
-          </NavLinkGroup>
+            <span className="version">{process.env.REACT_APP_VERSION}</span>
+          </Box>
 
           <NavLinkGroup>
             <StyledLink to="/">Create</StyledLink>

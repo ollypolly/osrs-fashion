@@ -23,10 +23,12 @@ export interface Icon {
 export interface ItemSelectorProps {
   id: string;
   icon: Icon;
+  disabled?: boolean;
 }
 
 interface ClickableAreaProps {
   disabledShieldSlot: boolean;
+  disabled?: boolean;
 }
 
 const StyledDropdownContainer = styled.div<ClickableAreaProps>`
@@ -37,6 +39,9 @@ const StyledDropdownContainer = styled.div<ClickableAreaProps>`
   color: black;
   font-size: 2em;
   border: 1px solid lightgray;
+
+  cursor: ${(props) =>
+    props.disabled || props.disabledShieldSlot ? "initial" : "pointer"};
 
   transition: background 0.1s ease-in;
   background: ${transparentize(0.3, "white")};
@@ -53,7 +58,6 @@ const ClickableArea = styled.div<ClickableAreaProps>`
   display: flex;
   align-items: center;
   justify-content: center;
-  cursor: pointer;
   opacity: ${(props) => props.disabledShieldSlot && 0.4};
 `;
 
@@ -125,6 +129,7 @@ const ItemSelector = (props: ItemSelectorProps) => {
 
   return (
     <StyledDropdownContainer
+      disabled={props.disabled}
       disabledShieldSlot={disabledShieldSlot}
       ref={dropdownRef}
       id={props.id}
@@ -140,14 +145,14 @@ const ItemSelector = (props: ItemSelectorProps) => {
         <ClickableArea
           disabledShieldSlot={disabledShieldSlot}
           onClick={() => {
-            if (!disabledShieldSlot) {
+            if (!disabledShieldSlot && !props.disabled) {
               isOpen
                 ? dispatch(setOpenDropdown(undefined))
                 : dispatch(setOpenDropdown(props.id));
             }
           }}
           onTouchStart={() => {
-            if (!disabledShieldSlot) {
+            if (!disabledShieldSlot && !props.disabled) {
               isOpen
                 ? dispatch(setOpenDropdown(undefined))
                 : dispatch(setOpenDropdown(props.id));

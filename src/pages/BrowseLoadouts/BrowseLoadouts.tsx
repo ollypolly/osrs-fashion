@@ -123,10 +123,6 @@ const PopUpLoadoutSelector = styled.div<PopUpLoadoutSelectorProps>`
     height: 450px;
     position: relative;
 
-    .clear-icon {
-      display: none;
-    }
-
     .image-container {
       position: relative;
       height: 100%;
@@ -294,7 +290,7 @@ const BrowseLoadouts = () => {
             />
           </div>
 
-          <LoadoutSelector />
+          <LoadoutSelector loadoutsPage disabled />
           <FaTimes
             className="close-icon"
             onClick={() => setHideLoadout(true)}
