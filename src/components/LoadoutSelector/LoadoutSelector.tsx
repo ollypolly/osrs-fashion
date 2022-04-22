@@ -8,9 +8,11 @@ import {
   selectCurrentLoadout,
 } from "../../pages/Loadout/loadoutSlice";
 import { useSelector, useDispatch } from "react-redux";
-import { FaWeightHanging, FaBan } from "react-icons/fa";
+import { FaWeightHanging, FaBan, FaShare } from "react-icons/fa";
 import Tooltip from "@mui/material/Tooltip";
 import { useQueryParams, StringParam } from "use-query-params";
+import { useNavigate } from "react-router-dom";
+import qs from "qs";
 
 export const Wrapper = styled.div`
   display: flex;
@@ -146,11 +148,17 @@ const WeightArea = styled.div`
   justify-content: center;
 `;
 
-const ClearIcon = styled.div`
+const Icons = styled.div`
+  width: 100%;
   position: absolute;
-  top: 18px;
   right: 18px;
+  top: 18px;
+  display: flex;
+  justify-content: flex-end;
+`;
 
+const ClearIcon = styled.div`
+  margin: 0.5rem;
   svg {
     font-size: 1.5em;
     cursor: pointer;
@@ -224,10 +232,17 @@ export const icons: { [id: string]: Icon } = {
 //   height: 50px;
 // `;
 
-const LoadoutSelector = ({ disabled }: { disabled?: boolean }) => {
+const LoadoutSelector = ({
+  disabled,
+  loadoutsPage,
+}: {
+  disabled?: boolean;
+  loadoutsPage?: boolean;
+}) => {
   const weight = useSelector(selectWeight);
   const loadout = useSelector(selectCurrentLoadout);
   const dispatch = useDispatch();
+  let navigate = useNavigate();
 
   const [query, setQuery] = useQueryParams({
     name: StringParam,
@@ -237,19 +252,35 @@ const LoadoutSelector = ({ disabled }: { disabled?: boolean }) => {
     <Wrapper>
       <LoadoutContainer>
         <ItemSelectorGridWrapper>
-          {loadout && Object.keys(loadout).length !== 0 && (
-            <Tooltip followCursor title="Clear all">
-              <ClearIcon
-                className="clear-icon"
-                onClick={() => {
-                  setQuery(query, "push");
-                  dispatch(setLoadout({}));
-                }}
-              >
-                <FaBan />
-              </ClearIcon>
-            </Tooltip>
-          )}
+          <Icons>
+            {!loadoutsPage && loadout && Object.keys(loadout).length !== 0 && (
+              <Tooltip followCursor title="Clear all">
+                <ClearIcon
+                  className="clear-icon clear"
+                  onClick={() => {
+                    setQuery(query, "push");
+                    dispatch(setLoadout({}));
+                  }}
+                >
+                  <FaBan />
+                </ClearIcon>
+              </Tooltip>
+            )}
+            {loadoutsPage && (
+              <Tooltip followCursor title="Use as template">
+                <ClearIcon
+                  className="clear-icon export"
+                  onClick={() => {
+                    const queryString = qs.stringify(loadout);
+                    navigate(`../?${queryString}`, { replace: true });
+                  }}
+                >
+                  <FaShare />
+                </ClearIcon>
+              </Tooltip>
+            )}
+          </Icons>
+
           <ItemSelectorGrid>
             {Object.keys(icons).map((icon) => (
               <ItemSelector
