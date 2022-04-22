@@ -224,7 +224,7 @@ export const icons: { [id: string]: Icon } = {
 //   height: 50px;
 // `;
 
-const LoadoutSelector = () => {
+const LoadoutSelector = ({ disabled }: { disabled?: boolean }) => {
   const weight = useSelector(selectWeight);
   const loadout = useSelector(selectCurrentLoadout);
   const dispatch = useDispatch();
@@ -252,7 +252,12 @@ const LoadoutSelector = () => {
           )}
           <ItemSelectorGrid>
             {Object.keys(icons).map((icon) => (
-              <ItemSelector key={icon} id={icon} icon={icons[icon]} />
+              <ItemSelector
+                disabled={disabled}
+                key={icon}
+                id={icon}
+                icon={icons[icon]}
+              />
             ))}
           </ItemSelectorGrid>
         </ItemSelectorGridWrapper>

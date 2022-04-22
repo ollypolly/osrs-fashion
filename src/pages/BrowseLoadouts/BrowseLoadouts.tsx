@@ -294,7 +294,7 @@ const BrowseLoadouts = () => {
             />
           </div>
 
-          <LoadoutSelector />
+          <LoadoutSelector disabled />
           <FaTimes
             className="close-icon"
             onClick={() => setHideLoadout(true)}
