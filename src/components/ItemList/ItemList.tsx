@@ -103,6 +103,7 @@ const WikiIcon = styled(ClearIcon)`
 `;
 
 const sortFilter = (a: any, b: any) => a.name.localeCompare(b.name);
+const membersOnlyPetsFilter = (item: any) => item.members;
 
 const ItemList = ({ id }: { id: string }) => {
   const dispatch = useDispatch();
@@ -129,6 +130,7 @@ const ItemList = ({ id }: { id: string }) => {
     slotItems = itemArray
       .filter((item: any) => pets.includes(item.name))
       .filter(searchFilter)
+      .filter(membersOnlyPetsFilter)
       .sort(sortFilter);
   }
 
@@ -319,6 +321,7 @@ const Item = ({ index, style }: ItemProps) => {
     slotItems = itemArray
       .filter((item: any) => pets.includes(item.name))
       .filter(searchFilter)
+      .filter(membersOnlyPetsFilter)
       .sort(sortFilter);
   }
 

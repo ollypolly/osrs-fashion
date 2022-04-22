@@ -1,5 +1,21 @@
 export const loadouts = [
   {
+    name: "Purple Peddler",
+    tagline: "u/Mary_RS",
+    category: "pets",
+    background_image: "https://i.redd.it/gqbv9vs7d0u81.png",
+    loadout_name: "Purple Peddler",
+    loadout: {
+      head: "12311",
+      neck: "9470",
+      body: "10416",
+      legs: "10418",
+      feet: "25557",
+      shield: "12612",
+      pet: "22473",
+    },
+  },
+  {
     name: "Attack - Slash",
     tagline: "...and Bandos was his name-o",
     category: "bis",

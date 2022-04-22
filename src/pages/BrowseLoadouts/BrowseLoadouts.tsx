@@ -175,6 +175,10 @@ const PopUpLoadoutSelector = styled.div<PopUpLoadoutSelectorProps>`
 const StyledHeading = styled.div``;
 
 const categoryMap: { [id: string]: any } = {
+  pets: {
+    name: "Now with pets!",
+    tagline: "They love being accessories!",
+  },
   fashionscape: {
     name: "Best of r/fashionscape",
     tagline: "Like r/malefashion but better",
@@ -185,10 +189,6 @@ const categoryMap: { [id: string]: any } = {
   // skill: {
   //   name: "Working hard or hardly workin'",
   //   tagline: "For when you need to look good whilst skilling",
-  // },
-  // pet: {
-  //   name: "Walking the dog",
-  //   tagline: "Outfits which use a pet to accessorise",
   // },
 };
 
