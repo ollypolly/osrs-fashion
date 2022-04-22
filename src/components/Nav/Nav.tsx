@@ -6,7 +6,7 @@ import { FaSun, FaMoon } from "react-icons/fa";
 import { useDispatch, useSelector } from "react-redux";
 import { transparentize } from "polished";
 import { toggleDarkMode, selectDarkMode } from "./navSlice";
-import Tooltip from "../Tooltip";
+import Tooltip from "@mui/material/Tooltip";
 
 const NavBackground = styled.div`
   background: ${(props) => props.theme.backgroundColor};
@@ -94,13 +94,7 @@ const Nav = () => {
           <NavLinkGroup>
             <StyledLink to="/">Create</StyledLink>
             <StyledLink to="/browse">Browse</StyledLink>
-            <Tooltip
-              hideArrow
-              followCursor
-              placement="top"
-              trigger="hover"
-              tooltip={`${darkMode ? "Light" : "Dark"} mode`}
-            >
+            <Tooltip followCursor title={`${darkMode ? "Light" : "Dark"} mode`}>
               <div onClick={() => dispatch(toggleDarkMode())}>
                 {darkMode ? <FaSun /> : <FaMoon />}
               </div>

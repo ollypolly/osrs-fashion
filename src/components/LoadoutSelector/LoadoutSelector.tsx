@@ -9,7 +9,7 @@ import {
 } from "../../pages/Loadout/loadoutSlice";
 import { useSelector, useDispatch } from "react-redux";
 import { FaWeightHanging, FaBan } from "react-icons/fa";
-import Tooltip from "../Tooltip";
+import Tooltip from "@mui/material/Tooltip";
 import { useQueryParams, StringParam } from "use-query-params";
 
 export const Wrapper = styled.div`
@@ -238,13 +238,7 @@ const LoadoutSelector = () => {
       <LoadoutContainer>
         <ItemSelectorGridWrapper>
           {loadout && Object.keys(loadout).length !== 0 && (
-            <Tooltip
-              hideArrow
-              followCursor
-              placement="top"
-              trigger="hover"
-              tooltip="Clear all"
-            >
+            <Tooltip followCursor title="Clear all">
               <ClearIcon
                 className="clear-icon"
                 onClick={() => {

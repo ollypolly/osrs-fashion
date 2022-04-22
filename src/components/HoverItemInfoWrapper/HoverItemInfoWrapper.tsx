@@ -1,8 +1,8 @@
-import Tooltip from "../Tooltip";
 import styled from "styled-components";
 import React from "react";
 import { useSelector } from "react-redux";
 import { selectAllItems } from "../../pages/Loadout/loadoutSlice";
+import Tooltip from "@mui/material/Tooltip";
 
 interface Props {
   id: string;
@@ -18,18 +18,18 @@ const StyledTooltip = styled(Tooltip)`
 const StyledTooltipContent = styled.div`
   display: flex;
   flex-direction: column;
-  padding: 0.5rem;
+  padding: 0.3rem;
   h3 {
   }
 
   small {
-    color: gray;
+    color: #e4e4e4;
     margin-bottom: 0.5rem;
   }
 `;
 
 const StyledValues = styled.div`
-  background: lightgray;
+  background: #2e2e2e;
   border-radius: 4px;
   padding: 0.3rem;
   margin-top: 0.3rem;
@@ -93,13 +93,7 @@ const HoverItemInfoWrapper = ({ id, children }: Props) => {
   );
 
   return (
-    <StyledTooltip
-      hideArrow
-      followCursor
-      placement="top"
-      trigger="hover"
-      tooltip={tooltipContent}
-    >
+    <StyledTooltip title={tooltipContent} followCursor>
       {children}
     </StyledTooltip>
   );

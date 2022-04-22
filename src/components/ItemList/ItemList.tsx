@@ -54,6 +54,10 @@ export const CenteredDiv = styled.div`
   height: 100%;
 `;
 
+export const StyledList = styled(List)`
+  overflow-x: hidden !important;
+`;
+
 const FlexDiv = styled.div`
   display: flex;
   align-items: center;
@@ -234,14 +238,14 @@ const ItemList = ({ id }: { id: string }) => {
           )}
         </FlexDiv>
 
-        <List
+        <StyledList
           height={275}
           itemCount={slotItems.length}
           itemSize={60}
           width={300}
         >
           {Item}
-        </List>
+        </StyledList>
       </Wrapper>
     </Dropdown>
   );
