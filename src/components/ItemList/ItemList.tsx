@@ -19,6 +19,7 @@ import { StringParam, useQueryParams } from "use-query-params";
 import Tooltip from "@mui/material/Tooltip";
 import wikiIcon from "../../img/wiki_icon.svg";
 import { Box } from "@mui/material";
+import { pets } from "./pets";
 
 const Dropdown = styled.div`
   z-index: 1;
@@ -101,21 +102,35 @@ const WikiIcon = styled(ClearIcon)`
   cursor: pointer;
 `;
 
+const sortFilter = (a: any, b: any) => a.name.localeCompare(b.name);
+
 const ItemList = ({ id }: { id: string }) => {
   const dispatch = useDispatch();
   const openDropdown = useSelector(selectOpenDropdown)!;
   const dropdownSearch = useSelector(selectDropdownSearch);
   const loadout = useSelector(selectCurrentLoadout);
 
+  const searchFilter = (item: any) =>
+    item.name.toLowerCase().includes(dropdownSearch?.toLowerCase() ?? "");
+
+  const slotSelectFiler = (item: any) =>
+    item.equipment?.slot === openDropdown ||
+    (openDropdown === "weapon" && item.equipment?.slot === "2h");
+
   const allItems = useSelector(selectAllItems);
-  const slotItems = [...Object.values(allItems)]
-    .filter(
-      (item: any) =>
-        (item.equipment?.slot === openDropdown ||
-          (openDropdown === "weapon" && item.equipment?.slot === "2h")) &&
-        item.name.toLowerCase().includes(dropdownSearch?.toLowerCase() ?? "")
-    )
-    .sort((a: any, b: any) => a.name.localeCompare(b.name));
+  const itemArray = [...Object.values(allItems)];
+
+  let slotItems = itemArray
+    .filter(slotSelectFiler)
+    .filter(searchFilter)
+    .sort(sortFilter);
+
+  if (openDropdown === "pet") {
+    slotItems = itemArray
+      .filter((item: any) => pets.includes(item.name))
+      .filter(searchFilter)
+      .sort(sortFilter);
+  }
 
   const currentItem = loadout && allItems[loadout[openDropdown]];
 
@@ -160,6 +175,7 @@ const ItemList = ({ id }: { id: string }) => {
     feet: StringParam,
     ring: StringParam,
     name: StringParam,
+    pet: StringParam,
   });
 
   useEffect(() => {
@@ -275,6 +291,7 @@ const Item = ({ index, style }: ItemProps) => {
     feet: StringParam,
     ring: StringParam,
     name: StringParam,
+    pet: StringParam,
   });
   const dispatch = useDispatch();
   const openDropdown = useSelector(selectOpenDropdown);
@@ -285,15 +302,25 @@ const Item = ({ index, style }: ItemProps) => {
     return null;
   }
 
-  const slotItems = [...Object.values(allItems)]
-    .filter(
-      (item: any) =>
-        item.equipment &&
-        (item.equipment.slot === openDropdown ||
-          (openDropdown === "weapon" && item.equipment.slot === "2h")) &&
-        item.name.toLowerCase().includes(dropdownSearch?.toLowerCase() ?? "")
-    )
-    .sort((a: any, b: any) => a.name.localeCompare(b.name));
+  const searchFilter = (item: any) =>
+    item.name.toLowerCase().includes(dropdownSearch?.toLowerCase() ?? "");
+
+  const slotSelectFiler = (item: any) =>
+    item.equipment?.slot === openDropdown ||
+    (openDropdown === "weapon" && item.equipment?.slot === "2h");
+
+  const itemArray = [...Object.values(allItems)];
+  let slotItems = itemArray
+    .filter(slotSelectFiler)
+    .filter(searchFilter)
+    .sort(sortFilter);
+
+  if (openDropdown === "pet") {
+    slotItems = itemArray
+      .filter((item: any) => pets.includes(item.name))
+      .filter(searchFilter)
+      .sort(sortFilter);
+  }
 
   const item: any = slotItems[index];
 

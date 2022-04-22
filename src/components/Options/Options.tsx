@@ -35,7 +35,7 @@ const Options = () => {
   return (
     <Links>
       <Tooltip followCursor title="Share">
-        <LinkIcon title="Share">
+        <LinkIcon>
           <FaShareAlt
             onClick={() => {
               navigator.clipboard

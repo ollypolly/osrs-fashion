@@ -123,8 +123,8 @@ export const selectLoadoutValues = (state: GlobalState) => {
   };
 
   loadoutArray?.forEach((item) =>
-    Object.keys(item.equipment).forEach((key) => {
-      const value = item.equipment[key];
+    Object.keys(item?.equipment ?? {}).forEach((key) => {
+      const value = item?.equipment[key];
 
       values[key] += value;
     })
