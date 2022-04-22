@@ -223,6 +223,7 @@ const BrowseLoadouts = () => {
         setHideLoadout(true);
         dispatch(setLoadout(undefined));
         dispatch(setOpenModalContent(undefined));
+        setQuery({ selected: undefined });
       }
     };
 
@@ -238,7 +239,7 @@ const BrowseLoadouts = () => {
   }, [dispatch, allItems, hideLoadout]);
 
   useEffect(() => {
-    if (query) {
+    if (query.selected) {
       const loadout = loadouts.find(
         (loadout) => loadout.loadout_name === query.selected
       );
@@ -246,7 +247,7 @@ const BrowseLoadouts = () => {
       dispatch(setOpenModalContent(loadout));
       setHideLoadout(false);
     }
-  }, [dispatch, query]);
+  }, []);
 
   return allItemsLoading ? (
     <CenteredDiv>
