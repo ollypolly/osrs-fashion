@@ -7,6 +7,7 @@ const StyledSpan = styled.span`
   display: flex;
   justify-content: center;
   align-items: center;
+  z-index: 100;
 `;
 
 const Tooltip = ({ children, tooltip, hideArrow, ...props }) => (

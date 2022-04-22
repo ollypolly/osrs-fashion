@@ -16,9 +16,10 @@ import { FaTimesCircle, FaBan } from "react-icons/fa";
 import { transparentize } from "polished";
 import HoverItemInfoWrapper from "../HoverItemInfoWrapper/HoverItemInfoWrapper";
 import { StringParam, useQueryParams } from "use-query-params";
-import Tooltip from "../Tooltip";
+import Tooltip from "@mui/material/Tooltip";
 import wikiIcon from "../../img/wiki_icon.svg";
 import { Box } from "@mui/material";
+import { pets } from "./pets";
 
 const Dropdown = styled.div`
   z-index: 1;
@@ -54,6 +55,10 @@ export const CenteredDiv = styled.div`
   height: 100%;
 `;
 
+export const StyledList = styled(List)`
+  overflow-x: hidden !important;
+`;
+
 const FlexDiv = styled.div`
   display: flex;
   align-items: center;
@@ -78,7 +83,7 @@ const ClearIcon = styled.div`
   right: 14px;
 
   svg {
-    font-size: 0.7em;
+    font-size: 1.2em;
     cursor: pointer;
 
     transition: color 0.1s ease-in;
@@ -97,21 +102,35 @@ const WikiIcon = styled(ClearIcon)`
   cursor: pointer;
 `;
 
+const sortFilter = (a: any, b: any) => a.name.localeCompare(b.name);
+
 const ItemList = ({ id }: { id: string }) => {
   const dispatch = useDispatch();
   const openDropdown = useSelector(selectOpenDropdown)!;
   const dropdownSearch = useSelector(selectDropdownSearch);
   const loadout = useSelector(selectCurrentLoadout);
 
+  const searchFilter = (item: any) =>
+    item.name.toLowerCase().includes(dropdownSearch?.toLowerCase() ?? "");
+
+  const slotSelectFiler = (item: any) =>
+    item.equipment?.slot === openDropdown ||
+    (openDropdown === "weapon" && item.equipment?.slot === "2h");
+
   const allItems = useSelector(selectAllItems);
-  const slotItems = [...Object.values(allItems)]
-    .filter(
-      (item: any) =>
-        (item.equipment?.slot === openDropdown ||
-          (openDropdown === "weapon" && item.equipment?.slot === "2h")) &&
-        item.name.toLowerCase().includes(dropdownSearch?.toLowerCase() ?? "")
-    )
-    .sort((a: any, b: any) => a.name.localeCompare(b.name));
+  const itemArray = [...Object.values(allItems)];
+
+  let slotItems = itemArray
+    .filter(slotSelectFiler)
+    .filter(searchFilter)
+    .sort(sortFilter);
+
+  if (openDropdown === "pet") {
+    slotItems = itemArray
+      .filter((item: any) => pets.includes(item.name))
+      .filter(searchFilter)
+      .sort(sortFilter);
+  }
 
   const currentItem = loadout && allItems[loadout[openDropdown]];
 
@@ -156,6 +175,7 @@ const ItemList = ({ id }: { id: string }) => {
     feet: StringParam,
     ring: StringParam,
     name: StringParam,
+    pet: StringParam,
   });
 
   useEffect(() => {
@@ -172,14 +192,7 @@ const ItemList = ({ id }: { id: string }) => {
           <strong>Select {openDropdown} item</strong>
           {loadout && loadout[openDropdown] && (
             <>
-              <Tooltip
-                hideArrow
-                followCursor
-                placement="top"
-                trigger="hover"
-                tooltip={`Clear ${openDropdown} item`}
-                interactive
-              >
+              <Tooltip followCursor title={`Clear ${openDropdown} item`}>
                 <ClearIcon
                   onClick={() => {
                     const queryClone: { [id: string]: any } = { ...query };
@@ -197,11 +210,8 @@ const ItemList = ({ id }: { id: string }) => {
               </Tooltip>
 
               <Tooltip
-                hideArrow
                 followCursor
-                placement="top"
-                trigger="hover"
-                tooltip={`${currentItem?.name} OSRS Wiki page`}
+                title={`${currentItem?.name} OSRS Wiki page`}
               >
                 <a
                   href={currentItem?.wiki_url}
@@ -234,14 +244,14 @@ const ItemList = ({ id }: { id: string }) => {
           )}
         </FlexDiv>
 
-        <List
+        <StyledList
           height={275}
           itemCount={slotItems.length}
           itemSize={60}
           width={300}
         >
           {Item}
-        </List>
+        </StyledList>
       </Wrapper>
     </Dropdown>
   );
@@ -281,6 +291,7 @@ const Item = ({ index, style }: ItemProps) => {
     feet: StringParam,
     ring: StringParam,
     name: StringParam,
+    pet: StringParam,
   });
   const dispatch = useDispatch();
   const openDropdown = useSelector(selectOpenDropdown);
@@ -291,15 +302,25 @@ const Item = ({ index, style }: ItemProps) => {
     return null;
   }
 
-  const slotItems = [...Object.values(allItems)]
-    .filter(
-      (item: any) =>
-        item.equipment &&
-        (item.equipment.slot === openDropdown ||
-          (openDropdown === "weapon" && item.equipment.slot === "2h")) &&
-        item.name.toLowerCase().includes(dropdownSearch?.toLowerCase() ?? "")
-    )
-    .sort((a: any, b: any) => a.name.localeCompare(b.name));
+  const searchFilter = (item: any) =>
+    item.name.toLowerCase().includes(dropdownSearch?.toLowerCase() ?? "");
+
+  const slotSelectFiler = (item: any) =>
+    item.equipment?.slot === openDropdown ||
+    (openDropdown === "weapon" && item.equipment?.slot === "2h");
+
+  const itemArray = [...Object.values(allItems)];
+  let slotItems = itemArray
+    .filter(slotSelectFiler)
+    .filter(searchFilter)
+    .sort(sortFilter);
+
+  if (openDropdown === "pet") {
+    slotItems = itemArray
+      .filter((item: any) => pets.includes(item.name))
+      .filter(searchFilter)
+      .sort(sortFilter);
+  }
 
   const item: any = slotItems[index];
 

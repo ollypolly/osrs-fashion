@@ -70,9 +70,14 @@ html {
     }
 
     .tooltip-container {
+      z-index: 0;
       color: black;
       
       padding: 0;
+
+      .iPwdPY {
+        background: transparent;
+      }
     }
   }
 `;

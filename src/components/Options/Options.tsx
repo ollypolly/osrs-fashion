@@ -2,7 +2,7 @@ import React from "react";
 import { FaShareAlt } from "react-icons/fa";
 import styled from "styled-components";
 import { transparentize } from "polished";
-import Tooltip from "../Tooltip";
+import Tooltip from "@mui/material/Tooltip";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
@@ -34,14 +34,8 @@ const LinkIcon = styled.li`
 const Options = () => {
   return (
     <Links>
-      <Tooltip
-        hideArrow
-        followCursor
-        placement="top"
-        trigger="hover"
-        tooltip="Share"
-      >
-        <LinkIcon title="Share">
+      <Tooltip followCursor title="Share">
+        <LinkIcon>
           <FaShareAlt
             onClick={() => {
               navigator.clipboard

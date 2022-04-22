@@ -11,7 +11,9 @@ import {
 import ItemList from "../ItemList/ItemList";
 import HoverItemInfoWrapper from "../HoverItemInfoWrapper/HoverItemInfoWrapper";
 import icons from "../../img/icons.png";
-import Tooltip from "../Tooltip";
+import pet from "../../img/pet.png";
+import Tooltip from "@mui/material/Tooltip";
+import Popper from "../Tooltip";
 
 export interface Icon {
   name: string;
@@ -99,6 +101,11 @@ const IconDiv = styled.div`
   &#ring {
     background-position: 50% -441px;
   }
+
+  &#pet {
+    background: url(${pet}) no-repeat 50% 0px;
+    background-size: 50px;
+  }
 `;
 
 const ItemSelector = (props: ItemSelectorProps) => {
@@ -122,11 +129,12 @@ const ItemSelector = (props: ItemSelectorProps) => {
       ref={dropdownRef}
       id={props.id}
     >
-      <Tooltip
+      <Popper
         hideArrow={false}
         tooltipShown={openDropdown === props.id && !!openDropdown}
         placement="bottom"
         trigger="click"
+        interactive
         tooltip={<ItemList id={props.id} />}
       >
         <ClickableArea
@@ -160,18 +168,12 @@ const ItemSelector = (props: ItemSelectorProps) => {
               </HoverItemInfoWrapper>
             </>
           ) : (
-            <Tooltip
-              hideArrow
-              followCursor
-              placement="top"
-              trigger={disabledShieldSlot ? "none" : "hover"}
-              tooltip={`Select ${props.id} item`}
-            >
+            <Tooltip followCursor title={`Select ${props.id} item`}>
               <IconDiv id={props.id} />
             </Tooltip>
           )}
         </ClickableArea>
-      </Tooltip>
+      </Popper>
     </StyledDropdownContainer>
   );
 };
