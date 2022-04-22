@@ -15,6 +15,7 @@ import LoadoutSelector from "../../components/LoadoutSelector/LoadoutSelector";
 import { FaTimes } from "react-icons/fa";
 import { CenteredDiv } from "../../components/ItemList/ItemList";
 import ScaleLoader from "react-spinners/ScaleLoader";
+import { StringParam, useQueryParams } from "use-query-params";
 
 const StyledBrowseMore = styled.div`
   overflow: hidden;
@@ -127,9 +128,29 @@ const PopUpLoadoutSelector = styled.div<PopUpLoadoutSelectorProps>`
     }
 
     .image-container {
+      position: relative;
       height: 100%;
       align-self: center;
       box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+
+      .name-and-tag {
+        position: absolute;
+        background-color: rgba(0, 0, 0, 0.25);
+        padding: 0.5rem;
+        border-radius: 6px;
+        margin: 0.5rem;
+        top: 0;
+        left: 0;
+
+        h2 {
+          font-size: 1em;
+          color: white;
+        }
+
+        small {
+          color: lightgray;
+        }
+      }
     }
 
     .full-image {
@@ -175,6 +196,10 @@ const PopUpLoadoutSelector = styled.div<PopUpLoadoutSelectorProps>`
 const StyledHeading = styled.div``;
 
 const categoryMap: { [id: string]: any } = {
+  pets: {
+    name: "Now with pets!",
+    tagline: "They love being accessories!",
+  },
   fashionscape: {
     name: "Best of r/fashionscape",
     tagline: "Like r/malefashion but better",
@@ -185,10 +210,6 @@ const categoryMap: { [id: string]: any } = {
   // skill: {
   //   name: "Working hard or hardly workin'",
   //   tagline: "For when you need to look good whilst skilling",
-  // },
-  // pet: {
-  //   name: "Walking the dog",
-  //   tagline: "Outfits which use a pet to accessorise",
   // },
 };
 
@@ -202,6 +223,10 @@ const BrowseLoadouts = () => {
   const [hideLoadout, setHideLoadout] = useState(true);
   const popupRef = useRef<HTMLDivElement>(null);
   const openModalContent = useSelector(selectOpenModalContent);
+
+  const [query, setQuery] = useQueryParams({
+    selected: StringParam,
+  });
 
   useEffect(() => {
     if (!allItems) {
@@ -218,6 +243,7 @@ const BrowseLoadouts = () => {
         setHideLoadout(true);
         dispatch(setLoadout(undefined));
         dispatch(setOpenModalContent(undefined));
+        setQuery({ selected: undefined });
       }
     };
 
@@ -232,6 +258,17 @@ const BrowseLoadouts = () => {
     };
   }, [dispatch, allItems, hideLoadout]);
 
+  useEffect(() => {
+    if (query.selected) {
+      const loadout = loadouts.find(
+        (loadout) => loadout.loadout_name === query.selected
+      );
+      dispatch(setLoadout(loadout?.loadout));
+      dispatch(setOpenModalContent(loadout));
+      setHideLoadout(false);
+    }
+  }, []);
+
   return allItemsLoading ? (
     <CenteredDiv>
       <ScaleLoader color={"#4ecca3"} loading={allItemsLoading} />
@@ -241,6 +278,14 @@ const BrowseLoadouts = () => {
       <PopUpLoadoutSelector hidden={hideLoadout}>
         <div className="popup" ref={popupRef}>
           <div className="image-container">
+            {openModalContent && (
+              <div className="name-and-tag">
+                <h2>{openModalContent.name}</h2>
+                {openModalContent.tagline && (
+                  <small>{openModalContent.tagline}</small>
+                )}
+              </div>
+            )}
             <img
               className="full-image"
               src={openModalContent && openModalContent.background_image}
@@ -283,6 +328,7 @@ const BrowseLoadouts = () => {
                       await dispatch(setLoadout(loadout.loadout));
                       dispatch(setOpenModalContent(loadout));
                       setHideLoadout(false);
+                      setQuery({ selected: loadout.name });
                     }}
                   >
                     <div className="name-and-tag">
