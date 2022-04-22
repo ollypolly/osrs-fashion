@@ -15,6 +15,7 @@ import LoadoutSelector from "../../components/LoadoutSelector/LoadoutSelector";
 import { FaTimes } from "react-icons/fa";
 import { CenteredDiv } from "../../components/ItemList/ItemList";
 import ScaleLoader from "react-spinners/ScaleLoader";
+import { StringParam, useQueryParams } from "use-query-params";
 
 const StyledBrowseMore = styled.div`
   overflow: hidden;
@@ -203,6 +204,10 @@ const BrowseLoadouts = () => {
   const popupRef = useRef<HTMLDivElement>(null);
   const openModalContent = useSelector(selectOpenModalContent);
 
+  const [query, setQuery] = useQueryParams({
+    selected: StringParam,
+  });
+
   useEffect(() => {
     if (!allItems) {
       dispatch(fetchAllItems());
@@ -231,6 +236,17 @@ const BrowseLoadouts = () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, [dispatch, allItems, hideLoadout]);
+
+  useEffect(() => {
+    if (query) {
+      const loadout = loadouts.find(
+        (loadout) => loadout.loadout_name === query.selected
+      );
+      dispatch(setLoadout(loadout?.loadout));
+      dispatch(setOpenModalContent(loadout));
+      setHideLoadout(false);
+    }
+  }, [dispatch, query]);
 
   return allItemsLoading ? (
     <CenteredDiv>
@@ -283,6 +299,7 @@ const BrowseLoadouts = () => {
                       await dispatch(setLoadout(loadout.loadout));
                       dispatch(setOpenModalContent(loadout));
                       setHideLoadout(false);
+                      setQuery({ selected: loadout.name });
                     }}
                   >
                     <div className="name-and-tag">
